@@ -8,11 +8,7 @@ import pyglet
 
 class Item(object):
     
-<<<<<<< HEAD
-    def __init__(self, name, description, seenDescription, quantity, keywords, pickupDesc="", initPickupDesc="", initSeenDesc=""):
-=======
-    def __init__(self, name, description, seenDesc, initDesc, quantity, keywords, idNum=0):
->>>>>>> origin/master
+    def __init__(self, name, description, seenDesc, initDesc, quantity, keywords, idNum=0, pickupDesc="", initPickupDesc="", initSeenDesc=""):
         self.name = name
         self.description = description
         idNum = idNum
@@ -23,7 +19,6 @@ class Item(object):
         self.quantity = quantity
         self.keywords = keywords
         self.accessible = True
-<<<<<<< HEAD
         self.inAccessibleDesc = None
         self.firstSeen = True
         self.firstTaken = True
@@ -42,10 +37,7 @@ class Item(object):
             self.initSeenDesc = initSeenDesc
         else:
             self.initSeenDesc = None
-=======
         self.inaccessibleDesc = None
-        self.firstPickup = True
->>>>>>> origin/master
         
     def get(self, holder, player):
         if not self.accessible:
@@ -53,29 +45,20 @@ class Item(object):
         
         player.addItem(self)
         holder.removeItem(self)
-<<<<<<< HEAD
+        self.firstSeen = False
+        self.firstTaken = False
         
         if self.firstTaken:
-            self.firstTaken = False
             if self.initPickupDesc:
                 resultString = self.initPickupDesc
             else:
                 resultString = self.pickupDesc
         else:
             resultString = self.pickupDesc
-        return resultString,True
-=======
+    
         if (player.mainHand == None) and (isinstance(self, Weapon)):
             self.equip(player)
-            
-        if self.firstPickup and self.initPickupDesc:
-            resultString = self.initPickupDesc
-        else:
-            resultString = self.pickupDesc
-        
-        self.firstPickup = False
         return resultString, True
->>>>>>> origin/master
     
     def drop(self, player):
         player.removeItem(self)

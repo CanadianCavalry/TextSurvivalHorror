@@ -4,8 +4,6 @@ import Enemies
 import Parser
 import StateControl
 
-
-
 class Rectangle(object):
     '''Draws a rectangle into a batch.'''
     def __init__(self, x1, y1, x2, y2, color, batch):
@@ -321,10 +319,10 @@ class Window(pyglet.window.Window):
                 Enemies.enemyMovement(pursuingEnemies, enemyDestination)
             
         self.updateTextBox(resultString)
-        
+
     def updateTextBox(self, text):
         self.disp.document.text = text
-        
+
     def checkGameOver(self):
         if self.state.player.health < 1:
             return "\nYou have died...\nPress enter to return to the main menu."

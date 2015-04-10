@@ -16,13 +16,8 @@ class Axe(Items.MeleeWeapon):
 class Scalpel(Items.MeleeWeapon):
     
     def __init__(self):
-<<<<<<< HEAD
         super(Scalpel, self).__init__("Scalpel201", "A common surgical tool. Sharp and lightweight, but its small size and tiny reach make it a poor weapon.", 
                                       "A scalpal is lying on the ground.", 1, "scalpal", 5, 11, 1, 60, 15, 0)
-=======
-        super(Scalpel, self).__init__("Scalpel", "A common surgical tool. Sharp and lightweight, but its small size and tiny reach make it a poor weapon.", 
-                                      "A scalpal is lying on the ground.", "A scalpal is lying on the ground.", 1, "scalpal", 5, 11, 1, 60, 15, 0)
->>>>>>> origin/master
         
 class KitchenKnife(Items.MeleeWeapon):
     
@@ -54,15 +49,9 @@ class LeatherJacket(Items.Armor):
 #Consumables
 class Alchohol(Items.Drinkable):
     
-<<<<<<< HEAD
     def __init__(self, name, description, seenDescription, quantity, keywords, useDescription, alcoholAmount, pickupDesc="", initPickupDesc="", initSeenDesc=""):
         self.alcoholAmount = alcoholAmount
         super(Alchohol, self).__init__(name, description, seenDescription, initSeenDesc, quantity, keywords, useDescription, pickupDesc, initPickupDesc, initSeenDesc)
-=======
-    def __init__(self, name, description, seenDesc, initDesc, quantity, keywords, useDescription, alcoholAmount):
-        self.alcoholAmount = alcoholAmount
-        super(Alchohol, self).__init__(name, description, seenDesc, initDesc, quantity, keywords, useDescription)
->>>>>>> origin/master
         
     def drink(self, player):
         player.increaseIntox(self.alcoholAmount)
@@ -87,30 +76,18 @@ class Key(Items.Usable):
         
 class Note(Items.Readable):
     
-<<<<<<< HEAD
     def __init__(self, name, description, seenDescription, quantity, keywords, contents, pickupDesc="", initPickupDesc="", initSeenDesc=""):
         self.contents = contents
         super(Note, self).__init__(name, description, seenDescription, initSeenDesc, quantity, keywords, pickupDesc, initPickupDesc, initSeenDesc)
-=======
-    def __init__(self, name, description, seenDesc, initDesc, quantity, keywords, contents):
-        self.contents = contents
-        super(Note, self).__init__(name, description, seenDesc, initDesc, quantity, keywords)
->>>>>>> origin/master
     
     def read(self):
         return self.contents,True
     
 class Book(Items.Readable):
     
-<<<<<<< HEAD
     def __init__(self, name, description, seenDescription, quantity, keywords, pickupDesc="", initPickupDesc="", initSeenDesc=""):
         self.pages = []
         super(Book, self).__init__(name, description, seenDescription, initSeenDesc, quantity, keywords, pickupDesc, initPickupDesc, initSeenDesc)
-=======
-    def __init__(self, name, description, seenDesc, initDesc, quantity, keywords):
-        self.pages = []
-        super(Book, self).__init__(name, description, seenDesc, initDesc, quantity, keywords)
->>>>>>> origin/master
         
     def read(self):
         for page in self.pages:

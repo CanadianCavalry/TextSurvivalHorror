@@ -10,7 +10,7 @@ import UniqueNPCs
 import UniqueItems
 import UniqueEnemies
 from __builtin__ import True
-from Main import UniqueFeatures
+import UniqueFeatures
 
 class interrogationRoom201(AreasFeatures.Area):
     
@@ -25,17 +25,12 @@ class interrogationRoom201(AreasFeatures.Area):
         self.name = "Where am I..."
         self.description = ["What in God's name has happened to your room? It smells like a dog and the paint on the \
 walls is peeling off everywhere! The only source of light comes from a very dim red bulb hanging from the ceiling. It barely \
-<<<<<<< HEAD
 illuminates your bed and your restraints, the small table next to your bed, your closet, and the door. The door appears to be chained shut, with a heavy padlock securing the chains. An array of grisly tools are spread out on the table.",
-]
-        self.roomState = 0
-    
-=======
-illuminates your bed and your restraints, the small table next to your bed, your closet, and the door. The door appears to be chained shut, with a heavy padlock securing the chains.",
 "The room is even more of a mess now. Bits of wood are scattered around, and several fresh bloodstains are splattered on the \
 walls and floor. Joe's body is lying in a heap near the door, his neck bent at an unnatural angle."]
+        self.roomState = 0
+
         
->>>>>>> origin/master
     #Features
         self.addFeature(AreasFeatures.Feature("You suspect the bastard discarded your blankets, pillows and sheets somewhere. \
 The mattress is covered in a filthy black mould and reeks of something foul...", "bed,my bed,jacobs bed"))

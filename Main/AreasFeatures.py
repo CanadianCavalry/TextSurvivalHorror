@@ -23,17 +23,13 @@ class Area(object):
         if self.itemsContained:
             for item in self.itemsContained.itervalues():    #Display all the visible items
                 if item.accessible:
-<<<<<<< HEAD
                     if item.firstSeen:
-                        item.firstSeen = False
                         if item.initSeenDesc:
                             desc += "\n" + item.initSeenDesc
                         else: 
                             desc += "\n" + item.seenDescription
-=======
                     if item.firstPickup:
                         desc += "\n" + item.initDesc
->>>>>>> origin/master
                     else:
                         desc += "\n" + item.seenDescription
         if self.NPCs or self.enemies:

@@ -27,19 +27,9 @@ class TortureTools201(Items.Item):
     def __init__(self):
         name = "Tools"
         description = "The tools are rusty and smeared with dark stains."
-<<<<<<< HEAD
         seenDescription = "The collection of implements includes pliers, fish hooks, a long serrated wire, a trephine, and a scalpel, which is almost within reach."
         initSeenDesc = "The collection of implements includes pliers, fish hooks, a long serrated wire, a trephine, and a scalpel, which is almost within reach."
         quantity = 1
         keywords = "tools,tool,tray,pliers,hooks,fish hook,wire,serreted wire,trephine"
         Items.Item.__init__(self, name, description, seenDescription, initSeenDesc, quantity, keywords)
         self.makeInAccessible("They are just out of reach. I can probably reach the scalpel if I stretch...")
-=======
-        seenDesc = "The collection of implements includes pliers, fish hooks, a long serrated wire, and a trephine.."
-        initDesc = "The collection of implements includes pliers, fish hooks, a long serrated wire, and a trephine."
-        quantity = 1
-        keywords = "tools,tool,tray,pliers,hooks,fish hook,wire,serreted wire,trephine"
-        Items.Item.__init__(self, name, description, seenDesc, initDesc, quantity, keywords)
-        self.makeInAccessible("They are just out of reach. I can probably reach the scalpel if I stretch...")
-        
->>>>>>> origin/master

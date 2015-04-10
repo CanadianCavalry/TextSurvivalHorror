@@ -259,6 +259,7 @@ class Player(object):
                     continue
                 else:
                     enemyList.append(enemy)
+        return enemyList
         
     def setLastAction(self, actionName):
         self.lastAction = actionName
