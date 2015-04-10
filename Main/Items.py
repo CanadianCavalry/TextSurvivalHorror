@@ -8,12 +8,11 @@ import pyglet
 
 class Item(object):
     
-    def __init__(self, name, description, seenDesc, initDesc, quantity, keywords, idNum=0, pickupDesc="", initPickupDesc="", initSeenDesc=""):
+    def __init__(self, name, description, seenDesc, quantity, keywords, idNum=0, pickupDesc="", initPickupDesc="", initSeenDesc=""):
         self.name = name
         self.description = description
         idNum = idNum
-        self.seenDescription = seenDesc
-        self.initDesc = initDesc
+        self.seenDesc = seenDesc
         self.pickupDesc = "You pick up the " + name + "."
         self.initPickupDesc = None
         self.quantity = quantity

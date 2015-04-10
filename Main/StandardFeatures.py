@@ -92,7 +92,7 @@ class AlwaysOpenContainer(AreasFeatures.Container):
         desc = self.description + "\n"
         if self.itemsContained:
             for item in self.itemsContained.itervalues():
-                desc += item.initDesc + "\n"
+                desc += item.seenDesc + "\n"
         return desc
     
 class Sign(AreasFeatures.Feature):

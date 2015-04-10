@@ -10,7 +10,7 @@ class Scalpel201(Items.MeleeWeapon):
     
     def __init__(self):
         super(Scalpel201, self).__init__("Scalpel", "I could almost reach it if I stretched...", 
-                                      "A scalpal is lying on the ground.", "There is a scalpel almost within reach...", 1, "scalpal,scalpel", 5, 11, 1, 60, 15, 0)
+                                      "There is a scalpel almost within reach...", 1, "scalpal,scalpel", 5, 11, 1, 60, 15, 0)
 
         self.setInitPickupDesc("You strain against the rope as hard as you can, your fingers barely brushing the handle of the scalpel. The cords begin to cut into your wrist and sweat beads \
 down your face as you force your hand the last couple of inches, and are rewarded with the feel of cold metal in your palm.")
@@ -27,9 +27,8 @@ class TortureTools201(Items.Item):
     def __init__(self):
         name = "Tools"
         description = "The tools are rusty and smeared with dark stains."
-        seenDescription = "The collection of implements includes pliers, fish hooks, a long serrated wire, a trephine, and a scalpel, which is almost within reach."
-        initSeenDesc = "The collection of implements includes pliers, fish hooks, a long serrated wire, a trephine, and a scalpel, which is almost within reach."
+        seenDescription = "Spread across the table is a collection of implements including pliers, fish hooks, a long serrated wire, and a trephine."
         quantity = 1
         keywords = "tools,tool,tray,pliers,hooks,fish hook,wire,serreted wire,trephine"
-        Items.Item.__init__(self, name, description, seenDescription, initSeenDesc, quantity, keywords)
+        Items.Item.__init__(self, name, description, seenDescription, quantity, keywords)
         self.makeInAccessible("They are just out of reach. I can probably reach the scalpel if I stretch...")

@@ -403,7 +403,4 @@ def look(player, keyword):
     if len(matching) > 1:
         return "You need to be more specific"
     elif len(matching) == 1:
-        try:
-            return matching[0].lookAt()
-        except AttributeError:
-            return "You can't look at that. Apparently something is very wrong with this game."
+        return matching[0].lookAt()

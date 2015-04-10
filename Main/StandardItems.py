@@ -51,7 +51,7 @@ class Alchohol(Items.Drinkable):
     
     def __init__(self, name, description, seenDescription, quantity, keywords, useDescription, alcoholAmount, pickupDesc="", initPickupDesc="", initSeenDesc=""):
         self.alcoholAmount = alcoholAmount
-        super(Alchohol, self).__init__(name, description, seenDescription, initSeenDesc, quantity, keywords, useDescription, pickupDesc, initPickupDesc, initSeenDesc)
+        super(Alchohol, self).__init__(name, description, seenDescription, quantity, keywords, useDescription, pickupDesc, initPickupDesc, initSeenDesc)
         
     def drink(self, player):
         player.increaseIntox(self.alcoholAmount)
@@ -78,7 +78,7 @@ class Note(Items.Readable):
     
     def __init__(self, name, description, seenDescription, quantity, keywords, contents, pickupDesc="", initPickupDesc="", initSeenDesc=""):
         self.contents = contents
-        super(Note, self).__init__(name, description, seenDescription, initSeenDesc, quantity, keywords, pickupDesc, initPickupDesc, initSeenDesc)
+        super(Note, self).__init__(name, description, seenDescription, quantity, keywords, pickupDesc, initPickupDesc, initSeenDesc)
     
     def read(self):
         return self.contents,True
@@ -87,7 +87,7 @@ class Book(Items.Readable):
     
     def __init__(self, name, description, seenDescription, quantity, keywords, pickupDesc="", initPickupDesc="", initSeenDesc=""):
         self.pages = []
-        super(Book, self).__init__(name, description, seenDescription, initSeenDesc, quantity, keywords, pickupDesc, initPickupDesc, initSeenDesc)
+        super(Book, self).__init__(name, description, seenDescription, quantity, keywords, pickupDesc, initPickupDesc, initSeenDesc)
         
     def read(self):
         for page in self.pages:

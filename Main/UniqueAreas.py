@@ -52,7 +52,7 @@ it flashes on and off periodically.","light,bulb,lightbulb,lamp"))
      
     #Container
         table201 = StandardFeatures.AlwaysOpenContainer("You don't remember having this flimsy metal table in your room. It's been dragged \
-so close to your bed it's actually touching the frame. On it you see a scalpal, pliers, fish hooks, a trephine and a long, serrated metal wire.", "table,metal table")
+so close to your bed it's actually touching the frame.", "table,metal table")
         table201.setIdNum(005)
         self.addFeature(table201)
     

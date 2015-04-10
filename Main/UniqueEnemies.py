@@ -168,4 +168,4 @@ He falls upon you like a hurricane, completely enraged. \"YOU DIE HERE, FALSE PR
     def talk(self, player): #Need to remove and put in seklf.talkDialogue
         if self.talkCount == len(self.talkDialogue) - 1:
             player.takeDamage(5)
-        return super(BentHost201, self).talk(player)
+        return super(BentHost201, self).talk()
