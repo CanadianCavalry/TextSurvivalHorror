@@ -12,7 +12,7 @@ class Item(object):
         self.name = name
         self.description = description
         idNum = idNum
-        self.seenDesc = seenDesc
+        self.seenDescription = seenDesc
         self.pickupDesc = "You pick up the " + name + "."
         self.initPickupDesc = None
         self.quantity = quantity

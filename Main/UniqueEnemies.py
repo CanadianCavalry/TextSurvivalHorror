@@ -45,9 +45,17 @@ class BentHost201(Enemies.Enemy):
                                      
     def attack(self, player):
         if self.enemyState == 2:
-            return self.basicAttack(player)
+            self.seenDesc = "A bent host is staggering towards you, clutching his chest."
+            if player.isRestricted:
+                return self.execute(player)
+            else:
+                return self.basicAttack(player)
         
         elif self.enemyState == 1:
+            if self.busyTimer == 0:
+                self.seenDesc = "The possessed man is struggling with Joe."
+            elif self.busyTimer == 4:
+                self.seenDesc = "The host is sitting on the floor in a daze, though likely not for long."
             result = self.busyStateDesc[self.busyTimer]
             if self.busyTimer == 6:
                 if player.isRestricted():

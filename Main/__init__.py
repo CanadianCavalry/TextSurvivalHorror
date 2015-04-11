@@ -248,7 +248,6 @@ class Player(object):
         enemyList = list()
         for enemy in self.currentLocation.enemies.itervalues():
             enemyList.append(enemy)
-        
         return enemyList
     
     def getPursuingEnemies(self):
