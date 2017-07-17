@@ -50,12 +50,12 @@ class Enemy(object):
         self.stunnedTimer = 0
         self.isChasing = False
         self.talkCount = 0
-        self.stunDesc = ""
+        self.stunDesc = "The " + self.name + " reels from the blow, dazed.\n"
         self.exorciseDialogue = ["\"Back to hell with you demon!\"", "\"In the name of god, DIE!\"", "\"With the lord as my weapon, I will destroy you!\""]
         self.talkDialogue = ["It doesn't respond."]
-        self.critDialogue = "You charge forward and knock the creature to the ground. As it struggles to rise, you finish it off with a single strike."
-        self.advanceDialogue = "The " + self.name + " moves towards you.\n" + self.getDistance()
-        self.retreatDialogue = "The " + self.name + " moves away from you.\n" + self.getDistance()
+        self.critDialogue = ["You charge forward and knock the creature to the ground. As it struggles to rise, you finish it off with a single strike."]
+        self.advanceDialogue = "The " + self.name + " moves towards you.\n"
+        self.retreatDialogue = "The " + self.name + " moves away from you.\n"
         
     def travel(self, location):
         for link in self.currentLocation.connectedAreas.itervalues():
@@ -67,6 +67,8 @@ class Enemy(object):
             self.currentLocation.addEnemy(self)
         
     def takeAction(self, player):
+        if self.health < 1:
+            return ""
         if self.stunnedTimer != 0:
             self.stunnedTimer -= 1
             return "The " + self.name + " is dazed."
@@ -98,6 +100,8 @@ class Enemy(object):
             damageAmount = randint(self.minDamage + 1, self.maxDamage)
             if player.armor:
                 damageAmount -= player.armor.armorRating
+                if damageAmount < 0:
+                    damageAmount = 0
             
             resultString += "The " + self.name + " hits you! "
             resultString += player.takeDamage(damageAmount)
@@ -112,13 +116,13 @@ class Enemy(object):
     def advance(self):
         if self.distanceToPlayer > 1:
             self.distanceToPlayer -= 1
-            return self.advanceDialogue
+            return self.advanceDialogue + self.getDistance()
         return "The " + self.name + " does nothing."
     
     def retreat(self):
         if self.distanceToPlayer < 3:
             self.distanceToPlayer += 1
-            return self.retreatDialogue
+            return self.retreatDialogue + self.getDistance()
         return "The " + self.name + " does nothing."
     
     def playerAdvances(self):
@@ -135,10 +139,9 @@ class Enemy(object):
             self.distanceToPlayer -= 1
             return "You retreat from the " + self.name, True
     
-    def makeStunned(self, stunTime, stunDesc):
+    def makeStunned(self, stunTime):
         if self.stunnedTimer == 0:
             self.stunnedTimer = stunTime
-            self.stunDesc = stunDesc
         
     def takeHit(self, weapon, attackType):
         damageAmount = (randint(weapon.minDamage, weapon.maxDamage))
@@ -166,7 +169,7 @@ class Enemy(object):
     def takeCrit(self, weapon):
         self.health = 0
         self.kill()
-        return self.critDialogue[randint(0, len(self.exorciseDialogue) - 1)]
+        return self.critDialogue[randint(0, len(self.critDialogue) - 1)]
         
     def exorciseAttempt(self, player):
         resultString = "You draw upon your faith to banish the demon. You yell out:\n" + self.exorciseDialogue[randint(0, len(self.exorciseDialogue) - 1)] + "\n"
@@ -212,16 +215,15 @@ class Enemy(object):
         
     def addExorciseDialogue(self, text):
         self.exorciseDialogue.append(text)
+
+    def removeExorciseDialogue(self, index):
+        del self.exorciseDialogue[index]
     
     def setTalkDialogue(self, textList):
         self.talkDialogue = textList
         
     def addTalkDialogue(self, text):
         self.talkDialogue.append(text)
-    
-    
-    def removeExorciseDialogue(self, index):
-        del self.exorciseDialogue[index]
         
     def setAdvanceDialogue(self, text):
         self.advanceDialogue = text

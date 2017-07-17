@@ -35,8 +35,8 @@ def newGameState(player):
 
 def newSimulationState(player):
     state = GameState()
-    Builder.buildAreaOne200(state) #Debug for encounter 1
-    #Builder.buildCombatSimulator(state)
+    #Builder.buildAreaOne200(state) #Debug for encounter 1
+    Builder.buildCombatSimulator(state)
     state.addPlayer(player)
     return state
 
@@ -50,5 +50,5 @@ def loadState(player=None):
         state = jsonpickle.decode(savegame.read())
         return state
     
-def quit():
+def quit(player=None):
     sys.exit()

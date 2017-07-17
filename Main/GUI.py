@@ -188,11 +188,10 @@ class Window(pyglet.window.Window):
         self.batch = pyglet.graphics.Batch()
         self.state = state
         self.parser.loadState(state)
-        #intro = "September 3rd, 2015. You wake up around 10 a.m. as usual, and have already ate and freshened up for the day. You recall that the new Director of the Rehab House - Father Malachi - is going to be giving a talk outlining why he and his associates have implemented new policies in House management, and will be taking questions afterwards. The architect of many new regulations you find draconian and invasive, this will be the first time the director has made an appearance to you and the other residents. You plan to attend the talk to get a better idea of the nature of the man who will control much of your life in the forseeable future. The talk is taking place in fifteen minutes, and is located in the auditorium of the old church wing. You recall that the easiest way to get there is to simply head north through the residents wing, past the courtyard, until you reach the auditorium.<paragraph break> You are currently located in your quarters in the resident wing of the house. Like virtually every other service offered by the house, they spared no expense in providing the residents with a fine place to live. Your quarters are large, fully furnished, and even come with a personal computer and a large plasma TV. Right now, you are craving some alcohol. This is surprising as the new medication, 'Rejuvinax', that father Malachi has been providing you with has been practically miraculous in controlling your cravings, to the point of you hardly being aware of them.It's an exquisite longing that is more pronounced than anything you've felt since your time here. Odd. Why would you b experiencing symptoms like this now, completely out of nowhere?"
         
         self.menuSoundtrack.pause()
         
-        self.title = pyglet.text.Label('Effluvium', x=240, y=550, font_name='Times New Roman',font_size=28,
+        self.title = pyglet.text.Label('The Title', x=240, y=550, font_name='Times New Roman',font_size=28,
                                         batch=self.batch, color=(155,0,0,255), bold=True)
 
         self.disp = DisplayWindow('Intro goes here', 20, 100, self.width - 210, self.batch)

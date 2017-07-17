@@ -42,6 +42,11 @@ class Parser(object):
     
         self.command = inputArray.pop(0)
         
+        if self.command == "heavy":
+            nextCom = inputArray.pop(0)
+            if nextCom == "attack":
+                self.command = "heavy attack"
+
         if len(inputArray) >= 1:    
             for word in inputArray:
                 if ((self.command == "use") and (word == "on")) or ((self.command == "ask") and (word == "about")):                  #check if the command is a two word command
@@ -50,11 +55,6 @@ class Parser(object):
                     break                                                               #position after "on". Then end the loop so we skip the rest of the words
                 self.target += word + " "
             self.target = self.target.strip()
-            
-        if self.command == "heavy":
-            nextCom = inputArray.pop(0)
-            if nextCom == "attack":
-                self.command = "heavy attack"
         
         if (self.command == "go") or (self.command == "travel") or (self.command == "move") or (self.command == "walk"):
             resultString = Commands.go(self.state.player, self.target)

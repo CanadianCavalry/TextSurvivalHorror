@@ -183,8 +183,7 @@ class RangedWeapon(Weapon):
         else:
             resultString += "\nYou miss!"
         return resultString, True
-    
-    
+
     def shoot(self, enemy, player):
         return self.attack(enemy, player)
     
