@@ -41,15 +41,39 @@ class Scalpel(Items.MeleeWeapon):
 class KitchenKnife(Items.MeleeWeapon):
     
     def __init__(self):
-        super(KitchenKnife, self).__init__("Kitchen Knife", "A 12 inch chefs knife. You know what they say: 'Guns are for show, knives are for pro.'",
-                                   "A knife is lying on the floor.", 1, "knife,chef knife,weapon", 9, 14, 1, 75)
+        super(KitchenKnife, self).__init__(
+            "Kitchen Knife", 
+            "A 12 inch chefs knife. You know what they say: 'Guns are for show, knives are for pro.'",
+            "A knife is lying on the floor.", 
+            1, 
+            "knife,chef knife,weapon", 
+            9, 
+            14, 
+            1, 
+            75)
         
 #Ranged Weapons
 class Revolver(Items.RangedWeapon):
-    
+
     def __init__(self):
-        super(Revolver, self).__init__("Revolver", "A heavy .457 revolver. It holds 6 rounds.", "A revolver is lying on the floor.",
-                                        1, "gun,handgun,pistol,revolver", 30, 38, 1, 70, 6, 4, "Sounds/RevolverShot.mp3", 10, "","","","You open fire with your revolver.")
+        super(Revolver, self).__init__(
+            name="Revolver", 
+            description="A heavy .457 magnum revolver. It holds 6 rounds.", 
+            seenDescription="A revolver is lying on the floor.",
+            quantity=1, 
+            keywords="gun,handgun,pistol,revolver, magnum", 
+            minDamage=30, 
+            maxDamage=38, 
+            size=1, 
+            accuracy=70, 
+            capacity=6, 
+            ammoRemaining=4,
+            fireSound="Sounds/RevolverShot.mp3", 
+            critChance=10, 
+            initSeenDesc="",
+            notTakenDesc="A revolver rests on the table.",
+            initPickupDesc="It's heavier than it looks. You look it over to ensure the safety is off. Let's hope it still fires.",
+            attackDesc="You open fire with your revolver.")
 
 #Ammo
 class RevolverAmmo(Items.Ammo):

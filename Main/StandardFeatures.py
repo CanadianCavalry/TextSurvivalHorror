@@ -92,7 +92,13 @@ class AlwaysOpenContainer(AreasFeatures.Container):
         desc = self.description + "\n"
         if self.itemsContained:
             for item in self.itemsContained.itervalues():
-                desc += item.seenDesc + "\n"
+                if item.firstSeen and item.initSeenDesc:
+                    desc += "\n" + item.initSeenDesc
+                elif item.firstTaken and item.notTakenDesc:
+                    desc += "\n" + item.notTakenDesc
+                else:
+                    desc += "\n" + item.seenDescription
+                item.firstSeen = False
         return desc
     
 class Sign(AreasFeatures.Feature):
