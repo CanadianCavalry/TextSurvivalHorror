@@ -100,11 +100,15 @@ class Armor(Item):
     
 class Weapon(Item):
     
-    def __init__(self, name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, critChance, initSeenDesc="", notTakenDesc="", initPickupDesc=""):
+    def __init__(self, name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, critChance, initSeenDesc="", notTakenDesc="", initPickupDesc="", attackDesc=""):
         self.minDamage = minDamage
         self.maxDamage = maxDamage
         self.critChance = critChance
         self.size = size
+        if not attackDesc:
+            self.attackDesc = "You attack."
+        else:
+            self.attackDesc = attackDesc
         super(Weapon, self).__init__(name, description, seenDescription, quantity, keywords, initSeenDesc, notTakenDesc, initPickupDesc)
         
     def equip(self, player):
@@ -125,13 +129,17 @@ class Weapon(Item):
         
 class RangedWeapon(Weapon):
     
-    def __init__(self, name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, accuracy, capacity, ammoRemaining, fireSound, critChance=10, initSeenDesc="", notTakenDesc="", initPickupDesc=""):
+    def __init__(self, name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, accuracy, capacity, ammoRemaining, fireSound, critChance=10, initSeenDesc="", notTakenDesc="", initPickupDesc="", attackDesc=""):
         self.accuracy = accuracy
         self.capacity = capacity
         self.ammoRemaining = ammoRemaining
         self.fireSound = fireSound
         self.rangeMod = [0,5,10]
-        super(RangedWeapon, self).__init__(name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, critChance, initSeenDesc, notTakenDesc, initPickupDesc)
+        if not attackDesc:
+            self.attackDesc = "You open fire!"
+        else:
+            self.attackDesc = attackDesc
+        super(RangedWeapon, self).__init__(name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, critChance, initSeenDesc, notTakenDesc, initPickupDesc, attackDesc)
                             #Me name es Wayne Purkle coz when I nommin' grapes day be PURKLE!!!
     def attack(self, enemy, player, attackType):
         if attackType == "heavy":
@@ -144,7 +152,6 @@ class RangedWeapon(Weapon):
         source.play()
         
         self.ammoRemaining -= 1
-        resultString = "You open fire."
         hitChance = self.accuracy
         hitChance -= enemy.dodgeChance
         
@@ -178,8 +185,9 @@ class RangedWeapon(Weapon):
             
         attackRoll = random.randint(0, 100)
         if attackRoll <= hitChance:
-            resultString += "\n" + enemy.takeHit(self, "ranged")
+            resultString = "\n" + enemy.takeHit(self, "ranged")
         else:
+            resultString = self.attackDesc
             resultString += "\nYou miss!"
         return resultString, True
 
@@ -279,7 +287,7 @@ class Readable(Item):
 
 class Corpse(Item):
     def __init__(self, name, description, seenDescription, quantity, keywords, initSeenDesc="", notTakenDesc="", initPickupDesc=""):
-        super(Ammo, self).__init__(name, description, seenDescription, quantity, keywords, initSeenDesc, notTakenDesc, initPickupDesc)
+        super(Corpse, self).__init__(name, description, seenDescription, quantity, keywords, initSeenDesc, notTakenDesc, initPickupDesc)
     
     def get(self, holder, player):
         return "I've no desire to carry around a corpse."

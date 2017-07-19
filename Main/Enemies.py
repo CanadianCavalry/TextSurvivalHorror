@@ -3,6 +3,7 @@ Created on Aug 3, 2014
 
 @author: Thomas
 '''
+from Items import Corpse
 from random import randint
 
 def getActingEnemies(player):
@@ -28,7 +29,7 @@ def enemyMovement(movingEnemies, enemyDestination):
 
 class Enemy(object):
     
-    def __init__(self, name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc="", attackDesc=[""], baseExorciseChance=5, idNum=0):
+    def __init__(self, name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc="", attackDesc=[""], baseExorciseChance=5, corpse=False, idNum=0):
         self.name = name
         self.description = description
         idNum = idNum
@@ -43,6 +44,7 @@ class Enemy(object):
         self.armor = armor
         self.health = maxHealth
         self.baseExorciseChance = baseExorciseChance
+        self.corpse = corpse
         self.enemyState = 0
         self.distanceToPlayer = 3
         self.currentLocation = None
@@ -200,6 +202,7 @@ class Enemy(object):
         
     def kill(self):
         self.currentLocation.killEnemy(self)
+        self.currentLocation.addItem(self.corpse)
         return "The " + self.name + " falls to the ground dead."
     
     def talk(self):
@@ -289,7 +292,8 @@ class TestDemon(Enemy):
         dodgeChance = 5
         armor = 0
         baseExorciseChance = 50
-        super(TestDemon, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc, attackDesc, baseExorciseChance)
+        corpse = Corpse("Demon Corpse", "The body is covered in wounds and blood is slowly pooling on the floor under it. The air around it stinks of sulphur.", "The freshly butchered body of a large, red-skinned demon is lying on the floor.", 1, "body, demon body, dead demon, demon corpse", initSeenDesc="", notTakenDesc="", initPickupDesc="")
+        super(TestDemon, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc, attackDesc, baseExorciseChance, corpse)
 
     def takeCrit(self, weapon):
         self.health = 0

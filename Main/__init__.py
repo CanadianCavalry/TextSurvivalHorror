@@ -94,7 +94,7 @@ class Player(object):
             return self.restrictedDesc
         
         try:
-            return self.mainHand.attack(enemy, self, "light")
+        	return self.mainHand.attack(enemy, self, "light")
         except AttributeError:
             return "You are not holding a weapon."
         
@@ -112,9 +112,9 @@ class Player(object):
             return self.restrictedDesc
         
         try:
-            return self.mainHand.shoot(enemy, self)
+        	return self.mainHand.shoot(enemy, self)
         except AttributeError:
-            return "You are not holding a gun."
+    		return "You are not holding a gun."
         
     def reload(self):
         if self.isRestricted:

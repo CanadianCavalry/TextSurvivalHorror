@@ -49,7 +49,7 @@ class Revolver(Items.RangedWeapon):
     
     def __init__(self):
         super(Revolver, self).__init__("Revolver", "A heavy .457 revolver. It holds 6 rounds.", "A revolver is lying on the floor.",
-                                        1, "gun,handgun,pistol,revolver", 30, 38, 1, 70, 6, 4, "Sounds/RevolverShot.mp3")
+                                        1, "gun,handgun,pistol,revolver", 30, 38, 1, 70, 6, 4, "Sounds/RevolverShot.mp3", 10, "","","","You open fire with your revolver.")
 
 #Ammo
 class RevolverAmmo(Items.Ammo):

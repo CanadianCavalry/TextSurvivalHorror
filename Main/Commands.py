@@ -183,7 +183,7 @@ def attack(player, keyword):
         try:
             return player.attack(matching[0])
         except AttributeError:
-            return "I see no reason to attack that right now."
+           return "I see no reason to attack that right now."
         
 def heavyAttack(player, keyword):
     matching = findMatching(player, keyword, list())
