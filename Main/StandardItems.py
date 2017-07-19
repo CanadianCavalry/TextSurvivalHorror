@@ -22,7 +22,7 @@ class Scalpel(Items.MeleeWeapon):
 class KitchenKnife(Items.MeleeWeapon):
     
     def __init__(self):
-        super(KitchenKnife, self).__init__("KitchenKnife", "A 12 inch chefs knife. You know what they say: 'Guns are for show, knives are for pro.'",
+        super(KitchenKnife, self).__init__("Kitchen Knife", "A 12 inch chefs knife. You know what they say: 'Guns are for show, knives are for pro.'",
                                    "A knife is lying on the floor.", 1, "knife,chef knife,weapon", 9, 14, 1, 75)
         
 #Ranged Weapons

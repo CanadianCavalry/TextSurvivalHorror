@@ -43,6 +43,30 @@ def findMatching(player, keyword, matching):
             
     return matching
 
+def findMatchingWithHolder(player, keyword, matching):
+    matching = findMatching(player, keyword, matching)
+    holder = None
+
+    for key,item in player.currentLocation.itemsContained.iteritems():
+            keyList = key.split(",")
+            if keyword in keyList:
+                holder = player.currentLocation
+    
+    for feature in player.currentLocation.features.itervalues():
+        if (isinstance(feature, AreasFeatures.Container)) and (feature.isOpen == True):
+            for key,item in feature.itemsContained.iteritems():
+                keyList = key.split(",")
+                if keyword in keyList:
+                    holder = feature
+
+    for key,item in player.inventory.iteritems():
+        keyList = key.split(",")
+        if (keyword in keyList) and (len(matching) == 0):
+            matching.append(item)
+            holder = player
+
+    return matching, holder
+
 def go(player, keyword):
     matching = findMatching(player, keyword, list())
 
@@ -120,24 +144,11 @@ def useOn(player, targetKeyword, recipientKeyword):
         return "You cannot use that in that way."
 
 def get(player, keyword):
-    matching = list()
-    for key,item in player.currentLocation.itemsContained.iteritems():
-        keyList = key.split(",")
-        if keyword in keyList:
-            matching.append(item)
-            holder = player.currentLocation
-            
-    if len(matching) > 1:
-        return "You need to be more specific"
+    matching, holder = findMatchingWithHolder(player, keyword, list())
     
-    for feature in player.currentLocation.features.itervalues():
-        if (isinstance(feature, AreasFeatures.Container)) and (feature.isOpen == True):
-            for key,item in feature.itemsContained.iteritems():
-                keyList = key.split(",")
-                if keyword in keyList:
-                    matching.append(item)
-                    holder = feature
-    
+    if len(matching) > 0 and holder == player:
+        return "You are already carrying that."
+
     if len(matching) == 0:
         return "You do not see any such item here."
     elif len(matching) > 1:

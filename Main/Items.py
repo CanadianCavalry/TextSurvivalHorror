@@ -101,11 +101,15 @@ class Armor(Item):
     
 class Weapon(Item):
     
-    def __init__(self, name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, critChance, initSeenDesc="", pickupDesc="", initPickupDesc=""):
+    def __init__(self, name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, critChance, attackDesc="", initSeenDesc="", pickupDesc="", initPickupDesc=""):
         self.minDamage = minDamage
         self.maxDamage = maxDamage
         self.critChance = critChance
         self.size = size
+        if not attackDesc:
+            self.attackDesc = "You swing your weapon!"
+        else:
+            self.attackDesc = attackDesc
         super(Weapon, self).__init__(name, description, seenDescription, quantity, keywords, initSeenDesc, pickupDesc, initPickupDesc)
         
     def equip(self, player):
@@ -214,8 +218,9 @@ class MeleeWeapon(Weapon):
         super(MeleeWeapon, self).__init__(name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, critChance, initSeenDesc, pickupDesc, initPickupDesc)   
 
     def attack(self, enemy, player, attackType):
-        resultString = "You swing your weapon."
-        
+        if enemy.distanceToPlayer > 1:
+            return "You are not within striking distance."
+
         hitChance = self.accuracy
         hitChance -= enemy.dodgeChance
         
@@ -231,21 +236,20 @@ class MeleeWeapon(Weapon):
             hitChance += 8
         elif player.intoxication > 1:
             hitChance += 5
-        elif player.intoxication > 60:
-            hitChance -= 5
             
         if attackType == "heavy":
             hitChance -= 10
         
         if enemy.stunnedTimer > 0:
-            hitChance += 15
+            hitChance += 50
         
         if hitChance < 5:
             hitChance = 5
         attackRoll = random.randint(0, 100)
         if attackRoll <= hitChance:
-            resultString += "\n" + enemy.takeHit(self, attackType)
+            resultString = "\n" + enemy.takeHit(self, attackType)
         else:
+            resultString = self.attackDesc
             resultString += "\nYou miss!"
         return resultString, True
 

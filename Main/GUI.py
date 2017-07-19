@@ -78,6 +78,9 @@ class MenuButton(object):
     def hit_test(self, x, y):
         return (0 < x - (self.label.x - (self.label.content_width / 2)) < self.label.content_width and
                 0 < y - self.label.y < self.label.content_height)
+
+    def delete(self):
+        self.label.delete()
         
 class StatsPanel(object):
     def __init__(self, batch):
@@ -164,10 +167,12 @@ class Window(pyglet.window.Window):
         super(Window, self).__init__(800, 600, caption='Text Game')
         
         self.newPlayer = player
+        self.inMenu = False
         
         self.startMainMenu()
 
     def startMainMenu(self):
+        self.inMenu = True
         self.batch = pyglet.graphics.Batch()
         self.parser = Parser.Parser()
         self.player = copy.copy(self.newPlayer)
@@ -185,15 +190,17 @@ class Window(pyglet.window.Window):
         ]
 
     def startGameState(self, state):
+        self.inMenu = False
         self.batch = pyglet.graphics.Batch()
         self.state = state
         self.parser.loadState(state)
+
         
         self.menuSoundtrack.pause()
         
         self.title = pyglet.text.Label('The Title', x=240, y=550, font_name='Times New Roman',font_size=28,
                                         batch=self.batch, color=(155,0,0,255), bold=True)
-
+        
         self.disp = DisplayWindow('Intro goes here', 20, 100, self.width - 210, self.batch)
         
         self.widgets = [
@@ -231,12 +238,12 @@ class Window(pyglet.window.Window):
 
         if self.focus:
             self.focus.caret.on_mouse_press(x, y, button, modifiers)
-        
-        if self.menuButtons:    
-            for button in self.menuButtons:
-                if button.hit_test(x, y):
-                    state = button.buttonFunction(self.player)
-                    self.startGameState(state)
+        if self.inMenu:
+            if self.menuButtons:    
+                for button in self.menuButtons:
+                    if button.hit_test(x, y):
+                        state = button.buttonFunction(self.player)
+                        self.startGameState(state)
 
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         if self.focus:

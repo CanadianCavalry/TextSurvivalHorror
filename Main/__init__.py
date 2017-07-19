@@ -102,8 +102,8 @@ class Player(object):
         if self.isRestricted:
             return self.restrictedDesc
         
-        try:
-            return self.mainHand.attack(enemy, self, "heavy")
+       	try:
+        	return self.mainHand.attack(enemy, self, "heavy")
         except AttributeError:
             return "You are not holding a weapon."
         

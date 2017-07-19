@@ -28,7 +28,7 @@ class Area(object):
                             desc += "\n" + item.initSeenDesc
                         else: 
                             desc += "\n" + item.seenDescription
-                    if item.firstPickup:
+                    if item.firstTaken:
                         desc += "\n" + item.initDesc
                     else:
                         desc += "\n" + item.seenDescription

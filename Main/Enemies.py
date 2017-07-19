@@ -28,7 +28,7 @@ def enemyMovement(movingEnemies, enemyDestination):
 
 class Enemy(object):
     
-    def __init__(self, name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, idNum=0):
+    def __init__(self, name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc="", attackDesc=[""], baseExorciseChance=5, idNum=0):
         self.name = name
         self.description = description
         idNum = idNum
@@ -42,15 +42,22 @@ class Enemy(object):
         self.dodgeChance = dodgeChance
         self.armor = armor
         self.health = maxHealth
+        self.baseExorciseChance = baseExorciseChance
         self.enemyState = 0
-        self.baseExorciseChance = 5
         self.distanceToPlayer = 3
         self.currentLocation = None
         self.actionTimer = 1
         self.stunnedTimer = 0
         self.isChasing = False
         self.talkCount = 0
-        self.stunDesc = "The " + self.name + " reels from the blow, dazed.\n"
+        if not stunDesc:
+            self.stunDesc = "The " + self.name + " staggers away from you, dazed.\n"
+        else:
+            self.stunDesc = stunDesc
+        if not attackDesc[0]:
+            self.attackDesc = ["The " + self.name + " attacks you.\n"]
+        else:
+            self.attackDesc = attackDesc
         self.exorciseDialogue = ["\"Back to hell with you demon!\"", "\"In the name of god, DIE!\"", "\"With the lord as my weapon, I will destroy you!\""]
         self.talkDialogue = ["It doesn't respond."]
         self.critDialogue = ["You charge forward and knock the creature to the ground. As it struggles to rise, you finish it off with a single strike."]
@@ -90,7 +97,7 @@ class Enemy(object):
         return self.basicAttack(player)
 
     def basicAttack(self, player):
-        resultString = "The " + self.name + " attacks you.\n"
+        resultString = self.attackDesc[randint(0, len(self.attackDesc) - 1)]
         hitChance = self.accuracy - player.dodgeChance
         if player.isDefending:
             hitChance = self.playerIsDefending(hitChance)
@@ -103,10 +110,10 @@ class Enemy(object):
                 if damageAmount < 0:
                     damageAmount = 0
             
-            resultString += "The " + self.name + " hits you! "
+            resultString += " The " + self.name + " hits you! "
             resultString += player.takeDamage(damageAmount)
         else:
-            resultString += "The " + self.name + " misses."
+            resultString += " The " + self.name + " misses."
             
         return resultString
         
@@ -144,6 +151,7 @@ class Enemy(object):
             self.stunnedTimer = stunTime
         
     def takeHit(self, weapon, attackType):
+        resultString = weapon.attackDesc + "\n"
         damageAmount = (randint(weapon.minDamage, weapon.maxDamage))
         if (self.stunnedTimer > 0) and (attackType == "heavy"):
             resultString = self.takeCrit(weapon)
@@ -153,8 +161,10 @@ class Enemy(object):
                 resultString = self.takeCrit(weapon)
             else:
                 self.makeStunned(weapon.stunLength)
+                resultString += "You hit the " + self.name + "! "
+                resultString += self.stunDesc
         else:
-            resultString = "You hit the " + self.name + "!"
+            resultString += "You hit the " + self.name + "! "
             resultString += self.takeDamage(damageAmount)
         return resultString
         
@@ -269,6 +279,8 @@ class TestDemon(Enemy):
         description = "A slavering, red skinned, bat winged demon. Pretty standard stuff actually."
         seenDesc = "You see a Winged Demon glaring at you menacingly."
         keywords = "demon,red demon,winged demon"
+        stunDesc = "The demon staggers back, dazed."
+        attackDesc = ["The demon claws at you with it's talons.", "The demon lunges forwards and snaps at you."]
         maxHealth = 125
         minDamage = 15
         maxDamage = 19
@@ -276,4 +288,13 @@ class TestDemon(Enemy):
         speed = 1
         dodgeChance = 5
         armor = 0
-        super(TestDemon, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor)
+        baseExorciseChance = 50
+        super(TestDemon, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc, attackDesc, baseExorciseChance)
+
+    def takeCrit(self, weapon):
+        self.health = 0
+        self.kill()
+        if weapon.name == "Axe":
+            return "You throw yourself into the demon hard, sending you both sprawling to the ground despite it's size. Scrambling to your feet, you raise your axe above the stunned behemoth and bring it down on it's head with a loud *CRACK*. The creature jerks sharply, then lies still.\nHaving seen enough horror movies in your life, you give it one last hit for good measure."
+        elif weapon.name == "Kitchen Knife":
+            return "Striking quickly, you land a lucky slash across the demon's eyes, and it let's out an earsplitting screech. As it staggers away you leap onto it's back from behind, drawing the knife quickly across the beasts throat in one fluid motion. It throws you aside and stumbles away, gurgling and grasping it's wound, before slumping over to the floor."
