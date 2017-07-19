@@ -10,8 +10,27 @@ import AreasFeatures
 class Axe(Items.MeleeWeapon):
     
     def __init__(self):
-        super(Axe, self).__init__("Axe", "A long handled fire axe, intended for emergency use. The current situation probably qualifies.",
-                                   "A fire axe is lying on the floor.", 1, "axe,fire axe,weapon", 11, 15, 2, 75)
+        super(Axe, self).__init__("Axe", "A long handled fire axe, intended for emergency use. The current situation probably qualifies. It's heavy and unwieldy, and will seriously ruin the day of anyone on the recieving end.",
+                                   "A fire axe is lying on the floor.", 1, "axe,fire axe,weapon", 17, 22, 2, 75, 10, 3)
+
+class LongSword(Items.MeleeWeapon):
+    
+    def __init__(self):
+        super(LongSword, self).__init__(
+            "Long Sword", 
+            "A long bladed medieval weapon, excellent for slaying men, demons and ferocious rabbits. It's suprisingly light for it's size.",
+            "A long sword is lying on the floor.",
+            1, 
+            "sword,long sword,blade", 
+            15, 
+            20, 
+            2, 
+            90, 
+            15, 
+            2, 
+            "A large sword has been thrust into wooden floor here. It seems to glow faintly at first, then fades.", 
+            "A large sword has been thrust into wooden floor here.", 
+            "With considerable effort, you pull the blade free from the ground.")
         
 class Scalpel(Items.MeleeWeapon):
     

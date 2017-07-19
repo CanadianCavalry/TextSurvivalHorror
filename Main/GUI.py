@@ -200,8 +200,8 @@ class Window(pyglet.window.Window):
         
         self.title = pyglet.text.Label('The Title', x=240, y=550, font_name='Times New Roman',font_size=28,
                                         batch=self.batch, color=(155,0,0,255), bold=True)
-        
-        self.disp = DisplayWindow('Intro goes here', 20, 100, self.width - 210, self.batch)
+
+        self.disp = DisplayWindow(self.state.introText, 20, 100, self.width - 210, self.batch)
         
         self.widgets = [
             TextWidget('', 20, 30, self.width - 210, self.batch)

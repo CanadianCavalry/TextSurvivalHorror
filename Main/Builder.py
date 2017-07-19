@@ -16,14 +16,20 @@ import NPCs
 import UniqueNPCs
 
 def buildCombatSimulator(gameState):
-    
+    #INTRO
+    introText = "Welcome to the combat simulator. This area is intended to allow you to practice fighting with various weapons. To get started head through the north door, but before you head out, take a look at the table and make sure you are suitibly equipped. There's no coming back here once you leave.\n\n To get your bearings, type \"look\". To get a closer look at anything, type \"look\" followed by the object."
+    gameState.introText = introText
+
     #Combat Test Environment
-    armory = AreasFeatures.Area("Armory", ["This tiny, cramped room is lined on all sides by large steel cages packed with weapons of every kind. Sadly, they are all locked. On the metal table in the center of the room is a small collection of items. There is a door to the north."])
+    #ARMORY
+    armory = AreasFeatures.Area("Armory", ["This tiny, cramped room is lined on all sides by large steel cages packed with weapons of every kind. Sadly, they are all locked. On the metal table in the center of the room is a small collection of items, and a large sign is bolted to the east wall titled \"Tips for newbies\". There is a door to the north."])
     arenaDoorA = StandardFeatures.StandardOpenDoor("A heavy steel door. It appears to have some sort of mechanism built into it that locks it once you pass through.", "north,north door,door,metal door,steel door")
     
-    table = StandardFeatures.AlwaysOpenContainer("The table is littered with all manner of useless junk, although there are a few weapons on it. You also spy a metal sign attached to the side of it.", "table,small table")
+    table = StandardFeatures.AlwaysOpenContainer("The table is littered with all manner of useless junk, as well as a number of weapons, bottles and items of clothing.", "table,small table, metal table")
     armory.addFeature(table)
-    armory.addFeature(StandardFeatures.Sign("A shiny brass plaque that has been riveted to the table. It reads \"Please ensure you are prepared before continuing to the test arena. Good luck\"", "sign,metal sign", "Please ensure you are prepared before continuing to the test arena. Good luck"))
+    armorySign = StandardFeatures.Sign("The large metal sign takes up a large portion of the east wall. It reads \"Please ensure you are prepared before continuing to the test arena. Good luck\"", "sign,metal sign, plaque, brass sign, brass plaque", "Tips for Newbies\n\n-Make sure you have a melee weapon and some armor before moving on. Ammo is scarce.\n-Every weapon has different damage and accuracy. Bigger is not always better.\n-As a functioning alchoholic, you perform better with a bit of liquor in your system. It numbs your body, reducing incoming damage, and calms shaking hands, increasing accurracy. Don't go overboard though or you'll go downhill fast.\n\n-Typing HELP will list all commands(not implemented yet), but a few you should get familiar with to start are:\nGET - Pick up things\nI - View your inventory\nEQUIP - Equip weapons or armor\nGO - Travel through doors or down halls\nOPEN - Open doors or containers")
+    armory.addFeature(armorySign)
+    armory.addItem(StandardItems.LongSword())
 
     table.addItem(StandardItems.Axe())
     table.addItem(StandardItems.KitchenKnife())
@@ -31,14 +37,18 @@ def buildCombatSimulator(gameState):
     table.addItem(StandardItems.RevolverAmmo())
     table.addItem(StandardItems.LeatherJacket())
     
-    combatRoom = AreasFeatures.Area("Arena", ["You are standing in a large, empty colosseum. There is a single, steel door to the south."])    
+    #ROOM 01 - ARENA
+    combatRoom01 = AreasFeatures.Area("Arena", ["You are standing in a large, empty colosseum. Against the east wall is a massive sign carved from stone titled \"Combat Tips\". There is a single, steel door to the south."])    
     arenaDoorB = StandardFeatures.StandardLockedDoor("A heavy steel door. It has no handle or lock that you can see.", "south,door,metal door,steel door", None)
     arenaDoorB.makeSibling(arenaDoorA)
-    combatRoom.connect(armory, arenaDoorB)
-    armory.connect(combatRoom, arenaDoorA)
+    combatRoom01.connect(armory, arenaDoorB)
+    armory.connect(combatRoom01, arenaDoorA)
+
+    combatSign = StandardFeatures.Sign("The large metal sign takes up a large portion of the east wall. It reads \"Please ensure you are prepared before continuing to the test arena. Good luck\"", "sign, stone sign, large sign", "Combat Tips\n\n-Every enemy has different strengths and weaknesses. Examining an enemy takes no time, and may yield life-saving information.\n-Heavy attacks are less accurate, but deal more damage and can even stun some foes.\n-Exorcising a demonic enemy can have numerous effects, but will often stun or incapacitate them. Some enemies are more resilient to exorcism than others.\n-Performing a heavy attack against a stunned enemy will often result in an execution.\n\n-Important combat commands:\nATTACK - Attack with an equipped weapon\nHEAVY ATTACK - Slower, stronger attack\nEXORCISE - Invoke your faith to weaken an enemy\nRELOAD - Reload your equipped gun(requires ammo)\nDEFEND - Give up your chance to strike to increase your chances of dodging the next attack.")
+    combatRoom01.addFeature(combatSign)
     
     testDemon = Enemies.TestDemon()
-    combatRoom.spawnEnemy(testDemon)
+    combatRoom01.spawnEnemy(testDemon)
     
     gameState.addArea(armory)
 
@@ -47,6 +57,10 @@ def buildWorld(gameState):
     #buildAreaOne200(gameState)
     
 def buildPrologue100(gameState):
+    #INTRO
+    introText = "Intro text still goes here."
+    gameState.introText = introText
+
     #JACOBS ROOM
     jacobsRoom101 = AreasFeatures.Area("Jacob's Room", ["This small room is well furnished with all of the comforts \
 you could ask for, including a bed, bookshelf, coffee table, dresser, tv and \
@@ -101,10 +115,10 @@ door to the NORTH leads into the Essential Services area of the Residents Wing."
     
     door102B = StandardFeatures.StandardOpenDoor("A hefty blue wooden door. The room number is 104.", "east,door,east door,blue door,room 104,104,door 104")
     
-        #mainLobby109
+    #mainLobby109
     door102C = StandardFeatures.StandardOpenDoor("A set of thick metal double doors. The sign above them reads \"Main Lobby\".", "south,door,south door,metal door,double doors,lobby,main lobby")
     
-        #essentialServices201
+    #essentialServices201
     door102D = StandardFeatures.StandardOpenDoor("A fairly ordinary wooden door. The sign above it reads \"Essential Services\".", "north,door,north door,essential services door,essential services")
     
     

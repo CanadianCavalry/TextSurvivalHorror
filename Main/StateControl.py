@@ -16,6 +16,7 @@ class GameState(object):
         self.player = None
         self.areaList = list()
         self.turnCount = 0
+        self.introText = ""
         
     def addArea(self, area):
         self.areaList.append(area)

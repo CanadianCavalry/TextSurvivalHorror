@@ -276,7 +276,7 @@ class TestDemon(Enemy):
     
     def __init__(self):
         name = "Test Demon"
-        description = "A slavering, red skinned, bat winged demon. Pretty standard stuff actually."
+        description = "A slavering, red skinned, bat winged demon. Pretty standard stuff actually. Utilizing your expertise in demonology, you know that this type of creature is highly vulnerable to exorcism."
         seenDesc = "You see a Winged Demon glaring at you menacingly."
         keywords = "demon,red demon,winged demon"
         stunDesc = "The demon staggers back, dazed."
@@ -298,3 +298,5 @@ class TestDemon(Enemy):
             return "You throw yourself into the demon hard, sending you both sprawling to the ground despite it's size. Scrambling to your feet, you raise your axe above the stunned behemoth and bring it down on it's head with a loud *CRACK*. The creature jerks sharply, then lies still.\nHaving seen enough horror movies in your life, you give it one last hit for good measure."
         elif weapon.name == "Kitchen Knife":
             return "Striking quickly, you land a lucky slash across the demon's eyes, and it let's out an earsplitting screech. As it staggers away you leap onto it's back from behind, drawing the knife quickly across the beasts throat in one fluid motion. It throws you aside and stumbles away, gurgling and grasping it's wound, before slumping over to the floor."
+        else:
+            return "You kick the stunned creature hard in the chest, knocking it to the ground. You fall upon it with your weapon, striking over and over until it lies still."

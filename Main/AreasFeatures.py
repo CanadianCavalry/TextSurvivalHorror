@@ -23,15 +23,13 @@ class Area(object):
         if self.itemsContained:
             for item in self.itemsContained.itervalues():    #Display all the visible items
                 if item.accessible:
-                    if item.firstSeen:
-                        if item.initSeenDesc:
-                            desc += "\n" + item.initSeenDesc
-                        else: 
-                            desc += "\n" + item.seenDescription
-                    if item.firstTaken:
-                        desc += "\n" + item.initDesc
+                    if item.firstSeen and item.initSeenDesc:
+                        desc += "\n" + item.initSeenDesc
+                    elif item.firstTaken and item.notTakenDesc:
+                        desc += "\n" + item.notTakenDesc
                     else:
                         desc += "\n" + item.seenDescription
+                    item.firstSeen = False
         if self.NPCs or self.enemies:
             desc += "\n"
         if self.NPCs:
