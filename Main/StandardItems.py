@@ -75,12 +75,41 @@ class Revolver(Items.RangedWeapon):
             initPickupDesc="It's heavier than it looks. You look it over to ensure the safety is off. Let's hope it still fires.",
             attackDesc="You open fire with your revolver.")
 
+class Crossbow(Items.RangedWeapon):
+
+    def __init__(self):
+        super(Crossbow, self).__init__(
+            name="Crossbow", 
+            description="A wood and steel crossbow, straight out of the middle ages. Despite the obvious wear from excessive use, it appears to be very well maintained. It is considerably smaller than most, and as such is much easier to reload.", 
+            seenDescription="A crossbow is lying on the floor.",
+            quantity=1, 
+            keywords="crossbow,worn crossbow", 
+            minDamage=70, 
+            maxDamage=85, 
+            size=2, 
+            accuracy=70, 
+            capacity=1, 
+            ammoRemaining=1,
+            fireSound="Sounds/RevolverShot.mp3", 
+            critChance=20, 
+            initSeenDesc="",
+            notTakenDesc="A crossbow rests on a display near the door.",
+            initPickupDesc="It's nowhere near as bulky as most weapons of this type. The string is oiled and the mechanism appears to have been recently cleaned.",
+            attackDesc="You carefully line up your crossbow, and fire.")
+
 #Ammo
 class RevolverAmmo(Items.Ammo):
     
     def __init__(self):
         super(RevolverAmmo, self).__init__("Revolver Ammo", "A speed-loader for a six shot revolver. It is filled with .457 ammunition.", "A speed-loader is on the ground.",
                                            1, "ammo,revolver ammo,magnum ammo,ammunition,revolver ammunition,speed-loader,speed loader", "Revolver")
+
+class CrossbowBolt(Items.Ammo):
+    
+    def __init__(self):
+        super(CrossbowBolt, self).__init__("Crossbow Bolt", "A steel crossbow bolt. The head appears to be made from silver.", "A crossbow bolt is on the ground.",
+                                           1, "ammo,crossbow ammo,crossbow bolt,bolt,ammunition,crossbow ammunition", "Crossbow")
+
 
 #Armor
 class LeatherJacket(Items.Armor):

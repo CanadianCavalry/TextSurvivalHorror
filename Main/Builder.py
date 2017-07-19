@@ -30,12 +30,15 @@ def buildCombatSimulator(gameState):
     armorySign = StandardFeatures.Sign("The large metal sign takes up a large portion of the east wall. It reads \"Please ensure you are prepared before continuing to the test arena. Good luck\"", "sign,metal sign, plaque, brass sign, brass plaque", "Tips for Newbies\n\n-Make sure you have a melee weapon and some armor before moving on. Ammo is scarce.\n-Every weapon has different damage and accuracy. Bigger is not always better.\n-As a functioning alchoholic, you perform better with a bit of liquor in your system. It numbs your body, reducing incoming damage, and calms shaking hands, increasing accurracy. Don't go overboard though or you'll go downhill fast.\n\n-Typing HELP will list all commands(not implemented yet), but a few you should get familiar with to start are:\nGET - Pick up things\nI - View your inventory\nEQUIP - Equip weapons or armor\nGO - Travel through doors or down halls\nOPEN - Open doors or containers")
     armory.addFeature(armorySign)
     armory.addItem(StandardItems.LongSword())
+    armory.addItem(StandardItems.Crossbow())
 
     table.addItem(StandardItems.Axe())
     table.addItem(StandardItems.KitchenKnife())
     table.addItem(StandardItems.Revolver())
     table.addItem(StandardItems.RevolverAmmo())
     table.addItem(StandardItems.LeatherJacket())
+    table.addItem(StandardItems.CrossbowBolt())
+    table.addItem(StandardItems.CrossbowBolt())
     
     #ROOM 01 - ARENA
     combatRoom01 = AreasFeatures.Area("Arena", ["You are standing in a large, empty colosseum. Against the east wall is a massive sign carved from stone titled \"Combat Tips\". There is a single, steel door to the south."])    

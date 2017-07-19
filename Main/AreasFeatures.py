@@ -132,7 +132,13 @@ class Container(Feature):
             if self.itemsContained:
                 desc += " Inside you see:\n"
                 for item in self.itemsContained.itervalues():
-                    desc += item.seenDescription + "\n" 
+                    if item.firstSeen and item.initSeenDesc:
+                        desc += "\n" + item.initSeenDesc
+                    elif item.firstTaken and item.notTakenDesc:
+                        desc += "\n" + item.notTakenDesc
+                    else:
+                        desc += "\n" + item.seenDescription
+                    item.firstSeen = False
         else:
             desc += " It is closed."
 
