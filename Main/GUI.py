@@ -3,6 +3,7 @@ import copy
 import Enemies
 import Parser
 import StateControl
+import time
 
 class Rectangle(object):
     '''Draws a rectangle into a batch.'''
@@ -168,6 +169,8 @@ class Window(pyglet.window.Window):
         
         self.newPlayer = player
         self.inMenu = False
+        self.writingText = False
+        self.textToWrite = ""
         
         self.startMainMenu()
 
@@ -190,6 +193,7 @@ class Window(pyglet.window.Window):
         ]
 
     def startGameState(self, state):
+        pyglet.clock.schedule_interval(self.updateText, 0.01)
         self.inMenu = False
         self.batch = pyglet.graphics.Batch()
         self.state = state
@@ -257,7 +261,7 @@ class Window(pyglet.window.Window):
         if self.focus:
             
             self.focus.caret.on_text_motion(motion)
-      
+
     def on_text_motion_select(self, motion):
         if self.focus:
             self.focus.caret.on_text_motion_select(motion)
@@ -327,10 +331,19 @@ class Window(pyglet.window.Window):
         self.updateTextBox(resultString)
 
     def updateTextBox(self, text):
-        self.disp.document.text = text
+        self.disp.document.delete_text(0, len(self.disp.document.text))
+        self.writingText = True
+        self.textToWrite = text
 
     def checkGameOver(self):
         if self.state.player.health < 1:
             return "\nYou have died...\nPress enter to return to the main menu."
         return False
-        
+
+    def updateText(self, dt):
+        if self.writingText:
+            if len(self.textToWrite) > 0:
+                self.disp.document.text += self.textToWrite[:1]
+                self.textToWrite = self.textToWrite[1:]
+            else:
+               self.writingText = False

@@ -93,10 +93,10 @@ to the west leading to the residential wing."])
     jacobsRoom101.addFeature(closet101)
     
     #Items
-    coffeeTable101.addItem(StandardItems.Note("Notice on New Policies", "A note given to the residents about changes to the facilities policies since Father Malachi took over.", "A notice on house policy changes is on the table.", "A notice on house policy changes is on the table.", 1, "note,policy note,notice,policy notice,changes notice,policy changes notice", "There be changes to the policy, bitches."))
-    coffeeTable101.addItem(Items.Item("Guide to House Services", "To be filled", "A guide to house services is on the table.", "A guide to house services is on the table.", 1, "guide,house guide,services guide,house services guide"))
-    coffeeTable101.addItem(Items.Item("Rejuvinax Note", "To be filled", "A note about Rejuvinax is on the table.", "A note about Rejuvinax is on the table.", 1, "note,rejuvinax note,drug note"))
-    closet101.addItem(StandardItems.Alchohol("Flask of Scotch", "A small silver flask which holds about 4 oz. I received this as a gift from a friend form church before they realized I had a problem. I'm sure they regretted giving it to me once they found out.", "There is a small silver flask on the floor.", "There is a small silver flask tucked into the corner of the closet.", 1, "flask,whiskey,scotch,silver flask,flask of scotch,alcohol,booze", "You unscrew the cap and drain the remaining liquid from the flask. Delicious.",10))
+    coffeeTable101.addItem(StandardItems.Note("Notice on New Policies", "A note given to the residents about changes to the facilities policies since Father Malachi took over.", "A notice on house policy changes is on the table.", 1, "note,policy note,notice,policy notice,changes notice,policy changes notice", "There be changes to the policy, bitches."))
+    coffeeTable101.addItem(Items.Item("Guide to House Services", "To be filled", "A guide to house services is on the table.", 1, "guide,house guide,services guide,house services guide"))
+    coffeeTable101.addItem(Items.Item("Rejuvinax Note", "To be filled", "A note about Rejuvinax is on the table.", 1, "note,rejuvinax note,drug note"))
+    closet101.addItem(StandardItems.Alchohol("Flask of Scotch", "A small silver flask which holds about 4 oz. I received this as a gift from a friend form church before they realized I had a problem. I'm sure they regretted giving it to me once they found out.", "There is a small silver flask on the floor.", 1, "flask,whiskey,scotch,silver flask,flask of scotch,alcohol,booze", "You unscrew the cap and drain the remaining liquid from the flask. Delicious.",10))
     closet101.addItem(StandardItems.LeatherJacket())
     
     gameState.addArea(jacobsRoom101)

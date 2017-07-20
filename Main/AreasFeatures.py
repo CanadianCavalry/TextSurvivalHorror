@@ -133,7 +133,6 @@ class Container(Feature):
         if self.isOpen:
             desc += " It is open."
             if self.itemsContained:
-                desc += " Inside you see:\n"
                 for item in self.itemsContained.itervalues():
                     if item.firstSeen and item.initSeenDesc:
                         desc += "\n" + item.initSeenDesc

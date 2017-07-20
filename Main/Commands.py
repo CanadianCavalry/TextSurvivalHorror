@@ -229,7 +229,7 @@ def defend(player):
 def exorcise(player, keyword):
     if keyword == "":
         keyword = "enemy"
-    
+
     matching = findMatching(player, keyword, list())
             
     if len(matching) == 0:
