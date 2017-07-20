@@ -10,6 +10,11 @@ class StandardOpenDoor(AreasFeatures.Door):
     def __init__(self, description, keywords):
         super(StandardOpenDoor, self).__init__(description, keywords, True, "", "You open the door and step through.")
 
+class StandardOpenMetalDoor(AreasFeatures.Door):
+    
+    def __init__(self, description, keywords):
+        super(StandardOpenMetalDoor, self).__init__(description, keywords, True, "", "You open the door and step through.", "Sounds/Misc/HeavyDoor.mp3")
+
         
 class StandardLockedDoor(AreasFeatures.Door):
     

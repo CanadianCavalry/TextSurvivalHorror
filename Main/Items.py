@@ -135,6 +135,7 @@ class RangedWeapon(Weapon):
         self.ammoRemaining = ammoRemaining
         self.fireSound = fireSound
         self.rangeMod = [0,5,10]
+        self.emptySound = "Sounds/Combat/EmptyGun.mp3"
         if not attackDesc:
             self.attackDesc = "You open fire!"
         else:
@@ -147,6 +148,8 @@ class RangedWeapon(Weapon):
                 return "You are not holding a melee weapon."
             
             if self.ammoRemaining <= 0:
+                source = pyglet.media.load(self.emptySound, streaming=False)
+                source.play()
                 return "You are out of ammo!"
             
             source = pyglet.media.load(self.fireSound, streaming=False)
@@ -221,6 +224,7 @@ class MeleeWeapon(Weapon):
     def __init__(self, name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, accuracy, critChance=10, stunLength=2, initSeenDesc="", notTakenDesc="", initPickupDesc="", attackDesc=""):
         self.accuracy = accuracy
         self.stunLength = stunLength
+        self.missSound = "Sounds/Combat/MeleeMiss.mp3"
         if not attackDesc:
             self.attackDesc = "You swing your weapon!"
         else:
@@ -262,6 +266,8 @@ class MeleeWeapon(Weapon):
             else:
                 resultString = self.attackDesc
                 resultString += "\nYou miss!"
+                source = pyglet.media.load(self.missSound, streaming=False)
+                source.play()
             return resultString, True
         except AttributeError:
             return "That isn't an enemy..."

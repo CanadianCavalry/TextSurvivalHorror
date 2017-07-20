@@ -68,7 +68,7 @@ class Revolver(Items.RangedWeapon):
             accuracy=70, 
             capacity=6, 
             ammoRemaining=4,
-            fireSound="Sounds/RevolverShot.mp3", 
+            fireSound="Sounds/Combat/RevolverShot.mp3", 
             critChance=10, 
             initSeenDesc="",
             notTakenDesc="A revolver rests on the table.",

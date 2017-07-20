@@ -3,6 +3,9 @@ Created on Jun 29, 2014
 
 @author: Thomas
 '''
+import pyglet
+import time
+
 class Area(object):
     
     def __init__(self, name, description, idNum=0):
@@ -172,7 +175,7 @@ class Container(Feature):
             
 class Link(object):
     
-    def __init__(self, description, keywords, isAccessible, blockedDesc, travelDesc):
+    def __init__(self, description, keywords, isAccessible, blockedDesc, travelDesc, travelSound=""):
         self.description = description
         self.keywords = keywords
         self.isAccessible = isAccessible
@@ -193,6 +196,10 @@ class Link(object):
         
         desc = self.travelDesc + "\n\n"
         player.currentLocation = self.destination
+        if self.travelSound:
+            source = pyglet.media.load(self.travelSound, streaming=False)
+            source.play()
+            time.sleep(2.5)
         if player.currentLocation.visited == False:
             player.currentLocation.visited = True
             desc += player.currentLocation.lookAt()
@@ -210,7 +217,11 @@ class Link(object):
     
 class Door(Link):
     
-    def __init__(self, description, keywords, isAccessible, blockedDesc, travelDesc):
+    def __init__(self, description, keywords, isAccessible, blockedDesc, travelDesc, travelSound=""):
+        if not travelSound:
+            self.travelSound = "Sounds/Misc/GenericDoor1.mp3"
+        else:
+            self.travelSound = travelSound 
         super(Door, self).__init__(description, keywords, isAccessible, blockedDesc, travelDesc)
         
     def lookAt(self):

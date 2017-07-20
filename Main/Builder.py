@@ -23,7 +23,7 @@ def buildCombatSimulator(gameState):
     #Combat Test Environment
     #ARMORY
     armory = AreasFeatures.Area("Armory", ["This tiny, cramped room is lined on all sides by large steel cages packed with weapons of every kind. Sadly, they are all locked. On the metal table in the center of the room is a small collection of items, and a large sign is bolted to the east wall titled \"Tips for newbies\". There is a door to the north."])
-    arenaDoorA = StandardFeatures.StandardOpenDoor("A heavy steel door. It appears to have some sort of mechanism built into it that locks it once you pass through.", "north,north door,door,metal door,steel door")
+    arenaDoorA = StandardFeatures.StandardOpenMetalDoor("A heavy steel door. It appears to have some sort of mechanism built into it that locks it once you pass through.", "north,north door,door,metal door,steel door")
     
     table = StandardFeatures.AlwaysOpenContainer("The table is littered with all manner of useless junk, as well as a number of weapons, bottles and items of clothing.", "table,small table, metal table")
     armory.addFeature(table)
