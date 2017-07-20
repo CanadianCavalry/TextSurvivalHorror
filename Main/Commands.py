@@ -173,6 +173,9 @@ def drop(player, keyword):
             return "You can't drop that right now."
 
 def attack(player, keyword):
+    if keyword == "":
+        keyword = "enemy"
+
     matching = findMatching(player, keyword, list())
             
     if len(matching) == 0:
@@ -186,6 +189,9 @@ def attack(player, keyword):
            return "I see no reason to attack that right now."
         
 def heavyAttack(player, keyword):
+    if keyword == "":
+        keyword = "enemy"
+
     matching = findMatching(player, keyword, list())
             
     if len(matching) == 0:
@@ -199,6 +205,9 @@ def heavyAttack(player, keyword):
             return "I see no reason to attack that right now."
 
 def shoot(player, keyword):
+    if keyword == "":
+        keyword = "enemy"
+
     matching = findMatching(player, keyword, list())
             
     if len(matching) == 0:
@@ -218,6 +227,9 @@ def defend(player):
     return player.defend()
 
 def exorcise(player, keyword):
+    if keyword == "":
+        keyword = "enemy"
+    
     matching = findMatching(player, keyword, list())
             
     if len(matching) == 0:

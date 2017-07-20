@@ -142,54 +142,57 @@ class RangedWeapon(Weapon):
         super(RangedWeapon, self).__init__(name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, critChance, initSeenDesc, notTakenDesc, initPickupDesc, attackDesc)
                             #Me name es Wayne Purkle coz when I nommin' grapes day be PURKLE!!!
     def attack(self, enemy, player, attackType):
-        if attackType == "heavy":
-            return "You are not holding a melee weapon."
-        
-        if self.ammoRemaining <= 0:
-            return "You are out of ammo!"
-        
-        source = pyglet.media.load(self.fireSound, streaming=False)
-        source.play()
-        
-        self.ammoRemaining -= 1
-        hitChance = self.accuracy
-        hitChance -= enemy.dodgeChance
-        
-        if enemy.distanceToPlayer == 1:
-            hitChance -= self.rangeMod[0]
-        elif enemy.distanceToPlayer == 2:
-            hitChance -= self.rangeMod[1]
-        elif enemy.distanceToPlayer == 3:
-            hitChance -= self.rangeMod[2]
+        try:
+            if attackType == "heavy":
+                return "You are not holding a melee weapon."
             
-        if player.intoxication > 75:
-            hitChance -= 25
-        elif player.intoxication > 60:
-            hitChance -= 15
-        elif player.intoxication > 40:
-            hitChance -= 10
-        elif player.intoxication > 25:
-            hitChance -= 5
-        elif player.intoxication > 10:
-            hitChance += 8
-        elif player.intoxication > 1:
-            hitChance += 5
-        elif player.intoxication > 60:
-            hitChance -= 5
+            if self.ammoRemaining <= 0:
+                return "You are out of ammo!"
             
-        if enemy.stunnedTimer > 0:
-            hitChance += 10
+            source = pyglet.media.load(self.fireSound, streaming=False)
+            source.play()
             
-        if hitChance < 5:
-            hitChance = 5
+            self.ammoRemaining -= 1
+            hitChance = self.accuracy
+            hitChance -= enemy.dodgeChance
             
-        attackRoll = random.randint(0, 100)
-        if attackRoll <= hitChance:
-            resultString = "\n" + enemy.takeHit(self, "ranged")
-        else:
-            resultString = self.attackDesc
-            resultString += "\nYou miss!"
-        return resultString, True
+            if enemy.distanceToPlayer == 1:
+                hitChance -= self.rangeMod[0]
+            elif enemy.distanceToPlayer == 2:
+                hitChance -= self.rangeMod[1]
+            elif enemy.distanceToPlayer == 3:
+                hitChance -= self.rangeMod[2]
+                
+            if player.intoxication > 75:
+                hitChance -= 25
+            elif player.intoxication > 60:
+                hitChance -= 15
+            elif player.intoxication > 40:
+                hitChance -= 10
+            elif player.intoxication > 25:
+                hitChance -= 5
+            elif player.intoxication > 10:
+                hitChance += 8
+            elif player.intoxication > 1:
+                hitChance += 5
+            elif player.intoxication > 60:
+                hitChance -= 5
+                
+            if enemy.stunnedTimer > 0:
+                hitChance += 10
+                
+            if hitChance < 5:
+                hitChance = 5
+                
+            attackRoll = random.randint(0, 100)
+            if attackRoll <= hitChance:
+                resultString = "\n" + enemy.takeHit(self, "ranged")
+            else:
+                resultString = self.attackDesc
+                resultString += "\nYou miss!"
+            return resultString, True
+        except AttributeError:
+            return "That isn't worth wasting ammo on..."
 
     def shoot(self, enemy, player):
         return self.attack(enemy, player)
@@ -225,40 +228,43 @@ class MeleeWeapon(Weapon):
         super(MeleeWeapon, self).__init__(name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, critChance, initSeenDesc, notTakenDesc, initPickupDesc)   
 
     def attack(self, enemy, player, attackType):
-        if enemy.distanceToPlayer > 1:
-            return "You are not within striking distance."
+        try:
+            if enemy.distanceToPlayer > 1:
+                return "You are not within striking distance."
 
-        hitChance = self.accuracy
-        hitChance -= enemy.dodgeChance
-        
-        if player.intoxication > 75:
-            hitChance -= 25
-        elif player.intoxication > 60:
-            hitChance -= 15
-        elif player.intoxication > 40:
-            hitChance -= 10
-        elif player.intoxication > 25:
-            hitChance -= 5
-        elif player.intoxication > 10:
-            hitChance += 8
-        elif player.intoxication > 1:
-            hitChance += 5
+            hitChance = self.accuracy
+            hitChance -= enemy.dodgeChance
             
-        if attackType == "heavy":
-            hitChance -= 10
-        
-        if enemy.stunnedTimer > 0:
-            hitChance += 50
-        
-        if hitChance < 5:
-            hitChance = 5
-        attackRoll = random.randint(0, 100)
-        if attackRoll <= hitChance:
-            resultString = "\n" + enemy.takeHit(self, attackType)
-        else:
-            resultString = self.attackDesc
-            resultString += "\nYou miss!"
-        return resultString, True
+            if player.intoxication > 75:
+                hitChance -= 25
+            elif player.intoxication > 60:
+                hitChance -= 15
+            elif player.intoxication > 40:
+                hitChance -= 10
+            elif player.intoxication > 25:
+                hitChance -= 5
+            elif player.intoxication > 10:
+                hitChance += 8
+            elif player.intoxication > 1:
+                hitChance += 5
+                
+            if attackType == "heavy":
+                hitChance -= 10
+            
+            if enemy.stunnedTimer > 0:
+                hitChance += 50
+            
+            if hitChance < 5:
+                hitChance = 5
+            attackRoll = random.randint(0, 100)
+            if attackRoll <= hitChance:
+                resultString = "\n" + enemy.takeHit(self, attackType)
+            else:
+                resultString = self.attackDesc
+                resultString += "\nYou miss!"
+            return resultString, True
+        except AttributeError:
+            return "That isn't an enemy..."
 
 class Ammo(Item):
     

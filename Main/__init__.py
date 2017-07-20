@@ -136,10 +136,7 @@ class Player(object):
         return "You take a defensive stance.", True
         
     def exorcise(self, enemy):
-        try:
-            return enemy.exorciseAttempt(self), True
-        except AttributeError:
-            return "An error occurred during exorcism."
+        return enemy.exorciseAttempt(self), True
         
     def advance(self, enemy):
         if self.isRestricted:

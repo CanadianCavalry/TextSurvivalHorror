@@ -230,3 +230,12 @@ class Door(Link):
     
     def close(self, player):
         return "The door is already closed."
+
+    def get(self, holder, player):
+        return "After several minutes of struggling, you come to the realization that this door is unlikely to fit in your pack. You win this time, door."
+
+    def playerAdvances(self):
+        return "You bravely advance towards the threatening door with your weapon at the ready, daring it to make a move. The door does not seem to respond. "
+
+    def playerRetreats(self):
+        return "You slowly and cautiously back away from the door. Who knows what it's capable of?"

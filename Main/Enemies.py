@@ -281,7 +281,7 @@ class TestDemon(Enemy):
         name = "Test Demon"
         description = "A slavering, red skinned, bat winged demon. Pretty standard stuff actually. Utilizing your expertise in demonology, you know that this type of creature is highly vulnerable to exorcism."
         seenDesc = "You see a Winged Demon glaring at you menacingly."
-        keywords = "demon,red demon,winged demon"
+        keywords = "demon,red demon,winged demon,enemy"
         stunDesc = "The demon staggers back, dazed."
         attackDesc = ["The demon claws at you with it's talons.", "The demon lunges forwards and snaps at you."]
         maxHealth = 125
