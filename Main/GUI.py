@@ -278,6 +278,9 @@ class Window(pyglet.window.Window):
             
             self.statsDisplay.updateStats(self.state.player)
             self.equipDisplay.updateEquip(self.state.player)
+        elif self.widgets and (not self.focus == self.widgets[0]):
+            self.set_focus(self.widgets[0])
+
 
     def set_focus(self, focus):
         if self.focus:
