@@ -29,7 +29,7 @@ def enemyMovement(movingEnemies, enemyDestination):
 
 class Enemy(object):
     
-    def __init__(self, name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc="", attackDesc=[""], baseExorciseChance=5, corpse=False, firstSeenDesc="", idNum=0):
+    def __init__(self, name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc="", attackDesc=[""], baseExorciseChance=5, corpse=False, firstSeenDesc="", firstSeenSound="", idNum=0):
         self.name = name
         self.description = description
         idNum = idNum
@@ -45,6 +45,7 @@ class Enemy(object):
         self.health = maxHealth
         self.baseExorciseChance = baseExorciseChance
         self.corpse = corpse
+        self.firstSeenSound = firstSeenSound
         self.enemyState = 0
         self.distanceToPlayer = 3
         self.currentLocation = None
@@ -299,7 +300,8 @@ class TestDemon(Enemy):
         baseExorciseChance = 50
         corpse = Corpse("Demon Corpse", "The body is covered in wounds and blood is slowly pooling on the floor under it. The air around it stinks of sulphur.", "The freshly butchered body of a large, red-skinned demon is lying on the floor.", 1, "body, demon body, dead demon, demon corpse", initSeenDesc="", notTakenDesc="", initPickupDesc="")
         firstSeenDesc = "As you enter the room you hear a rush of followed by leathery flapping. Moments later a dark shape drops from above, landing with a heavy thud on the other side of the arena, it's bat-like wings folding behind it's back as it straightens up. The creature stands at least 8 feet tall, with red scaly skin and a long canine muzzle. It glares at you through yellow eyes with a low growl."
-        super(TestDemon, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc, attackDesc, baseExorciseChance, corpse, firstSeenDesc)
+        firstSeenSound = "Sounds/Monsters/DemonCantWait.mp3"
+        super(TestDemon, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc, attackDesc, baseExorciseChance, corpse, firstSeenDesc, firstSeenSound)
 
     def takeCrit(self, weapon):
         self.health = 0

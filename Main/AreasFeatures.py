@@ -43,6 +43,9 @@ class Area(object):
                 if enemy.firstSeen:
                     enemy.firstSeen = False
                     desc += enemy.firstSeenDesc
+                    if enemy.firstSeenSound:
+                        source = pyglet.media.load(enemy.firstSeenSound, streaming=False)
+                        source.play()
                 else:
                     desc += enemy.seenDescription
                     desc += " " + enemy.getDistance()
