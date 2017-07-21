@@ -40,7 +40,12 @@ class Area(object):
                 desc += NPC.seenDescription
         if self.enemies:
             for enemy in self.enemies.itervalues():         #Display all the enemies
-                desc += enemy.seenDescription
+                if enemy.firstSeen:
+                    enemy.firstSeen = False
+                    desc += enemy.firstSeenDesc
+                else:
+                    desc += enemy.seenDescription
+                    desc += " " + enemy.getDistance()
         return desc
         
     def connect(self, area, link):

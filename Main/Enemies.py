@@ -29,7 +29,7 @@ def enemyMovement(movingEnemies, enemyDestination):
 
 class Enemy(object):
     
-    def __init__(self, name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc="", attackDesc=[""], baseExorciseChance=5, corpse=False, idNum=0):
+    def __init__(self, name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc="", attackDesc=[""], baseExorciseChance=5, corpse=False, firstSeenDesc="", idNum=0):
         self.name = name
         self.description = description
         idNum = idNum
@@ -52,6 +52,7 @@ class Enemy(object):
         self.stunnedTimer = 0
         self.isChasing = False
         self.talkCount = 0
+        self.firstSeen = True
         if not stunDesc:
             self.stunDesc = "The " + self.name + " staggers away from you, dazed.\n"
         else:
@@ -60,6 +61,10 @@ class Enemy(object):
             self.attackDesc = ["The " + self.name + " attacks you.\n"]
         else:
             self.attackDesc = attackDesc
+        if not firstSeenDesc:
+            self.firstSeenDesc = seenDesc
+        else: 
+            self.firstSeenDesc = firstSeenDesc
         self.exorciseDialogue = ["\"Back to hell with you demon!\"", "\"In the name of god, DIE!\"", "\"With the lord as my weapon, I will destroy you!\""]
         self.talkDialogue = ["It doesn't respond."]
         self.critDialogue = ["You charge forward and knock the creature to the ground. As it struggles to rise, you finish it off with a single strike."]
@@ -293,7 +298,8 @@ class TestDemon(Enemy):
         armor = 0
         baseExorciseChance = 50
         corpse = Corpse("Demon Corpse", "The body is covered in wounds and blood is slowly pooling on the floor under it. The air around it stinks of sulphur.", "The freshly butchered body of a large, red-skinned demon is lying on the floor.", 1, "body, demon body, dead demon, demon corpse", initSeenDesc="", notTakenDesc="", initPickupDesc="")
-        super(TestDemon, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc, attackDesc, baseExorciseChance, corpse)
+        firstSeenDesc = "As you enter the room you hear a rush of followed by leathery flapping. Moments later a dark shape drops from above, landing with a heavy thud on the other side of the arena, it's bat-like wings folding behind it's back as it straightens up. The creature stands at least 8 feet tall, with red scaly skin and a long canine muzzle. It glares at you through yellow eyes with a low growl."
+        super(TestDemon, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc, attackDesc, baseExorciseChance, corpse, firstSeenDesc)
 
     def takeCrit(self, weapon):
         self.health = 0

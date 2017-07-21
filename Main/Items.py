@@ -189,7 +189,7 @@ class RangedWeapon(Weapon):
                 
             attackRoll = random.randint(0, 100)
             if attackRoll <= hitChance:
-                resultString = "\n" + enemy.takeHit(self, "ranged")
+                resultString = enemy.takeHit(self, "ranged")
             else:
                 resultString = self.attackDesc
                 resultString += "\nYou miss!"
