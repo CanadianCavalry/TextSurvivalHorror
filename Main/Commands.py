@@ -370,6 +370,48 @@ def ask(player, keyword, dialogueKeyword):
         except AttributeError:
             return "I don't think it's very likely to respond."
 
+def push(player, keyword):
+    matching = findMatching(player, keyword, list())
+    matching = findMatchingInventory(player, keyword, matching)
+
+    if len(matching) == 0:
+        return "You do not see anything like that here."
+    elif len(matching) > 1:
+        return "You need to be more specific"
+    elif len(matching) == 1:
+        try:
+            return matching[0].push(player)
+        except AttributeError:
+            return "Why would you want to push on that?"
+
+def pull(player, keyword):
+    matching = findMatching(player, keyword, list())
+    matching = findMatchingInventory(player, keyword, matching)
+
+    if len(matching) == 0:
+        return "You do not see anything like that here."
+    elif len(matching) > 1:
+        return "You need to be more specific"
+    elif len(matching) == 1:
+        try:
+            return matching[0].pull(player)
+        except AttributeError:
+            return "Why would you want to pull on that?"
+
+def cut(player, keyword):
+    matching = findMatching(player, keyword, list())
+    matching = findMatchingInventory(player, keyword, matching)
+
+    if len(matching) == 0:
+        return "You do not see anything like that here."
+    elif len(matching) > 1:
+        return "You need to be more specific"
+    elif len(matching) == 1:
+        try:
+            return matching[0].cut(player)
+        except AttributeError:
+            return "That doesn't particularly need to be cut..."
+
 def inventory(player):
     if len(player.inventory) == 0:
         return "You are not carrying anything."

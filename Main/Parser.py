@@ -100,6 +100,12 @@ class Parser(object):
             resultString = Commands.talk(self.state.player, self.target)
         elif (self.command == "ask about"):
             resultString = Commands.ask(self.state.player, self.target, self.recipient)
+        elif (self.command == "push"):
+            resultString = Commands.push(self.state.player, self.target)
+        elif (self.command == "pull"):
+            resultString = Commands.pull(self.state.player, self.target)
+        elif (self.command == "cut"):
+            resultString = Commands.cut(self.state.player, self.target)
         elif (self.command == "look") or (self.command == "examine") or (self.command == "check") or (self.command == "scrutinize") or (self.command == "analyze") or (self.command == "inspect"):
             resultString = Commands.look(self.state.player, self.target)
         elif (self.command == "inventory") or (self.command == "inv") or (self.command == "i") or (self.command == "items") or (self.command == "stuff"):
