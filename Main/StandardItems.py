@@ -90,11 +90,11 @@ class Crossbow(Items.RangedWeapon):
             accuracy=70, 
             capacity=1, 
             ammoRemaining=1,
-            fireSound="Sounds/RevolverShot.mp3", 
+            fireSound="Sounds/Combat/CrossbowShot.mp3", 
             critChance=20, 
             initSeenDesc="",
-            notTakenDesc="A crossbow rests on a display near the door.",
-            initPickupDesc="It's nowhere near as bulky as most weapons of this type. The string is oiled and the mechanism appears to have been recently cleaned.",
+            notTakenDesc="A crossbow rests on a display next to the door.",
+            initPickupDesc="It's nowhere near as bulky as most weapons of this type. The string is oiled and the mechanism appears to have been recently cleaned.  You sling it over your shoulder.",
             attackDesc="You carefully line up your crossbow, and fire.")
 
 #Ammo

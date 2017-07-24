@@ -28,24 +28,26 @@ def enemyMovement(movingEnemies, enemyDestination):
         enemy.travel(enemyDestination)
 
 class Enemy(object):
-    
-    def __init__(self, name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc="", attackDesc=[""], baseExorciseChance=5, corpse=False, firstSeenDesc="", firstSeenSound="", idNum=0):
+    def __init__(self, name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, corpse, **kwargs):
+        
+        #required params. instance cannot be created without these
         self.name = name
         self.description = description
-        idNum = idNum
         self.seenDescription = seenDesc
         self.keywords = keywords
         self.maxHealth = maxHealth
+        self.health = maxHealth
         self.minDamage = minDamage
         self.maxDamage = maxDamage
         self.accuracy = accuracy
-        self.speed = speed
-        self.dodgeChance = dodgeChance
-        self.armor = armor
-        self.health = maxHealth
-        self.baseExorciseChance = baseExorciseChance
         self.corpse = corpse
-        self.firstSeenSound = firstSeenSound
+
+        #set default values for case when no values are given
+        self.speed = 1
+        self.dodgeChance = 0
+        self.armor = 0
+        self.baseExorciseChance = 10
+        self.firstSeenSound = None
         self.enemyState = 0
         self.distanceToPlayer = 3
         self.currentLocation = None
@@ -54,23 +56,19 @@ class Enemy(object):
         self.isChasing = False
         self.talkCount = 0
         self.firstSeen = True
-        if not stunDesc:
-            self.stunDesc = "The " + self.name + " staggers away from you, dazed.\n"
-        else:
-            self.stunDesc = stunDesc
-        if not attackDesc[0]:
-            self.attackDesc = ["The " + self.name + " attacks you.\n"]
-        else:
-            self.attackDesc = attackDesc
-        if not firstSeenDesc:
-            self.firstSeenDesc = seenDesc
-        else: 
-            self.firstSeenDesc = firstSeenDesc
+        self.stunDesc = "The " + self.name + " staggers away from you, dazed.\n"
+        self.attackDesc = ["The " + self.name + " attacks you.\n"]
+        self.firstSeenDesc = seenDesc
         self.exorciseDialogue = ["\"Back to hell with you demon!\"", "\"In the name of god, DIE!\"", "\"With the lord as my weapon, I will destroy you!\""]
         self.talkDialogue = ["It doesn't respond."]
         self.critDialogue = ["You charge forward and knock the creature to the ground. As it struggles to rise, you finish it off with a single strike."]
         self.advanceDialogue = "The " + self.name + " moves towards you.\n"
         self.retreatDialogue = "The " + self.name + " moves away from you.\n"
+
+        #populate optional stats
+        if kwargs is not None:
+            for key, value in kwargs.iteritems():
+                setattr(self, key, value)
         
     def travel(self, location):
         for link in self.currentLocation.connectedAreas.itervalues():
@@ -288,20 +286,23 @@ class TestDemon(Enemy):
         description = "A slavering, red skinned, bat winged demon. Pretty standard stuff actually. Utilizing your expertise in demonology, you know that this type of creature is highly vulnerable to exorcism."
         seenDesc = "You see a Winged Demon glaring at you menacingly."
         keywords = "demon,red demon,winged demon,enemy"
-        stunDesc = "The demon staggers back, dazed."
-        attackDesc = ["The demon claws at you with it's talons.", "The demon lunges forwards and snaps at you."]
         maxHealth = 125
         minDamage = 15
         maxDamage = 19
         accuracy = 65
-        speed = 1
-        dodgeChance = 5
-        armor = 0
-        baseExorciseChance = 50
-        corpse = Corpse("Demon Corpse", "The body is covered in wounds and blood is slowly pooling on the floor under it. The air around it stinks of sulphur.", "The freshly butchered body of a large, red-skinned demon is lying on the floor.", 1, "body, demon body, dead demon, demon corpse", initSeenDesc="", notTakenDesc="", initPickupDesc="")
-        firstSeenDesc = "As you enter the room you hear a rush of followed by leathery flapping. Moments later a dark shape drops from above, landing with a heavy thud on the other side of the arena, it's bat-like wings folding behind it's back as it straightens up. The creature stands at least 8 feet tall, with red scaly skin and a long canine muzzle. It glares at you through yellow eyes with a low growl."
-        firstSeenSound = "Sounds/Monsters/DemonCantWait.mp3"
-        super(TestDemon, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, speed, dodgeChance, armor, stunDesc, attackDesc, baseExorciseChance, corpse, firstSeenDesc, firstSeenSound)
+        corpse = Corpse("Demon Corpse", "The body is covered in wounds and blood is slowly pooling on the floor under it. The air around it stinks of sulphur.", "The freshly butchered body of a large, red-skinned demon is lying on the floor.", 1, "body,demon body,dead demon,demon corpse, corpse", initSeenDesc="", notTakenDesc="", initPickupDesc="")
+        
+        kwargs = {
+        "speed":1, 
+        "dodgeChance":5, 
+        "baseExorciseChance":50,
+        "stunDesc": "The demon staggers back, dazed.",
+        "attackDesc": ["The demon claws at you with it's talons.", "The demon lunges forwards and snaps at you."],
+        "firstSeenDesc":"As you enter the room you hear a rush of followed by leathery flapping. Moments later a dark shape drops from above, landing with a heavy thud on the other side of the arena, it's bat-like wings folding behind it's back as it straightens up. The creature stands at least 8 feet tall, with red scaly skin and a long canine muzzle. It glares at you through yellow eyes with a low growl.",
+        "firstSeenSound":"Sounds/Monsters/DemonCantWait.mp3"
+        }
+
+        super(TestDemon, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, corpse, **kwargs)
 
     def takeCrit(self, weapon):
         self.health = 0
