@@ -279,6 +279,9 @@ class Enemy(object):
     def setIdNum(self, number):
         self.idNum = number
 
+    def get(self, holder, player):
+        return "It seems unlikely to hold still long enough for you to get it into your pack."
+
 class TestDemon(Enemy):
     
     def __init__(self):

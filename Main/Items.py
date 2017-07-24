@@ -7,7 +7,6 @@ import random
 import pyglet
 
 class Item(object):
-    # initSeenDesc="", notTakenDesc="", initPickupDesc=""
     #required params. instance cannot be created without these
     def __init__(self, name, description, seenDescription, keywords, **kwargs):
         self.name = name
@@ -80,6 +79,13 @@ class Item(object):
     
     def lookAt(self):
         return self.description
+
+    def exorciseAttempt(self, player):
+        return "After several minutes of yelling biblical phrases and waving your hands around wildly, you determine that the object is not, in fact, possessed."
+
+    def playerRetreats(self):
+        #if player is holding
+        return "No matter how you duck and weave to escape, it manages to stay right behind you the entire time. Possibly this has something to do with the fact that it is still in your pack."
 
 class Armor(Item):
     
@@ -270,6 +276,9 @@ class MeleeWeapon(Weapon):
             return resultString, True
         except AttributeError:
             return "That isn't an enemy..."
+
+    def shoot(self, enemy, player):
+        return "Try as you might, you can't find a good way to use your " + player.mainHand.name + " as a gun."
 
 class Ammo(Item):
     

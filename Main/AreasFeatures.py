@@ -108,7 +108,7 @@ class Feature(object):
         return self.description[self.state]
     
     def get(self, holder, player):
-        return "That isn't something I can pick up."
+        return "Assuming you could get it into your pack, what would be the point?"
     
     def setIdNum(self, number):
         self.idNum = number
@@ -257,3 +257,6 @@ class Door(Link):
 
     def playerRetreats(self):
         return "You slowly and cautiously back away from the door. Who knows what it's capable of?"
+
+    def exorciseAttempt(self, player):
+        return "You call upon all the powers of your god to free the door from the clutches of the demon that is undoubtedly possessing it, but nothing happens. The fiend must be truly powerful."
