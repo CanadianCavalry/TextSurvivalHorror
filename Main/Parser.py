@@ -42,11 +42,23 @@ class Parser(object):
     
         self.command = inputArray.pop(0)
         
+        #Command specific secondary words and targets
         if self.command == "heavy":
             nextCom = inputArray.pop(0)
             if nextCom == "attack":
                 self.command = "heavy attack"
 
+        if self.command == "advance":
+            nextCom = inputArray[0]
+            if nextCom == "on":
+                inputArray.pop(0)
+
+        if self.command == "retreat":
+            nextCom = inputArray[0]
+            if nextCom == "from":
+                inputArray.pop(0)
+
+        #Determine target, parse complex commands
         if len(inputArray) >= 1:    
             for word in inputArray:
                 if ((self.command == "use") and (word == "on")) or ((self.command == "ask") and (word == "about")):                  #check if the command is a two word command
