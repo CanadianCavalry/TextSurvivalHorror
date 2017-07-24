@@ -7,35 +7,31 @@ import random
 import pyglet
 
 class Item(object):
-    
-    def __init__(self, name, description, seenDescription, quantity, keywords, initSeenDesc="", notTakenDesc="", initPickupDesc=""):
+    # initSeenDesc="", notTakenDesc="", initPickupDesc=""
+    #required params. instance cannot be created without these
+    def __init__(self, name, description, seenDescription, keywords, **kwargs):
         self.name = name
         self.description = description
         self.seenDescription = seenDescription
-        self.initPickupDesc = None
-        self.quantity = quantity
         self.keywords = keywords
+
+        #set default values for case when no values are given
+        self.initPickupDesc = None
+        self.quantity = 1
         self.accessible = True
-        self.inAccessibleDesc = None
         self.firstSeen = True
         self.firstTaken = True
+        self.initPickupDesc = None
+        self.initSeenDesc = None
+        self.notTakenDesc = None
+        self.inAccessibleDesc = "You can't reach it."
         self.pickupDesc = "You pick up the " + self.name + "."
-            
-        if initPickupDesc:
-            self.initPickupDesc = initPickupDesc
-        else:
-            self.initPickupDesc = None
-            
-        if initSeenDesc:
-            self.initSeenDesc = initSeenDesc
-        else:
-            self.initSeenDesc = None
-        if notTakenDesc:
-            self.notTakenDesc = notTakenDesc
-        else:
-            self.notTakenDesc = None
-        self.inaccessibleDesc = None
         
+        #populate optional stats
+        if kwargs is not None:
+            for key, value in kwargs.iteritems():
+                setattr(self, key, value)
+
     def get(self, holder, player):
         if not self.accessible:
             return self.inaccessibleDesc,True
@@ -87,9 +83,9 @@ class Item(object):
 
 class Armor(Item):
     
-    def __init__(self, name, description, seenDescription, quantity, keywords, armorRating, initSeenDesc="", notTakenDesc="", initPickupDesc=""):
+    def __init__(self, name, description, seenDescription, keywords, armorRating, **kwargs):
         self.armorRating = armorRating
-        super(Armor, self).__init__(name, description, seenDescription, quantity, keywords, initSeenDesc, notTakenDesc, initPickupDesc)
+        super(Armor, self).__init__(name, description, seenDescription, keywords, **kwargs)
         
     def equip(self, player):
         if player.armor == self:
@@ -100,16 +96,18 @@ class Armor(Item):
     
 class Weapon(Item):
     
-    def __init__(self, name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, critChance, initSeenDesc="", notTakenDesc="", initPickupDesc="", attackDesc=""):
+    def __init__(self, name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs):
+        #required
         self.minDamage = minDamage
         self.maxDamage = maxDamage
-        self.critChance = critChance
+        self.accuracy = accuracy
         self.size = size
-        if not attackDesc:
-            self.attackDesc = "You attack."
-        else:
-            self.attackDesc = attackDesc
-        super(Weapon, self).__init__(name, description, seenDescription, quantity, keywords, initSeenDesc, notTakenDesc, initPickupDesc)
+
+        #defaults
+        self.attackDesc = "You attack."
+        self.critChance = 10
+
+        super(Weapon, self).__init__(name, description, seenDescription, keywords, **kwargs)
         
     def equip(self, player):
         if player.mainHand == self:
@@ -129,18 +127,18 @@ class Weapon(Item):
         
 class RangedWeapon(Weapon):
     
-    def __init__(self, name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, accuracy, capacity, ammoRemaining, fireSound, critChance=10, initSeenDesc="", notTakenDesc="", initPickupDesc="", attackDesc=""):
-        self.accuracy = accuracy
+    def __init__(self, name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, capacity, **kwargs):
+        #required
         self.capacity = capacity
-        self.ammoRemaining = ammoRemaining
-        self.fireSound = fireSound
+
+        #defaults
+        self.ammoRemaining = capacity
+        self.fireSound = None
         self.rangeMod = [0,5,10]
         self.emptySound = "Sounds/Combat/EmptyGun.mp3"
-        if not attackDesc:
-            self.attackDesc = "You open fire!"
-        else:
-            self.attackDesc = attackDesc
-        super(RangedWeapon, self).__init__(name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, critChance, initSeenDesc, notTakenDesc, initPickupDesc, attackDesc)
+        self.attackDesc = "You open fire!"
+
+        super(RangedWeapon, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)
                             #Me name es Wayne Purkle coz when I nommin' grapes day be PURKLE!!!
     def attack(self, enemy, player, attackType):
         try:
@@ -152,8 +150,9 @@ class RangedWeapon(Weapon):
                 source.play()
                 return "You are out of ammo!"
             
-            source = pyglet.media.load(self.fireSound, streaming=False)
-            source.play()
+            if self.fireSound:
+                source = pyglet.media.load(self.fireSound, streaming=False)
+                source.play()
             
             self.ammoRemaining -= 1
             hitChance = self.accuracy
@@ -221,15 +220,15 @@ class RangedWeapon(Weapon):
         
 class MeleeWeapon(Weapon):
 
-    def __init__(self, name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, accuracy, critChance=10, stunLength=2, initSeenDesc="", notTakenDesc="", initPickupDesc="", attackDesc=""):
-        self.accuracy = accuracy
-        self.stunLength = stunLength
+    def __init__(self, name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs):
+        #required
+
+        #defaults
+        self.stunLength = 2
         self.missSound = "Sounds/Combat/MeleeMiss.mp3"
-        if not attackDesc:
-            self.attackDesc = "You swing your weapon!"
-        else:
-            self.attackDesc = attackDesc
-        super(MeleeWeapon, self).__init__(name, description, seenDescription, quantity, keywords, minDamage, maxDamage, size, critChance, initSeenDesc, notTakenDesc, initPickupDesc)   
+        self.attackDesc = "You swing your weapon!"
+        
+        super(MeleeWeapon, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)   
 
     def attack(self, enemy, player, attackType):
         try:
@@ -274,32 +273,57 @@ class MeleeWeapon(Weapon):
 
 class Ammo(Item):
     
-    def __init__(self, name, description, seenDescription, quantity, keywords, weaponType, initSeenDesc="", notTakenDesc="", initPickupDesc=""):
+    def __init__(self, name, description, seenDescription, keywords, weaponType, **kwargs):
         self.weaponType = weaponType
-        super(Ammo, self).__init__(name, description, seenDescription, quantity, keywords, initSeenDesc, notTakenDesc, initPickupDesc)
+        super(Ammo, self).__init__(name, description, seenDescription, keywords, **kwargs)
     
 class Usable(Item):
     
-    def __init__(self, name, description, seenDescription, quantity, keywords, useDescription, initSeenDesc="", notTakenDesc="", initPickupDesc=""):
+    def __init__(self, name, description, seenDescription, keywords, useDescription, **kwargs):
         self.useDescription = useDescription
-        super(Usable, self).__init__(name, description, seenDescription, quantity, keywords, initSeenDesc, notTakenDesc, initPickupDesc)
+        super(Usable, self).__init__(name, description, seenDescription, keywords, **kwargs)
         
 class Drinkable(Usable):
     
-    def __init__(self, name, description, seenDescription, quantity, keywords, useDescription, initSeenDesc="", notTakenDesc="", initPickupDesc=""):
-        super(Drinkable, self).__init__(name, description, seenDescription, quantity, keywords, useDescription, initSeenDesc, notTakenDesc, initPickupDesc)
+    def __init__(self, name, description, seenDescription, keywords, useDescription, **kwargs):
+        super(Drinkable, self).__init__(name, description, seenDescription, keywords, useDescription, **kwargs)
         
+class Alchohol(Drinkable):
+    
+    def __init__(self, name, description, seenDescription, keywords, useDescription, alcoholAmount, **kwargs):
+        self.alcoholAmount = alcoholAmount
+        super(Alchohol, self).__init__(name, description, seenDescription, keywords, useDescription, **kwargs)
+        
+    def drink(self, player):
+        player.increaseIntox(self.alcoholAmount)
+        spiritDecrease = self.alcoholAmount / 2
+        if spiritDecrease > 10:
+            spiritDecrease = 10
+        player.decreaseSpirit(spiritDecrease)
+        player.removeItem(self)
+        return self.useDescription,True
+    
+
 class Readable(Item):
     
-    def __init__(self, name, description, seenDescription, quantity, keywords, initSeenDesc="", notTakenDesc="", initPickupDesc=""):
-        super(Readable, self).__init__(name, description, seenDescription, quantity, keywords, initSeenDesc, notTakenDesc, initPickupDesc)
+    def __init__(self, name, description, seenDescription, keywords, **kwargs):
+        super(Readable, self).__init__(name, description, seenDescription, keywords, **kwargs)
             
     def read(self):
         pass
 
+class Note(Readable):
+    
+    def __init__(self, name, description, seenDescription, keywords, contents, **kwargs):
+        self.contents = contents
+        super(Note, self).__init__(name, description, seenDescription, keywords, **kwargs)
+    
+    def read(self):
+        return self.contents,True        
+
 class Corpse(Item):
-    def __init__(self, name, description, seenDescription, quantity, keywords, initSeenDesc="", notTakenDesc="", initPickupDesc=""):
-        super(Corpse, self).__init__(name, description, seenDescription, quantity, keywords, initSeenDesc, notTakenDesc, initPickupDesc)
+    def __init__(self, name, description, seenDescription, keywords, **kwargs):
+        super(Corpse, self).__init__(name, description, seenDescription, keywords, **kwargs)
     
     def get(self, holder, player):
         return "I've no desire to carry around a corpse."

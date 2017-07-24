@@ -290,16 +290,16 @@ class TestDemon(Enemy):
         minDamage = 15
         maxDamage = 19
         accuracy = 65
-        corpse = Corpse("Demon Corpse", "The body is covered in wounds and blood is slowly pooling on the floor under it. The air around it stinks of sulphur.", "The freshly butchered body of a large, red-skinned demon is lying on the floor.", 1, "body,demon body,dead demon,demon corpse, corpse", initSeenDesc="", notTakenDesc="", initPickupDesc="")
+        corpse = Corpse("Demon Corpse", "The body is covered in wounds and blood is slowly pooling on the floor under it. The air around it stinks of sulphur.", "The freshly butchered body of a large, red-skinned demon is lying on the floor.", "body,demon body,dead demon,demon corpse, corpse")
         
         kwargs = {
-        "speed":1, 
-        "dodgeChance":5, 
-        "baseExorciseChance":50,
-        "stunDesc": "The demon staggers back, dazed.",
-        "attackDesc": ["The demon claws at you with it's talons.", "The demon lunges forwards and snaps at you."],
-        "firstSeenDesc":"As you enter the room you hear a rush of followed by leathery flapping. Moments later a dark shape drops from above, landing with a heavy thud on the other side of the arena, it's bat-like wings folding behind it's back as it straightens up. The creature stands at least 8 feet tall, with red scaly skin and a long canine muzzle. It glares at you through yellow eyes with a low growl.",
-        "firstSeenSound":"Sounds/Monsters/DemonCantWait.mp3"
+            "speed":1, 
+            "dodgeChance":5, 
+            "baseExorciseChance":50,
+            "stunDesc": "The demon staggers back, dazed.",
+            "attackDesc": ["The demon claws at you with it's talons.", "The demon lunges forwards and snaps at you."],
+            "firstSeenDesc":"As you enter the room you hear a rush of wind followed by leathery flapping. Moments later a dark shape drops from above, landing with a heavy thud on the other side of the arena, it's bat-like wings folding behind it's back as it straightens up. The creature stands at least 8 feet tall, with red scaly skin and a long canine muzzle. It glares at you through yellow eyes with a low growl.",
+            "firstSeenSound":"Sounds/Monsters/DemonCantWait.mp3"
         }
 
         super(TestDemon, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, corpse, **kwargs)
