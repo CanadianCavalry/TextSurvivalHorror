@@ -195,6 +195,10 @@ class Link(object):
         return self.description
         
     def travel(self, player):
+        for enemy in player.currentLocation.enemies.itervalues():
+            if enemy.isBlockingExit:
+                return enemy.blockingDesc
+
         if self.isAccessible == False:
             return self.blockedDesc
         
@@ -238,7 +242,7 @@ class Door(Link):
             desc += "unlocked."
         else:
             desc += "locked."
-        return desc,True
+        return desc
         
     def unlock(self, usedItem):
         return "That door does not have a lock."

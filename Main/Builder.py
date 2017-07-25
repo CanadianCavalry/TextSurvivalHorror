@@ -21,7 +21,7 @@ def buildCombatSimulator(gameState):
     gameState.introText = introText
 
     #Combat Test Environment
-    #ARMORY
+    #001 - ARMORY
     armory = AreasFeatures.Area("Armory", ["This tiny, cramped room is lined on all sides by large steel cages packed with weapons of every kind. Sadly, they are all locked. On the metal table in the center of the room is a small collection of items, and a large sign is bolted to the east wall titled \"Tips for newbies\". There is a door to the north."])
     arenaDoorA = StandardFeatures.StandardOpenMetalDoor("A heavy steel door. It appears to have some sort of mechanism built into it that locks it once you pass through.", "north,north door,door,metal door,steel door")
     
@@ -39,19 +39,33 @@ def buildCombatSimulator(gameState):
     table.addItem(StandardItems.LeatherJacket())
     table.addItem(StandardItems.CrossbowBolt())
     
-    #ROOM 01 - ARENA
-    combatRoom01 = AreasFeatures.Area("Arena", ["You are standing in a large, empty colosseum. Against the east wall is a massive sign carved from stone titled \"Combat Tips\". There is a single, steel door to the south."])    
-    arenaDoorB = StandardFeatures.StandardLockedDoor("A heavy steel door. It has no handle or lock that you can see.", "south,door,metal door,steel door", None)
+    #002 - ARENA
+    combatRoom01 = AreasFeatures.Area("Arena", ["You are standing in a large, empty colosseum. Against the east wall is a massive sign carved from stone titled \"Combat Tips\". There is a large steel door to the south, with some sort of complex locking mechanism on it. On the far end of the west wall is another, smaller metal door."])    
+    arenaDoorB = StandardFeatures.StandardLockedDoor("A heavy steel door. It has no handle or lock that you can see.", "south,south door,door,metal door,steel door", None)
     arenaDoorB.makeSibling(arenaDoorA)
     combatRoom01.connect(armory, arenaDoorB)
     armory.connect(combatRoom01, arenaDoorA)
+
+    door002B = StandardFeatures.StandardOpenMetalDoor("A steel door. It's battered and dented, and has a large, rust colored stain near the handle.", "west,west door,door,metal door,steel door")
 
     combatSign = StandardFeatures.Sign("The large metal sign takes up a large portion of the east wall. It reads \"Please ensure you are prepared before continuing to the test arena. Good luck\"", "sign, stone sign, large sign", "Combat Tips\n\n-Every enemy has different strengths and weaknesses. Examining an enemy takes no time, and may yield life-saving information.\n-Heavy attacks are less accurate, but deal more damage and can even stun some foes.\n-Exorcising a demonic enemy can have numerous effects, but will often stun or incapacitate them. Some enemies are more resilient to exorcism than others.\n-Performing a heavy attack against a stunned enemy will often result in an execution.\n\n-Important combat commands:\nATTACK - Attack with an equipped weapon\nHEAVY ATTACK - Slower, stronger attack\nEXORCISE - Invoke your faith to weaken an enemy\nRELOAD - Reload your equipped gun(requires ammo)\nDEFEND - Give up your chance to strike to increase your chances of dodging the next attack.")
     combatRoom01.addFeature(combatSign)
     
     testDemon = Enemies.TestDemon()
     combatRoom01.spawnEnemy(testDemon)
+
+    #003 - LIBRARY FOYER
+    libraryFoyer = AreasFeatures.Area("Library Foyer", ["This appears to be a small reception area, with a wooden desk in the corner next to some rusty filing cabinets and a couple of chairs the have been scattered haphazardly. There is a metal door to the east, and and to the west past the desk is a pair of heavy wooden doors that have been smashed partially inwards. The sign above them reads \"Library\"."])
     
+    door003A = StandardFeatures.StandardOpenMetalDoor("A steel door. It leads back out into the arena.", "east,east door,door,metal door,steel door")
+    door003A.makeSibling(door002B)
+    libraryFoyer.connect(combatRoom01, door003A)
+    combatRoom01.connect(libraryFoyer, door002B)
+
+    door003B = StandardFeatures.StandardOpenDoor("A heavy wooden door, oak or some kind of hardwood. It been smashed, as though something too large to fit forced it's way through. It's hanging crooked on it's hinges and the frame has deep gouges in it.", "east,east door,door,wood door,wooden door,oak door,hardwood door")
+
+
+
     gameState.addArea(armory)
 
 def buildWorld(gameState):

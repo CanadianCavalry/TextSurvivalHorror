@@ -455,14 +455,14 @@ def stats(player):
     return statString
 
 def look(player, keyword):
-    if keyword == "":                                                       #Check if this is a general look command
-        return player.currentLocation.lookAt()                               # if it is, describe the room and items in it     
+    #Check if this is a general look command
+    if keyword == "":
+        # if it is, describe the room and items in it     
+        return player.currentLocation.lookAt()
     
     matching = findMatching(player, keyword, list())
     matching = findMatchingInventory(player, keyword, matching)
             
-    if len(matching) > 1:
-        return "You need to be more specific"
     if len(matching) == 0:
         return "You don't see anything like that here."
     if len(matching) > 1:
