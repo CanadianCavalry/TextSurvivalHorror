@@ -69,10 +69,13 @@ class Parser(object):
             self.target = self.target.strip()
         
         if (self.command == "go") or (self.command == "travel") or (self.command == "move") or (self.command == "walk"):
+            self.command = "go"
             resultString = Commands.go(self.state.player, self.target)
         elif (self.command == "north") or (self.command == "south") or (self.command == "east") or (self.command == "west"):
             resultString = Commands.go(self.state.player, self.command)
+            self.command = "go"
         elif (self.command == "use") or (self.command == "activate"):
+            self.command == "use"
             resultString = Commands.use(self.state.player, self.target)
         elif (self.command == "use on"):
             resultString = Commands.useOn(self.state.player, self.target, self.recipient)
@@ -119,10 +122,13 @@ class Parser(object):
         elif (self.command == "cut"):
             resultString = Commands.cut(self.state.player, self.target)
         elif (self.command == "look") or (self.command == "examine") or (self.command == "check") or (self.command == "scrutinize") or (self.command == "analyze") or (self.command == "inspect"):
+            self.command == "look"
             resultString = Commands.look(self.state.player, self.target)
         elif (self.command == "inventory") or (self.command == "inv") or (self.command == "i") or (self.command == "items") or (self.command == "stuff"):
+            self.command == "inventory"
             resultString = Commands.inventory(self.state.player)
         elif (self.command == "char") or (self.command == "stats"):
+            self.command == "stats"
             resultString = Commands.stats(self.state.player)
         elif (self.command == "save"):
             resultString = StateControl.save(self.state)

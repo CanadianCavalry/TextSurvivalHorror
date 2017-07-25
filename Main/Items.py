@@ -112,6 +112,7 @@ class Weapon(Item):
         #defaults
         self.attackDesc = "You attack."
         self.critChance = 10
+        self.defenseBonus = 0
 
         super(Weapon, self).__init__(name, description, seenDescription, keywords, **kwargs)
         

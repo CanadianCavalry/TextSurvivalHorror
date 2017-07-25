@@ -22,7 +22,7 @@ class Area(object):
         
     def lookAt(self):
         desc = self.name
-        desc += "\n" + self.description[self.roomState]
+        desc += "\n" + self.description[self.roomState] + "\n"
         if self.itemsContained:
             for item in self.itemsContained.itervalues():    #Display all the visible items
                 if item.accessible:
@@ -214,8 +214,17 @@ class Link(object):
         if player.currentLocation.visited == False:
             player.currentLocation.visited = True
             desc += player.currentLocation.lookAt()
+        else:
+            desc += player.currentLocation.name + "\n"
         return desc,True
-            
+        
+    def enemyTravel(self, enemy):
+        if self.isAccessible == False:
+            return
+        enemy.currentLocation.removeEnemy(enemy)
+        self.destination.addEnemy(enemy)
+
+
     def makeSibling(self, sibling):
         self.siblingLink = sibling
         sibling.siblingLink = self

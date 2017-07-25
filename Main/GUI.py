@@ -297,11 +297,13 @@ class Window(pyglet.window.Window):
         StateControl.quit()
             
     def parsePlayerInput(self, userInput):
+        print "Tracking Enemies"
         actingEnemies = self.player.getActingEnemies()
-        
-        enemyDestination = self.player.currentLocation
         pursuingEnemies = self.player.getPursuingEnemies()
         
+        enemyDestination = self.player.currentLocation
+        
+        print "Player taking action"
         turnResult = self.parser.parse(userInput)
         try:
             resultString,turnPassed = turnResult
@@ -316,6 +318,7 @@ class Window(pyglet.window.Window):
             return
         
         if turnPassed:
+            #Perform enemy actions
             if (self.parser.command == "go") and (actingEnemies):
                 resultString = "You turn to run...\n" + Enemies.enemyAction(self.state.player, actingEnemies) + "\n" + resultString
             else:
@@ -329,7 +332,7 @@ class Window(pyglet.window.Window):
                 return
                 
             if pursuingEnemies:
-                Enemies.enemyMovement(pursuingEnemies, enemyDestination)
+                resultString += Enemies.enemyMovement(pursuingEnemies, enemyDestination, self.player)
             
         self.updateTextBox(resultString)
 

@@ -9,23 +9,19 @@ from random import randint
 def getActingEnemies(player):
     return player.currentLocation.enemies
 
-def getMovingEnemies(player):
-    movingEnemies = list()
-    for link in player.currentLocation.connectedAreas:
-        for enemy in link.destination.enemies:
-            movingEnemies.append(enemy)
-            
-    return movingEnemies
-
 def enemyAction(player, actingEnemies):
     resultString = ""
     for enemy in actingEnemies:
         resultString += enemy.takeAction(player) + "\n"
     return resultString
 
-def enemyMovement(movingEnemies, enemyDestination):
+def enemyMovement(movingEnemies, enemyDestination, player):
+    print "Enemy movement phase"
+    resultString = ""
     for enemy in movingEnemies:
-        enemy.travel(enemyDestination)
+        print enemy.name + " is moving to " + enemyDestination.name
+        resultString += enemy.travel(enemyDestination, player) + "\n"
+    return resultString
 
 class Enemy(object):
     def __init__(self, name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, corpse, **kwargs):
@@ -43,6 +39,7 @@ class Enemy(object):
         self.corpse = corpse
 
         #set default values for case when no values are given
+        self.currentLocation = None
         self.speed = 1
         self.dodgeChance = 0
         self.armor = 0
@@ -57,6 +54,7 @@ class Enemy(object):
         self.isBlockingExit = False
         self.talkCount = 0
         self.firstSeen = True
+        self.willChase = True
         self.blockingDesc = "The " + self.name + " is between you and the exit. There's no way out.\n"
         self.stunDesc = "The " + self.name + " staggers away from you, dazed.\n"
         self.attackDesc = ["The " + self.name + " attacks you.\n"]
@@ -66,22 +64,28 @@ class Enemy(object):
         self.critDialogue = ["You charge forward and knock the creature to the ground. As it struggles to rise, you finish it off with a single strike."]
         self.advanceDialogue = "The " + self.name + " moves towards you.\n"
         self.retreatDialogue = "The " + self.name + " moves away from you.\n"
+        self.travelDesc = "The " + self.name + " has caught up with you. It moves to attack."
 
         #populate optional stats
         if kwargs is not None:
             for key, value in kwargs.iteritems():
                 setattr(self, key, value)
         
-    def travel(self, location):
+    def travel(self, location, player):
         for link in self.currentLocation.connectedAreas.itervalues():
             if not link.destination == location:
                 continue
-            
-            self.currentLocation.removeEnemy(self)
-            link.travel(self)
-            self.currentLocation.addEnemy(self)
+
+            link.enemyTravel(self)
+            if self.currentLocation == player.currentLocation:
+                return self.travelDesc
         
     def takeAction(self, player):
+        #DEBUG
+        print "Enemy taking turn"
+        if self.willChase and not self.isChasing:
+            print "Enemy now chasing"
+            self.isChasing = True
         if self.health < 1:
             return ""
         if self.stunnedTimer != 0:
@@ -105,10 +109,9 @@ class Enemy(object):
         return self.basicAttack(player)
 
     def basicAttack(self, player):
+        print "Enemy attacking"
         resultString = self.attackDesc[randint(0, len(self.attackDesc) - 1)]
-        hitChance = self.accuracy - player.dodgeChance
-        if player.isDefending:
-            hitChance = self.playerIsDefending(hitChance)
+        hitChance = self.calcAttackAccuracy(player)
             
         attackRoll = randint(0,100)
         if attackRoll <= hitChance:
@@ -123,7 +126,16 @@ class Enemy(object):
             resultString += " The " + self.name + "'s attack misses."
             
         return resultString
-        
+
+    def calcAttackAccuracy(self, player):
+        hitChance = self.accuracy - player.dodgeChance
+        if player.isDefending:
+            hitChance = self.playerIsDefending(hitChance)
+        if hasattr(player.mainHand, 'defenseBonus'):
+            hitChance -= player.mainHand.defenseBonus
+
+        return hitChance
+
     def playerIsDefending(self, hitChance):
         return hitChance - 20
         
@@ -300,7 +312,7 @@ class TestDemon(Enemy):
             "speed":1, 
             "dodgeChance":5, 
             "baseExorciseChance":50,
-            "isBlockingExit":True,
+            #"isBlockingExit":True,
             "stunDesc": "The demon staggers back, dazed.",
             "attackDesc": ["The demon claws at you with it's talons.", "The demon lunges forwards and snaps at you."],
             "firstSeenDesc":"As you enter the room you hear a rush of wind followed by leathery flapping. Moments later a dark shape drops from above, landing with a heavy thud on the other side of the arena, it's bat-like wings folding behind it's back as it straightens up. The creature stands at least 8 feet tall, with red scaly skin and a long canine muzzle. It glares at you through yellow eyes with a low growl.",
