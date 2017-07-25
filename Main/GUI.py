@@ -65,7 +65,7 @@ class MenuButton(object):
         self.buttonFunction = buttonFunction
         
         self.label = pyglet.text.Label(text, x=x, y=y, font_name='Times New Roman',font_size=22,
-                                        batch=batch, color=(155,0,0,255), bold=True)
+                                        color=(125,125,125,255), bold=True)
         self.label.anchor_x = 'center'
         
         height = 30
@@ -73,9 +73,13 @@ class MenuButton(object):
         pad = 3
         rectX = x - (width / 2)
 
-        self.rectangle = Rectangle(rectX - pad, y - pad, 
-                                   rectX + width + pad, y + height + pad, [96, 96, 96, 255], batch)
-        
+        #load and position the sprite
+        buttonImage = pyglet.image.load("Sprites/buttonNormal.png");
+        buttonImage.anchor_x = buttonImage.width // 2
+        buttonImage.anchor_y = buttonImage.height // 2
+        self.buttonSprite = pyglet.sprite.Sprite(buttonImage, x, y + 10, batch=batch)
+        self.buttonSprite.scale = 0.6
+
     def hit_test(self, x, y):
         return (0 < x - (self.label.x - (self.label.content_width / 2)) < self.label.content_width and
                 0 < y - self.label.y < self.label.content_height)
@@ -166,7 +170,7 @@ class Window(pyglet.window.Window):
 
     def __init__(self, player, *args, **kwargs):
         super(Window, self).__init__(800, 600, caption='Text Game')
-        
+
         self.newPlayer = player
         self.inMenu = False
         self.writingText = False
@@ -184,12 +188,15 @@ class Window(pyglet.window.Window):
         self.focus = None
         soundtrack = pyglet.media.load('Music/Oblivion.mp3')
         self.menuSoundtrack = soundtrack.play()
+
+        self.title = pyglet.text.Label('Welcome to Hell', x=240, y=550, font_name='Times New Roman',font_size=30,
+                                        batch=self.batch, color=(155,0,0,255), bold=True)
         
         self.menuButtons = [
             MenuButton(StateControl.newGameState, 'New Game', (self.width / 2), 450, self.batch),
-            MenuButton(StateControl.loadState, 'Load Game', (self.width / 2), 350, self.batch),
-            MenuButton(StateControl.newSimulationState, 'Combat Simulator', (self.width / 2), 250, self.batch),
-            MenuButton(StateControl.quit, 'Quit', (self.width / 2), 150, self.batch)
+            MenuButton(StateControl.loadState, 'Load Game', (self.width / 2), 325, self.batch),
+            MenuButton(StateControl.newSimulationState, 'Training', (self.width / 2), 200, self.batch),
+            MenuButton(StateControl.quit, 'Quit', (self.width / 2), 75, self.batch)
         ]
 
     def startGameState(self, state):
@@ -221,6 +228,11 @@ class Window(pyglet.window.Window):
     def on_draw(self):
         self.clear()
         self.batch.draw()
+        #We have to manually draw all menu button labels because pyglet 
+        #will randomly decide not to include them in the batch
+        if (self.inMenu):
+            for button in self.menuButtons:
+                button.label.draw()
 
     def on_mouse_motion(self, x, y, dx, dy):
         if self.widgets:
