@@ -63,15 +63,10 @@ class TextWidget(object):
 class MenuButton(object):
     def __init__(self, buttonFunction, text, x, y, batch):
         self.buttonFunction = buttonFunction
-        
+
         self.label = pyglet.text.Label(text, x=x, y=y, font_name='Times New Roman',font_size=22,
                                         color=(125,125,125,255), bold=True)
         self.label.anchor_x = 'center'
-        
-        height = 30
-        width = self.label.content_width
-        pad = 3
-        rectX = x - (width / 2)
 
         #load and position the sprite
         buttonImage = pyglet.image.load("Sprites/buttonNormal.png");
@@ -229,7 +224,7 @@ class Window(pyglet.window.Window):
         self.clear()
         self.batch.draw()
         #We have to manually draw all menu button labels because pyglet 
-        #will randomly decide not to include them in the batch
+        #will randomly decide not to include them in the batch. Thanks, pyglet
         if (self.inMenu):
             for button in self.menuButtons:
                 button.label.draw()
