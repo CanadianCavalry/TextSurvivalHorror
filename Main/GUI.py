@@ -76,8 +76,8 @@ class MenuButton(object):
         self.buttonSprite.scale = 0.6
 
     def hit_test(self, x, y):
-        return (0 < x - (self.label.x - (self.label.content_width / 2)) < self.label.content_width and
-                0 < y - self.label.y < self.label.content_height)
+        return (0 < x - (self.buttonSprite.x - (self.buttonSprite.width / 2)) < self.buttonSprite.width and
+                0 < y - (self.buttonSprite.y - (self.buttonSprite.height / 2)) < self.buttonSprite.height)
 
     def delete(self):
         self.label.delete()
