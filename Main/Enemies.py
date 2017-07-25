@@ -95,7 +95,7 @@ class Enemy(object):
                 self.actionTimer = self.speed
         else:
             self.actionTimer -= 1
-            result = "The " + self.name + " does nothing."
+            result = ""
         
         return result
 
@@ -111,15 +111,14 @@ class Enemy(object):
         attackRoll = randint(0,100)
         if attackRoll <= hitChance:
             damageAmount = randint(self.minDamage + 1, self.maxDamage)
-            if player.armor:
-                damageAmount -= player.armor.armorRating
-                if damageAmount < 0:
-                    damageAmount = 0
-            
+            damageAmount -= player.armorRating
+            if damageAmount < 0:
+                damageAmount = 0
+        
             resultString += " The " + self.name + " hits you! "
             resultString += player.takeDamage(damageAmount)
         else:
-            resultString += " The " + self.name + " misses."
+            resultString += " The " + self.name + "'s attack misses."
             
         return resultString
         
