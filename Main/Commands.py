@@ -272,9 +272,10 @@ def retreat(player, keyword):
             
 def equip(player, keyword):
     matching = findMatchingInventory(player, keyword, list())
+    #matching = findMatching(player, keyword, matching)
             
     if len(matching) == 0:
-        return "You do not have any such item."
+        return "You are not carrying anything like that."
     elif len(matching) > 1:
         return "You need to be more specific"
     elif len(matching) == 1:
@@ -282,6 +283,20 @@ def equip(player, keyword):
             return matching[0].equip(player)
         except AttributeError:
             return "That isn't something you can equip."
+
+def wear(player, keyword):
+    matching = findMatchingInventory(player, keyword, list())
+    #matching = findMatching(player, keyword, matching)
+            
+    if len(matching) == 0:
+        return "You are not carrying anything like that."
+    elif len(matching) > 1:
+        return "You need to be more specific"
+    elif len(matching) == 1:
+        try:
+            return matching[0].wear(player)
+        except AttributeError:
+            return "That isn't something you can put on."
 
 def openThing(player, keyword):
     matching = findMatching(player, keyword, list())

@@ -295,6 +295,9 @@ class Enemy(object):
     def get(self, holder, player):
         return "It seems unlikely to hold still long enough for you to get it into your pack."
 
+    def equip(self, player):
+        return "After briefly considering the logistics required to use the " + self.name + " as a weapon, you think better of it."
+
 class TestDemon(Enemy):
     
     def __init__(self):

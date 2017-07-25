@@ -101,6 +101,8 @@ class Parser(object):
             resultString = Commands.retreat(self.state.player, self.target)
         elif (self.command == "equip"):
             resultString = Commands.equip(self.state.player, self.target)
+        elif (self.command == "wear"):
+            resultString = Commands.wear(self.state.player, self.target)
         elif (self.command == "open"):
             resultString = Commands.openThing(self.state.player, self.target)
         elif (self.command == "close"):

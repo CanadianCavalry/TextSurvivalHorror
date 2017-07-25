@@ -23,6 +23,7 @@ class Item(object):
         self.initPickupDesc = None
         self.initSeenDesc = None
         self.notTakenDesc = None
+        self.carried = False
         self.inAccessibleDesc = "You can't reach it."
         self.pickupDesc = "You pick up the " + self.name + "."
         
@@ -35,6 +36,7 @@ class Item(object):
         if not self.accessible:
             return self.inaccessibleDesc,True
         
+        self.carried = True
         player.addItem(self)
         holder.removeItem(self)
         
@@ -98,7 +100,10 @@ class Armor(Item):
             return "You are already wearing that."
         
         player.armor = self
-        return "You equip the " + self.name + ".",True
+        return "You put on the " + self.name + ".",True
+
+    def wear(self, player):
+        return self.equip(player)
     
 class Weapon(Item):
     
