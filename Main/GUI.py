@@ -67,7 +67,8 @@ class MenuButton(object):
         self.label = pyglet.text.Label(text, x=x, y=y, font_name='Times New Roman',font_size=22,
                                         color=(125,125,125,255), bold=True)
         self.label.anchor_x = 'center'
-
+        self.pressed = False
+        self.hover = False
         
         #load and position the sprites
         self.defaultImage = pyglet.image.load("Sprites/buttonNormal.png");
@@ -76,6 +77,9 @@ class MenuButton(object):
         self.hoverImage = pyglet.image.load("Sprites/buttonHighLight.png");
         self.hoverImage.anchor_x = self.hoverImage.width // 2
         self.hoverImage.anchor_y = self.hoverImage.height // 2
+        self.pressedImage = pyglet.image.load("Sprites/buttonPressed.png");
+        self.pressedImage.anchor_x = self.pressedImage.width // 2
+        self.pressedImage.anchor_y = self.pressedImage.height // 2
 
         self.defaultSprite = pyglet.sprite.Sprite(self.defaultImage, x, y + 10, batch=batch)
         self.defaultSprite.scale = 0.6
@@ -186,6 +190,7 @@ class Window(pyglet.window.Window):
         self.state = None
         self.widgets = None
         self.focus = None
+        self.buttonClick = pyglet.media.load('Sounds/UI/menuClick.mp3')
         soundtrack = pyglet.media.load('Music/Oblivion.mp3')
         self.menuSoundtrack = soundtrack.play()
 
@@ -239,8 +244,13 @@ class Window(pyglet.window.Window):
             for button in self.menuButtons:
                 if button.hit_test(x, y):
                     button.defaultSprite.image = button.hoverImage
+                    if not button.hover:
+                        pyglet.media.load('Sounds/UI/menuHover.wav').play()
+                        button.hover = True
                 else:
                     button.defaultSprite.image = button.defaultImage
+                    button.pressed = False
+                    button.hover = False
             
         if self.widgets:
             for widget in self.widgets:
@@ -251,6 +261,12 @@ class Window(pyglet.window.Window):
                 self.set_mouse_cursor(None)
 
     def on_mouse_press(self, x, y, button, modifiers):
+        if self.inMenu:
+            for button in self.menuButtons:
+                if button.hit_test(x, y):
+                    button.defaultSprite.image = button.pressedImage
+                    button.pressed = True
+
         if self.widgets:
             for widget in self.widgets:
                 if widget.hit_test(x, y):
@@ -261,10 +277,13 @@ class Window(pyglet.window.Window):
 
         if self.focus:
             self.focus.caret.on_mouse_press(x, y, button, modifiers)
+
+    def on_mouse_release(self, x, y, button, modifiers):
         if self.inMenu:
             if self.menuButtons:    
                 for button in self.menuButtons:
-                    if button.hit_test(x, y):
+                    if button.hit_test(x, y) and button.pressed:
+                        self.buttonClick.play()
                         state = button.buttonFunction(self.player)
                         self.startGameState(state)
 
