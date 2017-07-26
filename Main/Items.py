@@ -168,7 +168,6 @@ class RangedWeapon(Weapon):
             
             self.ammoRemaining -= 1
             hitChance = self.accuracy
-            hitChance -= enemy.dodgeChance
             
             if enemy.distanceToPlayer == 1:
                 hitChance -= self.rangeMod[0]
@@ -194,6 +193,8 @@ class RangedWeapon(Weapon):
                 
             if enemy.stunnedTimer > 0:
                 hitChance += 10
+            else:
+                hitChance -= enemy.rangedDodge
                 
             if hitChance < 5:
                 hitChance = 5
@@ -248,7 +249,6 @@ class MeleeWeapon(Weapon):
                 return "You are not within striking distance."
 
             hitChance = self.accuracy
-            hitChance -= enemy.dodgeChance
             
             if player.intoxication > 75:
                 hitChance -= 25
@@ -267,7 +267,9 @@ class MeleeWeapon(Weapon):
                 hitChance -= 10
             
             if enemy.stunnedTimer > 0:
-                hitChance += 50
+                hitChance += 30
+            else:
+                hitChance -= enemy.meleeDodge
             
             if hitChance < 5:
                 hitChance = 5

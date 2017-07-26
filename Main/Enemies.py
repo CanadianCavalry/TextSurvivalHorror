@@ -41,7 +41,8 @@ class Enemy(object):
         #set default values for case when no values are given
         self.currentLocation = None
         self.speed = 1
-        self.dodgeChance = 0
+        self.meleeDodge = 0
+        self.rangedDodge = 0
         self.armor = 0
         self.baseExorciseChance = 10
         self.firstSeenSound = None
@@ -309,11 +310,12 @@ class TestDemon(Enemy):
         minDamage = 15
         maxDamage = 19
         accuracy = 65
-        corpse = Corpse("Demon Corpse", "The body is covered in wounds and blood is slowly pooling on the floor under it. The air around it stinks of sulphur.", "The freshly butchered body of a large, red-skinned demon is lying on the floor.", "body,demon body,dead demon,demon corpse, corpse")
+        corpse = Corpse("Demon Corpse", "The body is covered in wounds and blood is slowly pooling on the floor under it. The air around it stinks of sulphur.", "The freshly butchered body of a large, red-skinned demon is lying on the floor.", "body,demon body,dead demon,demon corpse,corpse,demon")
         
         kwargs = {
             "speed":1, 
-            "dodgeChance":5, 
+            "meleeDodge":5,
+            "rangedDodge" 
             "baseExorciseChance":50,
             #"isBlockingExit":True,
             "stunDesc": "The demon staggers back, dazed.",
