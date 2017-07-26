@@ -47,7 +47,7 @@ class Enemy(object):
         self.baseExorciseChance = 10
         self.firstSeenSound = None
         self.enemyState = 0
-        self.distanceToPlayer = 3
+        self.distanceToPlayer = 1
         self.currentLocation = None
         self.actionTimer = 1
         self.stunnedTimer = 0
@@ -143,14 +143,14 @@ class Enemy(object):
     def advance(self):
         if self.distanceToPlayer > 1:
             self.distanceToPlayer -= 1
-            return self.advanceDialogue[randint(0, len(self.advanceDialogue) - 1)] + self.getDistance()
+            return self.advanceDialogue[randint(0, len(self.advanceDialogue) - 1)] + " " + self.getDistance()
         return "The " + self.name + " does nothing."
     
     def retreat(self):
-        if self.distanceToPlayer < 3:
+        if self.distanceToPlayer < self.currentLocation.size:
             self.distanceToPlayer += 1
-            return self.retreatDialogue[randint(0, len(self.retreatDialogue) - 1)] + self.getDistance()
-        return "The " + self.name + " does nothing."
+            return self.retreatDialogue[randint(0, len(self.retreatDialogue) - 1)] + " " + self.getDistance()
+        return "The " + self.name + " tries to flee, but is backed into a corner."
     
     def playerAdvances(self):
         if self.distanceToPlayer <= 1:
@@ -160,7 +160,7 @@ class Enemy(object):
             return "You advance on the " + self.name, True
         
     def playerRetreats(self):
-        if self.distanceToPlayer >= 3:
+        if self.distanceToPlayer >= self.currentLocation.size:
             return "Your back is to the wall."
         else:
             self.distanceToPlayer += 1
@@ -233,8 +233,10 @@ class Enemy(object):
         self.enemyState = newState
     
     def setDistance(self, newDistance):
-        if newDistance >= 3:
-            self.distanceToPlayer = 3
+        if newDistance >= self.currentLocation.size:
+            self.distanceToPlayer = self.currentLocation.size
+        elif newDistance < 1:
+            self.distanceToPlayer = 1
         else:
             self.distanceToPlayer = newDistance
         
@@ -281,7 +283,9 @@ class Enemy(object):
         if self.distanceToPlayer == 2:
             distanceDescription = "It is a few meters away."
         if self.distanceToPlayer == 3:
-            distanceDescription = "It is across the room."
+            distanceDescription = "It is a dozen meters away."
+        if self.distanceToPlayer == 4:
+            distanceDescription = "It is quite a ways away."
         return distanceDescription
     
     def lookAt(self):

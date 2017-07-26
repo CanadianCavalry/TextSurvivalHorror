@@ -8,10 +8,10 @@ import time
 
 class Area(object):
     
-    def __init__(self, name, description, idNum=0):
+    def __init__(self, name, description, **kwargs):
         self.name = name
         self.description = description
-        self.idNum = idNum
+        self.size = 3
         self.visited = False
         self.roomState = 0
         self.connectedAreas = {}
@@ -19,8 +19,14 @@ class Area(object):
         self.itemsContained = {}
         self.enemies = {}
         self.NPCs = {}
+
+        #populate optional stats
+        if kwargs is not None:
+            for key, value in kwargs.iteritems():
+                setattr(self, key, value)
         
     def lookAt(self):
+        print self.size
         desc = self.name
         desc += "\n" + self.description[self.roomState] + "\n"
         if self.itemsContained:
@@ -71,9 +77,10 @@ class Area(object):
     def removeFeature(self, featureToRemove):
         del self.features[featureToRemove.keywords]
         
-    def spawnEnemy(self, enemyToSpawn):
+    def spawnEnemy(self, enemyToSpawn, distanceToPlayer):
         self.enemies[enemyToSpawn.keywords] = enemyToSpawn
         enemyToSpawn.setLocation(self)
+        enemyToSpawn.setDistance(distanceToPlayer)
         
     def killEnemy(self, enemyToKill):
         del self.enemies[enemyToKill.keywords]
@@ -98,9 +105,8 @@ class Area(object):
 
 class Feature(object):
     
-    def __init__(self, description, keywords, idNum=0):
+    def __init__(self, description, keywords):
         self.description = description
-        self.idNum = idNum
         self.keywords = keywords
         self.state = 0
         

@@ -22,7 +22,7 @@ def buildCombatSimulator(gameState):
 
     #Combat Test Environment
     #001 - ARMORY
-    armory = AreasFeatures.Area("Armory", ["This tiny, cramped room is lined on all sides by large steel cages packed with weapons of every kind. Sadly, they are all locked. On the metal table in the center of the room is a small collection of items, and a large sign is bolted to the east wall titled \"Tips for newbies\". There is a door to the north."])
+    armory = AreasFeatures.Area("Armory", ["This tiny, cramped room is lined on all sides by large steel cages packed with weapons of every kind. Sadly, they are all locked. On the metal table in the center of the room is a small collection of items, and a large sign is bolted to the east wall titled \"Tips for newbies\". There is a door to the north."], **{"size":2})
     arenaDoorA = StandardFeatures.StandardOpenMetalDoor("A heavy steel door. It appears to have some sort of mechanism built into it that locks it once you pass through.", "north,north door,door,metal door,steel door")
     
     table = StandardFeatures.AlwaysOpenContainer("The table is littered with all manner of useless junk, as well as a number of weapons, bottles and items of clothing.", "table,small table, metal table")
@@ -40,7 +40,7 @@ def buildCombatSimulator(gameState):
     table.addItem(StandardItems.CrossbowBolt())
     
     #002 - ARENA
-    combatRoom01 = AreasFeatures.Area("Arena", ["You are standing in a large, empty colosseum. Against the east wall is a massive sign carved from stone titled \"Combat Tips\". There is a large steel door to the south, with some sort of complex locking mechanism on it. On the far end of the west wall is another, smaller metal door."])    
+    combatRoom01 = AreasFeatures.Area("Arena", ["You are standing in a large, empty colosseum. Against the east wall is a massive sign carved from stone titled \"Combat Tips\". There is a large steel door to the south, with some sort of complex locking mechanism on it. On the far end of the west wall is another, smaller metal door."], **{"size":4})    
     arenaDoorB = StandardFeatures.StandardLockedDoor("A heavy steel door. It has no handle or lock that you can see.", "south,south door,door,metal door,steel door", None)
     arenaDoorB.makeSibling(arenaDoorA)
     combatRoom01.connect(armory, arenaDoorB)
@@ -52,7 +52,7 @@ def buildCombatSimulator(gameState):
     combatRoom01.addFeature(combatSign)
     
     testDemon = Enemies.TestDemon()
-    combatRoom01.spawnEnemy(testDemon)
+    combatRoom01.spawnEnemy(testDemon, 3)
 
     #003 - LIBRARY FOYER
     libraryFoyer = AreasFeatures.Area("Library Foyer", ["This appears to be a small reception area, with a wooden desk in the corner next to some rusty filing cabinets and a couple of chairs the have been scattered haphazardly. There is a metal door to the east, and and to the west past the desk is a pair of heavy wooden doors that have been smashed partially inwards. The sign above them reads \"Library\"."])
