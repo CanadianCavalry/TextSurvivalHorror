@@ -20,7 +20,8 @@ class DisplayWindow(object):
             dict(color=(0, 0, 0, 255), bold=True)
         )
         font = self.document.get_font()
-        height = (font.ascent - font.descent) * 22 
+        height = (font.ascent - font.descent) * 30
+        print height
         
         self.layout = pyglet.text.layout.IncrementalTextLayout(
             self.document, width, height, multiline=True, batch=batch)
@@ -96,10 +97,10 @@ class StatsPanel(object):
         self.condition = 'Unhurt'
         self.spirit = 'Saint Like'
         self.intoxication = 'Sober'
-        x = 640
-        y = 325
-        width = 140
-        height = 200
+        width = 190
+        height = 250
+        x = 1024 - width - 35
+        y = 680 - height
         pad = 2
         self.border = Rectangle(x - pad, y - pad, 
                                    x + width + pad, y + height + pad, [204, 0, 0, 255], batch)
@@ -107,11 +108,11 @@ class StatsPanel(object):
                                    x + width + pad -5, y + height + pad - 5, [0, 0, 0, 255], batch)
         
         self.labels = [
-            pyglet.text.Label('Condition:\n' + self.condition, x=x+15, y=y+175, font_name='Times New Roman',font_size=16,
+            pyglet.text.Label('Condition:\n' + self.condition, x=x+15, y=y+220, font_name='Times New Roman',font_size=16,
                                         batch=batch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10),
-            pyglet.text.Label('Spirit:\n' + self.spirit, x=x+15, y=y+100, font_name='Times New Roman',font_size=16,
+            pyglet.text.Label('Spirit:\n' + self.spirit, x=x+15, y=y+145, font_name='Times New Roman',font_size=16,
                                         batch=batch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10),
-            pyglet.text.Label('Intoxication:\n' + self.intoxication, x=x+15, y=y+40, font_name='Times New Roman',font_size=16,
+            pyglet.text.Label('Intoxication:\n' + self.intoxication, x=x+15, y=y+65, font_name='Times New Roman',font_size=16,
                                         batch=batch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10)
         ]
         
@@ -128,11 +129,11 @@ class EquipPanel(object):
     def __init__(self, batch):
         self.mainHand = "Empty"
         self.offHand = "Empty"
-        self.armor = "None"
-        x = 640
-        y = 100
-        width = 140
+        self.armor = "None"        
+        width = 190
         height = 200
+        x = 1024 - width - 35
+        y = 190
         pad = 2
         self.border = Rectangle(x - pad, y - pad, 
                                    x + width + pad, y + height + pad, [204, 0, 0, 255], batch)
@@ -214,13 +215,13 @@ class Window(pyglet.window.Window):
         
         self.menuSoundtrack.pause()
         
-        self.title = pyglet.text.Label('The Title', x=240, y=550, font_name='Times New Roman',font_size=28,
-                                        batch=self.batch, color=(155,0,0,255), bold=True)
+        self.title = pyglet.text.Label('Welcome to Hell', x=(self.width / 2), y=(self.height - 40), anchor_x='center', anchor_y='center',
+                                        font_name='Times New Roman',font_size=32, batch=self.batch, color=(155,0,0,255), bold=True)
 
-        self.disp = DisplayWindow(self.state.introText, 20, 100, self.width - 210, self.batch)
+        self.disp = DisplayWindow(self.state.introText, 40, 110, self.width - 300, self.batch)
         
         self.widgets = [
-            TextWidget('', 20, 30, self.width - 210, self.batch)
+            TextWidget('', 40, 70, self.width - 300, self.batch)
         ]
         
         self.text_cursor = self.get_system_mouse_cursor('text')
