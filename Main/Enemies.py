@@ -63,8 +63,8 @@ class Enemy(object):
         self.exorciseDialogue = ["\"Back to hell with you demon!\"", "\"In the name of god, DIE!\"", "\"With the lord as my weapon, I will destroy you!\""]
         self.talkDialogue = ["It doesn't respond."]
         self.critDialogue = ["You charge forward and knock the creature to the ground. As it struggles to rise, you finish it off with a single strike."]
-        self.advanceDialogue = "The " + self.name + " moves towards you.\n"
-        self.retreatDialogue = "The " + self.name + " moves away from you.\n"
+        self.advanceDialogue = ["The " + self.name + " moves towards you.\n"]
+        self.retreatDialogue = ["The " + self.name + " moves away from you.\n"]
         self.travelDesc = "The " + self.name + " has caught up with you. It moves to attack."
 
         #populate optional stats
@@ -143,13 +143,13 @@ class Enemy(object):
     def advance(self):
         if self.distanceToPlayer > 1:
             self.distanceToPlayer -= 1
-            return self.advanceDialogue + self.getDistance()
+            return self.advanceDialogue[randint(0, len(self.advanceDialogue) - 1)] + self.getDistance()
         return "The " + self.name + " does nothing."
     
     def retreat(self):
         if self.distanceToPlayer < 3:
             self.distanceToPlayer += 1
-            return self.retreatDialogue + self.getDistance()
+            return self.retreatDialogue[randint(0, len(self.retreatDialogue) - 1)] + self.getDistance()
         return "The " + self.name + " does nothing."
     
     def playerAdvances(self):
@@ -163,7 +163,7 @@ class Enemy(object):
         if self.distanceToPlayer >= 3:
             return "Your back is to the wall."
         else:
-            self.distanceToPlayer -= 1
+            self.distanceToPlayer += 1
             return "You retreat from the " + self.name, True
     
     def makeStunned(self, stunTime):
@@ -322,6 +322,8 @@ class TestDemon(Enemy):
             "attackDesc": ["The demon claws at you with it's talons.", "The demon lunges forwards and snaps at you."],
             "firstSeenDesc":"As you enter the room you hear a rush of wind followed by leathery flapping. Moments later a dark shape drops from above, landing with a heavy thud on the other side of the arena, it's bat-like wings folding behind it's back as it straightens up. The creature stands at least 8 feet tall, with red scaly skin and a long canine muzzle. It glares at you through yellow eyes with a low growl.",
             "firstSeenSound":"Sounds/Monsters/DemonCantWait.mp3",
+            "advanceDialogue":["The hulking red demon lumbers steadily towards you.", "With a low growl the demon closes the distance between you.", "The demon calmly walks towards you, snarling under it's breath."],
+            "retreatDialogue":["Reeling and terrified, the demon stumbles away from you."]
         }
 
         super(TestDemon, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, corpse, **kwargs)

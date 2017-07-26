@@ -49,14 +49,17 @@ class Parser(object):
                 self.command = "heavy attack"
 
         if self.command == "advance":
-            nextCom = inputArray[0]
-            if nextCom == "on":
-                inputArray.pop(0)
+            if inputArray:
+                nextCom = inputArray[0]
+                if nextCom == "on":
+                    inputArray.pop(0)
 
         if self.command == "retreat":
-            nextCom = inputArray[0]
-            if nextCom == "from":
-                inputArray.pop(0)
+            if inputArray:
+                nextCom = inputArray[0]
+                if nextCom == "from":
+                    inputArray.pop(0)
+
 
         #Determine target, parse complex commands
         if len(inputArray) >= 1:    
