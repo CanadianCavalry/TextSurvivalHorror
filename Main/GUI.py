@@ -68,16 +68,21 @@ class MenuButton(object):
                                         color=(125,125,125,255), bold=True)
         self.label.anchor_x = 'center'
 
-        #load and position the sprite
-        buttonImage = pyglet.image.load("Sprites/buttonNormal.png");
-        buttonImage.anchor_x = buttonImage.width // 2
-        buttonImage.anchor_y = buttonImage.height // 2
-        self.buttonSprite = pyglet.sprite.Sprite(buttonImage, x, y + 10, batch=batch)
-        self.buttonSprite.scale = 0.6
+        
+        #load and position the sprites
+        self.defaultImage = pyglet.image.load("Sprites/buttonNormal.png");
+        self.defaultImage.anchor_x = self.defaultImage.width // 2
+        self.defaultImage.anchor_y = self.defaultImage.height // 2
+        self.hoverImage = pyglet.image.load("Sprites/buttonHighLight.png");
+        self.hoverImage.anchor_x = self.hoverImage.width // 2
+        self.hoverImage.anchor_y = self.hoverImage.height // 2
+
+        self.defaultSprite = pyglet.sprite.Sprite(self.defaultImage, x, y + 10, batch=batch)
+        self.defaultSprite.scale = 0.6
 
     def hit_test(self, x, y):
-        return (0 < x - (self.buttonSprite.x - (self.buttonSprite.width / 2)) < self.buttonSprite.width and
-                0 < y - (self.buttonSprite.y - (self.buttonSprite.height / 2)) < self.buttonSprite.height)
+        return (0 < x - (self.defaultSprite.x - (self.defaultSprite.width / 2)) < self.defaultSprite.width and
+                0 < y - (self.defaultSprite.y - (self.defaultSprite.height / 2)) < self.defaultSprite.height)
 
     def delete(self):
         self.label.delete()
@@ -230,6 +235,13 @@ class Window(pyglet.window.Window):
                 button.label.draw()
 
     def on_mouse_motion(self, x, y, dx, dy):
+        if self.inMenu:
+            for button in self.menuButtons:
+                if button.hit_test(x, y):
+                    button.defaultSprite.image = button.hoverImage
+                else:
+                    button.defaultSprite.image = button.defaultImage
+            
         if self.widgets:
             for widget in self.widgets:
                 if widget.hit_test(x, y):
