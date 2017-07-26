@@ -35,10 +35,12 @@ def buildCombatSimulator(gameState):
 
     table.addItem(StandardItems.Axe())
     table.addItem(StandardItems.KitchenKnife())
-    table.addItem(StandardItems.Revolver())
+    #table.addItem(StandardItems.Revolver())
+    table.addItem(StandardItems.CrossbowBolt())
+    table.addItem(StandardItems.CrossbowBolt())
+    table.addItem(StandardItems.CrossbowBolt())
     table.addItem(StandardItems.RevolverAmmo())
     table.addItem(StandardItems.LeatherJacket())
-    table.addItem(StandardItems.CrossbowBolt())
     
     #002 - ARENA
     combatRoom01 = AreasFeatures.Area("Arena", ["You are standing in a large, empty colosseum. Against the east wall is a massive sign carved from stone titled \"Combat Tips\". There is a large steel door to the south, with some sort of complex locking mechanism on it. On the far end of the west wall is another, smaller metal door."], **{"size":4})    

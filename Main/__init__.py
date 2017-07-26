@@ -59,15 +59,10 @@ class Player(object):
         self.isRestricted = False
         
     def addItem(self, itemToAdd):
-        for item in self.inventory:
-            if item != itemToAdd:
-                continue
-            
-            item.quantity += 1
-            return
-            
-        self.inventory[itemToAdd.keywords] = itemToAdd
-        return
+        if itemToAdd.keywords in self.inventory:
+        	self.inventory[itemToAdd.keywords].quantity += 1
+        else:
+        	self.inventory[itemToAdd.keywords] = itemToAdd
         
     def removeItem(self, itemToRemove):        
         if self.mainHand == itemToRemove:
@@ -77,17 +72,10 @@ class Player(object):
         if self.armor == itemToRemove:
             self.armor = None
             
-        for item in self.inventory.itervalues():
-            if item != itemToRemove:
-                continue
-            
-            item.quantity -= 1
-            if item.quantity < 1:
-                del self.inventory[itemToRemove.keywords]
-            return
-            
-        del self.inventory[itemToRemove.keywords]
-        return
+    	if self.inventory[itemToRemove.keywords].quantity > 1:
+            self.inventory[itemToRemove.keywords].quantity -= 1
+        else:
+            del self.inventory[itemToRemove.keywords]
         
     def attack(self, enemy):
         if self.isRestricted:

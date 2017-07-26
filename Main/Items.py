@@ -5,6 +5,7 @@ Created on Aug 22, 2014
 '''
 import random
 import pyglet
+import copy
 
 class Item(object):
     #required params. instance cannot be created without these
@@ -33,31 +34,49 @@ class Item(object):
                 setattr(self, key, value)
 
     def get(self, holder, player):
+        print "Getting " + self.name + " - " + str(self.quantity)
         if not self.accessible:
             return self.inaccessibleDesc,True
         
         self.carried = True
-        player.addItem(self)
-        holder.removeItem(self)
-        
-        if self.firstTaken:
-            if self.initPickupDesc:
-                resultString = self.initPickupDesc
-            else:
-                resultString = self.pickupDesc
+        #If there is more than 1, dup it and pass the dup. Quantity will be decremented later
+        if self.quantity > 1:
+            print "Duping for player"
+            itemToGet = copy.deepcopy(self)
+            itemToGet.quantity = 1
+            itemToGet.firsSeen = False
+            itemToGet.firstTaken = False
         else:
+            print "No need to dup"
+            itemToGet = self
+        
+        if self.quantity > 1 or (not self.firstTaken) or (not self.initPickupDesc):
             resultString = self.pickupDesc
-    
-        self.firstSeen = False
-        self.firstTaken = False
+        else :
+            resultString = self.initPickupDesc
+            self.firstSeen = False
+            self.firstTaken = False
 
-        if (player.mainHand == None) and (isinstance(self, Weapon)):
-            self.equip(player)
+        print "Adding item to player"
+        player.addItem(itemToGet)
+        print "Removing item from holder"
+        holder.removeItem(self)
+
+        if (player.mainHand == None) and (isinstance(itemToGet, Weapon)):
+            itemToGet.equip(player)
         return resultString, True
     
     def drop(self, player):
+        if self.quantity > 1:
+            print "Duping to drop"
+            itemToDrop = copy.deepcopy(self)
+            itemToDrop.quantity = 1
+        else:
+            print "No need to dup before dropping"
+            itemToDrop = self
+
         player.removeItem(self)
-        player.currentLocation.addItem(self)
+        player.currentLocation.addItem(itemToDrop)
         return "You drop the " + self.name,True
     
     def destroy(self, holder):

@@ -93,19 +93,6 @@ class AlwaysOpenContainer(AreasFeatures.Container):
     def close(self, player):
         return "You can't close that."
     
-    def lookAt(self):
-        desc = self.description + "\n"
-        if self.itemsContained:
-            for item in self.itemsContained.itervalues():
-                if item.firstSeen and item.initSeenDesc:
-                    desc += "\n" + item.initSeenDesc
-                elif item.firstTaken and item.notTakenDesc:
-                    desc += "\n" + item.notTakenDesc
-                else:
-                    desc += "\n" + item.seenDescription
-                item.firstSeen = False
-        return desc
-    
 class Sign(AreasFeatures.Feature):
     
     def __init__(self, description, keywords, readDescription):

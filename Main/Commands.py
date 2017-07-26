@@ -154,10 +154,10 @@ def get(player, keyword):
     elif len(matching) > 1:
         return "You need to be more specific"
     elif len(matching) == 1:
-        try:
-            return matching[0].get(holder, player)
-        except AttributeError:
-            return "You can't pick that up."
+        #try:
+        return matching[0].get(holder, player)
+        #except AttributeError:
+        #    return "You can't pick that up."
 
 def drop(player, keyword):
     matching = findMatchingInventory(player, keyword, list())
@@ -433,7 +433,10 @@ def inventory(player):
     
     inventoryString = "Your current inventory:\n"
     for item in player.inventory.itervalues():
-        inventoryString += item.name.title() + "\n"
+        inventoryString += item.name.title()
+        if item.quantity > 1:
+            inventoryString += " (" + str(item.quantity) + ")"
+        inventoryString += "\n"
     return inventoryString
 
 def stats(player):

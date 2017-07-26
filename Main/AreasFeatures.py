@@ -33,11 +33,22 @@ class Area(object):
                 if item.accessible:
                     if item.firstSeen and item.initSeenDesc:
                         desc += "\n" + item.initSeenDesc
+                        if item.quantity > 1:
+                            desc += "\n" + item.seenDescription
+                            if item.quantity > 2:
+                                desc += " (" + str(item.quantity) + ")"
                     elif item.firstTaken and item.notTakenDesc:
                         desc += "\n" + item.notTakenDesc
+                        if item.quantity > 1:
+                            desc += "\n" + item.seenDescription
+                            if item.quantity > 2:
+                                desc += " (" + str(item.quantity) + ")"
                     else:
                         desc += "\n" + item.seenDescription
+                        if item.quantity > 1:
+                            desc += " (" + str(item.quantity) + ")"
                     item.firstSeen = False
+
         if self.NPCs or self.enemies:
             desc += "\n"
         if self.NPCs:
@@ -65,11 +76,17 @@ class Area(object):
         link.destination = None
     
     def addItem(self, itemToAdd):
-        self.itemsContained[itemToAdd.keywords] = itemToAdd
+        if itemToAdd.keywords in self.itemsContained:
+            self.itemsContained[itemToAdd.keywords].quantity += 1
+        else:
+            self.itemsContained[itemToAdd.keywords] = itemToAdd
         
     def removeItem(self, itemToRemove):
-        del self.itemsContained[itemToRemove.keywords]
-        
+        if self.itemsContained[itemToRemove.keywords].quantity > 1:
+            self.itemsContained[itemToRemove.keywords].quantity -= 1
+        else:
+            del self.itemsContained[itemToRemove.keywords]
+ 
     def addFeature(self, featureToAdd):
         self.features[featureToAdd.keywords] = featureToAdd
         
@@ -140,24 +157,40 @@ class Container(Feature):
         self.closeDesc = closeDesc
         super(Container, self).__init__(description, keywords, **kwargs)
         
-    def addItem(self, item):
-        self.itemsContained[item.keywords] = item
+    def addItem(self, itemToAdd):
+        if itemToAdd.keywords in self.itemsContained:
+            self.itemsContained[itemToAdd.keywords].quantity += 1
+        else:
+            self.itemsContained[itemToAdd.keywords] = itemToAdd
         
-    def removeItem(self, item):
-        del self.itemsContained[item.keywords]
+    def removeItem(self, itemToRemove):
+        if self.itemsContained[itemToRemove.keywords].quantity > 1:
+            self.itemsContained[itemToRemove.keywords].quantity -= 1
+        else:
+            del self.itemsContained[itemToRemove.keywords]
         
     def lookAt(self):
         desc = self.description
         if self.isOpen:
             desc += " It is open."
             if self.itemsContained:
-                for item in self.itemsContained.itervalues():
+                for item in self.itemsContained.itervalues():    #Display all the visible items
                     if item.firstSeen and item.initSeenDesc:
                         desc += "\n" + item.initSeenDesc
+                        if item.quantity > 1:
+                            desc += "\n" + item.seenDescription
+                            if item.quantity > 2:
+                                desc += " (" + str(item.quantity) + ")"
                     elif item.firstTaken and item.notTakenDesc:
                         desc += "\n" + item.notTakenDesc
+                        if item.quantity > 1:
+                            desc += "\n" + item.seenDescription
+                            if item.quantity > 2:
+                                desc += " (" + str(item.quantity) + ")"
                     else:
                         desc += "\n" + item.seenDescription
+                        if item.quantity > 1:
+                            desc += " (" + str(item.quantity) + ")"
                     item.firstSeen = False
         else:
             desc += " It is closed."
