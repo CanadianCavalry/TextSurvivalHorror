@@ -86,8 +86,39 @@ class MenuButton(object):
         self.defaultSprite.scale = 0.6
 
     def hit_test(self, x, y):
-        return (0 < x - (self.defaultSprite.x - (self.defaultSprite.width / 2)) < self.defaultSprite.width and
-                0 < y - (self.defaultSprite.y - (self.defaultSprite.height / 2)) < self.defaultSprite.height)
+        return (15 < x - (self.defaultSprite.x - (self.defaultSprite.width / 2)) < self.defaultSprite.width - 20 and
+                10 < y - (self.defaultSprite.y - (self.defaultSprite.height / 2)) < self.defaultSprite.height -5)
+
+    def delete(self):
+        self.label.delete()
+
+class GameButton(object):
+    def __init__(self, buttonCommand, text, x, y, batch):
+        self.buttonCommand = buttonCommand
+
+        self.label = pyglet.text.Label(text, x=x, y=y, font_name='Times New Roman',font_size=16,
+                                        color=(125,125,125,255), bold=True)
+        self.label.anchor_x = 'center'
+        self.pressed = False
+        self.hover = False
+        
+        #load and position the sprites
+        self.defaultImage = pyglet.image.load("Sprites/buttonNormal.png");
+        self.defaultImage.anchor_x = self.defaultImage.width // 2
+        self.defaultImage.anchor_y = self.defaultImage.height // 2
+        self.hoverImage = pyglet.image.load("Sprites/buttonHighLight.png");
+        self.hoverImage.anchor_x = self.hoverImage.width // 2
+        self.hoverImage.anchor_y = self.hoverImage.height // 2
+        self.pressedImage = pyglet.image.load("Sprites/buttonPressed.png");
+        self.pressedImage.anchor_x = self.pressedImage.width // 2
+        self.pressedImage.anchor_y = self.pressedImage.height // 2
+
+        self.defaultSprite = pyglet.sprite.Sprite(self.defaultImage, x, y + 10, batch=batch)
+        self.defaultSprite.scale = 0.4
+
+    def hit_test(self, x, y):
+        return (5 < x - (self.defaultSprite.x - (self.defaultSprite.width / 2)) < self.defaultSprite.width - 10 and
+                5 < y - (self.defaultSprite.y - (self.defaultSprite.height / 2)) < self.defaultSprite.height - 3)
 
     def delete(self):
         self.label.delete()
@@ -133,7 +164,7 @@ class EquipPanel(object):
         width = 190
         height = 200
         x = 1024 - width - 35
-        y = 190
+        y = 205
         pad = 2
         self.border = Rectangle(x - pad, y - pad, 
                                    x + width + pad, y + height + pad, [204, 0, 0, 255], batch)
@@ -223,7 +254,12 @@ class Window(pyglet.window.Window):
         self.widgets = [
             TextWidget('', 40, 70, self.width - 300, self.batch)
         ]
-        
+
+        self.gameButtons = [
+            GameButton("Attack", 'Attack', 890, 150, self.batch),
+            GameButton("Heavy Attack", 'Heavy Attack', 890, 90, self.batch),
+            GameButton("Exorcise", 'Exorcise', 890, 30, self.batch)
+        ]
         self.text_cursor = self.get_system_mouse_cursor('text')
 
         self.set_focus(self.widgets[0])
@@ -239,6 +275,9 @@ class Window(pyglet.window.Window):
         if (self.inMenu):
             for button in self.menuButtons:
                 button.label.draw()
+        else:
+            for button in self.gameButtons:
+                button.label.draw()
 
     def on_mouse_motion(self, x, y, dx, dy):
         if self.inMenu:
@@ -247,6 +286,16 @@ class Window(pyglet.window.Window):
                     button.defaultSprite.image = button.hoverImage
                     if not button.hover:
                         pyglet.media.load('Sounds/UI/menuHover.wav').play()
+                        button.hover = True
+                else:
+                    button.defaultSprite.image = button.defaultImage
+                    button.pressed = False
+                    button.hover = False
+        else:
+            for button in self.gameButtons:
+                if button.hit_test(x, y):
+                    button.defaultSprite.image = button.hoverImage
+                    if not button.hover:
                         button.hover = True
                 else:
                     button.defaultSprite.image = button.defaultImage
@@ -264,6 +313,11 @@ class Window(pyglet.window.Window):
     def on_mouse_press(self, x, y, button, modifiers):
         if self.inMenu:
             for button in self.menuButtons:
+                if button.hit_test(x, y):
+                    button.defaultSprite.image = button.pressedImage
+                    button.pressed = True
+        else:
+            for button in self.gameButtons:
                 if button.hit_test(x, y):
                     button.defaultSprite.image = button.pressedImage
                     button.pressed = True
@@ -287,6 +341,14 @@ class Window(pyglet.window.Window):
                         self.buttonClick.play()
                         state = button.buttonFunction(self.player)
                         self.startGameState(state)
+        else:
+            if self.gameButtons:    
+                for button in self.gameButtons:
+                    if button.hit_test(x, y) and button.pressed:
+                        pyglet.media.load('Sounds/UI/menuHover.wav').play()
+                        button.defaultSprite.image = button.hoverImage
+                        self.widgets[0].document.text = button.buttonCommand
+                        self.enterPressed()
 
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         if self.focus:
@@ -307,16 +369,7 @@ class Window(pyglet.window.Window):
 
     def on_key_press(self, symbol, modifiers):
         if symbol == pyglet.window.key.ENTER:
-            if self.state.player.health < 1:
-                self.startMainMenu()
-                return
-            
-            userInput = self.widgets[0].document.text
-            self.parsePlayerInput(userInput)
-            self.widgets[0].clearContents()
-            
-            self.statsDisplay.updateStats(self.state.player)
-            self.equipDisplay.updateEquip(self.state.player)
+            self.enterPressed()
         elif self.widgets and (not self.focus == self.widgets[0]):
             self.set_focus(self.widgets[0])
 
@@ -334,6 +387,18 @@ class Window(pyglet.window.Window):
             
     def on_close(self):
         StateControl.quit()
+
+    def enterPressed(self):
+        if self.state.player.health < 1:
+            self.startMainMenu()
+            return
+            
+        userInput = self.widgets[0].document.text
+        self.parsePlayerInput(userInput)
+        self.widgets[0].clearContents()
+        
+        self.statsDisplay.updateStats(self.state.player)
+        self.equipDisplay.updateEquip(self.state.player)
             
     def parsePlayerInput(self, userInput):
         print "Tracking Enemies"
