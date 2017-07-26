@@ -20,7 +20,7 @@ class DisplayWindow(object):
             dict(color=(0, 0, 0, 255), bold=True)
         )
         font = self.document.get_font()
-        height = (font.ascent - font.descent) * 30
+        height = (font.ascent - font.descent) * 31
         print height
         
         self.layout = pyglet.text.layout.IncrementalTextLayout(
@@ -62,11 +62,11 @@ class TextWidget(object):
                 0 < y - self.layout.y < self.layout.height)
 
 class MenuButton(object):
-    def __init__(self, buttonFunction, text, x, y, batch):
+    def __init__(self, buttonFunction, text, x, y, batch, labelBatch):
         self.buttonFunction = buttonFunction
 
         self.label = pyglet.text.Label(text, x=x, y=y, font_name='Times New Roman',font_size=22,
-                                        color=(125,125,125,255), bold=True)
+                                        batch=labelBatch, color=(125,125,125,255), bold=True)
         self.label.anchor_x = 'center'
         self.pressed = False
         self.hover = False
@@ -93,11 +93,11 @@ class MenuButton(object):
         self.label.delete()
 
 class GameButton(object):
-    def __init__(self, buttonCommand, text, x, y, batch):
+    def __init__(self, buttonCommand, text, x, y, batch, labelBatch):
         self.buttonCommand = buttonCommand
 
         self.label = pyglet.text.Label(text, x=x, y=y, font_name='Times New Roman',font_size=16,
-                                        color=(125,125,125,255), bold=True)
+                                        batch=labelBatch, color=(125,125,125,255), bold=True)
         self.label.anchor_x = 'center'
         self.pressed = False
         self.hover = False
@@ -124,12 +124,12 @@ class GameButton(object):
         self.label.delete()
         
 class StatsPanel(object):
-    def __init__(self, batch):
+    def __init__(self, batch, labelBatch):
         self.condition = 'Unhurt'
         self.spirit = 'Saint Like'
         self.intoxication = 'Sober'
         width = 190
-        height = 250
+        height = 230
         x = 1024 - width - 35
         y = 680 - height
         pad = 2
@@ -139,12 +139,12 @@ class StatsPanel(object):
                                    x + width + pad -5, y + height + pad - 5, [0, 0, 0, 255], batch)
         
         self.labels = [
-            pyglet.text.Label('Condition:\n' + self.condition, x=x+15, y=y+220, font_name='Times New Roman',font_size=16,
-                                        batch=batch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10),
-            pyglet.text.Label('Spirit:\n' + self.spirit, x=x+15, y=y+145, font_name='Times New Roman',font_size=16,
-                                        batch=batch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10),
-            pyglet.text.Label('Intoxication:\n' + self.intoxication, x=x+15, y=y+65, font_name='Times New Roman',font_size=16,
-                                        batch=batch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10)
+            pyglet.text.Label('Condition:\n' + self.condition, x=x+15, y=y+200, font_name='Times New Roman',font_size=16,
+                                        batch=labelBatch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10),
+            pyglet.text.Label('Spirit:\n' + self.spirit, x=x+15, y=y+130, font_name='Times New Roman',font_size=16,
+                                        batch=labelBatch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10),
+            pyglet.text.Label('Intoxication:\n' + self.intoxication, x=x+15, y=y+60, font_name='Times New Roman',font_size=16,
+                                        batch=labelBatch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10)
         ]
         
     def updateStats(self, player):
@@ -157,14 +157,14 @@ class StatsPanel(object):
         self.labels[2].text = 'Intoxication:\n' + intoxication
 
 class EquipPanel(object):
-    def __init__(self, batch):
+    def __init__(self, batch, labelBatch):
         self.mainHand = "Empty"
         self.offHand = "Empty"
         self.armor = "None"        
         width = 190
         height = 200
         x = 1024 - width - 35
-        y = 205
+        y = 225
         pad = 2
         self.border = Rectangle(x - pad, y - pad, 
                                    x + width + pad, y + height + pad, [204, 0, 0, 255], batch)
@@ -173,11 +173,11 @@ class EquipPanel(object):
         
         self.labels = [
             pyglet.text.Label('Main Hand:\n' + self.mainHand, x=x+15, y=y+165, font_name='Times New Roman',font_size=16,
-                                        batch=batch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10),
+                                        batch=labelBatch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10),
             pyglet.text.Label('Off Hand:\n' + self.offHand, x=x+15, y=y+105, font_name='Times New Roman',font_size=16,
-                                        batch=batch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10),
+                                        batch=labelBatch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10),
             pyglet.text.Label('Armor:\n' + self.armor, x=x+15, y=y+40, font_name='Times New Roman',font_size=16,
-                                        batch=batch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10)
+                                        batch=labelBatch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10)
         ]
 
     def updateEquip(self, player):
@@ -217,6 +217,7 @@ class Window(pyglet.window.Window):
     def startMainMenu(self):
         self.inMenu = True
         self.batch = pyglet.graphics.Batch()
+        self.batch2 = pyglet.graphics.Batch()
         self.parser = Parser.Parser()
         self.player = copy.copy(self.newPlayer)
         self.state = None
@@ -230,16 +231,17 @@ class Window(pyglet.window.Window):
                                         font_name='Times New Roman',font_size=32, batch=self.batch, color=(155,0,0,255), bold=True)
         
         self.menuButtons = [
-            MenuButton(StateControl.newGameState, 'New Game', (self.width / 2), (self.height - 225), self.batch),
-            MenuButton(StateControl.loadState, 'Load Game', (self.width / 2), (self.height - 350), self.batch),
-            MenuButton(StateControl.newSimulationState, 'Training', (self.width / 2), (self.height - 475), self.batch),
-            MenuButton(StateControl.quit, 'Quit', (self.width / 2), (self.height - 600), self.batch)
+            MenuButton(StateControl.newGameState, 'New Game', (self.width / 2), (self.height - 225), self.batch, self.batch2),
+            MenuButton(StateControl.loadState, 'Load Game', (self.width / 2), (self.height - 350), self.batch, self.batch2),
+            MenuButton(StateControl.newSimulationState, 'Training', (self.width / 2), (self.height - 475), self.batch, self.batch2),
+            MenuButton(StateControl.quit, 'Quit', (self.width / 2), (self.height - 600), self.batch, self.batch2)
         ]
 
     def startGameState(self, state):
         pyglet.clock.schedule_interval(self.updateText, 0.01)
         self.inMenu = False
         self.batch = pyglet.graphics.Batch()
+        self.batch2 = pyglet.graphics.Batch()
         self.state = state
         self.parser.loadState(state)
 
@@ -249,35 +251,29 @@ class Window(pyglet.window.Window):
         self.title = pyglet.text.Label('Welcome to Hell', x=(self.width / 2), y=(self.height - 40), anchor_x='center', anchor_y='center',
                                         font_name='Times New Roman',font_size=32, batch=self.batch, color=(155,0,0,255), bold=True)
 
-        self.disp = DisplayWindow(self.state.introText, 40, 110, self.width - 300, self.batch)
+        self.disp = DisplayWindow(self.state.introText, 40, 91, self.width - 300, self.batch)
         
         self.widgets = [
-            TextWidget('', 40, 70, self.width - 300, self.batch)
+            TextWidget('', 40, 55, self.width - 300, self.batch)
         ]
 
         self.gameButtons = [
-            GameButton("Attack", 'Attack', 890, 150, self.batch),
-            GameButton("Heavy Attack", 'Heavy Attack', 890, 90, self.batch),
-            GameButton("Exorcise", 'Exorcise', 890, 30, self.batch)
+            GameButton("Attack", 'Attack', 890, 175, self.batch, self.batch2),
+            GameButton("Heavy Attack", 'Heavy Attack', 890, 115, self.batch, self.batch2),
+            GameButton("Exorcise", 'Exorcise', 890, 55, self.batch, self.batch2)
         ]
         self.text_cursor = self.get_system_mouse_cursor('text')
 
         self.set_focus(self.widgets[0])
         
-        self.statsDisplay = StatsPanel(self.batch)
-        self.equipDisplay = EquipPanel(self.batch)
+        self.statsDisplay = StatsPanel(self.batch, self.batch2)
+        self.equipDisplay = EquipPanel(self.batch, self.batch2)
 
     def on_draw(self):
         self.clear()
         self.batch.draw()
-        #We have to manually draw all menu button labels because pyglet 
-        #will randomly decide not to include them in the batch. Thanks, pyglet
-        if (self.inMenu):
-            for button in self.menuButtons:
-                button.label.draw()
-        else:
-            for button in self.gameButtons:
-                button.label.draw()
+        self.batch2.draw()
+
 
     def on_mouse_motion(self, x, y, dx, dy):
         if self.inMenu:
