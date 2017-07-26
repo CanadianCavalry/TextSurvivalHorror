@@ -115,3 +115,6 @@ class Sign(AreasFeatures.Feature):
     
     def read(self):
         return self.readDescription
+
+    def lookAt(self):
+        return self.description[self.state] + "\n\nIt reads: \n" + self.read()

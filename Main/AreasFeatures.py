@@ -105,10 +105,15 @@ class Area(object):
 
 class Feature(object):
     
-    def __init__(self, description, keywords):
+    def __init__(self, description, keywords, **kwargs):
         self.description = description
         self.keywords = keywords
         self.state = 0
+
+        #populate optional stats
+        if kwargs is not None:
+            for key, value in kwargs.iteritems():
+                setattr(self, key, value)
         
     def lookAt(self):
         return self.description[self.state]
@@ -127,14 +132,14 @@ class Feature(object):
     
 class Container(Feature):
     
-    def __init__(self, description, keywords, isOpen, isAccessible, blockedDesc, openDesc, closeDesc):
+    def __init__(self, description, keywords, isOpen, isAccessible, blockedDesc, openDesc, closeDesc, **kwargs):
         self.itemsContained = {}
         self.isOpen = isOpen
         self.isAccessible = isAccessible
         self.blockedDesc = blockedDesc
         self.openDesc = openDesc
         self.closeDesc = closeDesc
-        super(Container, self).__init__(description, keywords)
+        super(Container, self).__init__(description, keywords, **kwargs)
         
     def addItem(self, item):
         self.itemsContained[item.keywords] = item

@@ -173,7 +173,7 @@ class EquipPanel(object):
 class Window(pyglet.window.Window):
 
     def __init__(self, player, *args, **kwargs):
-        super(Window, self).__init__(800, 600, caption='Text Game')
+        super(Window, self).__init__(1024, 768, caption='Text Game')
 
         self.newPlayer = player
         self.inMenu = False
@@ -194,14 +194,14 @@ class Window(pyglet.window.Window):
         soundtrack = pyglet.media.load('Music/Oblivion.mp3')
         self.menuSoundtrack = soundtrack.play()
 
-        self.title = pyglet.text.Label('Welcome to Hell', x=240, y=550, font_name='Times New Roman',font_size=30,
-                                        batch=self.batch, color=(155,0,0,255), bold=True)
+        self.title = pyglet.text.Label('Welcome to Hell', x=(self.width / 2), y=(self.height - 100), anchor_x='center', anchor_y='center',
+                                        font_name='Times New Roman',font_size=32, batch=self.batch, color=(155,0,0,255), bold=True)
         
         self.menuButtons = [
-            MenuButton(StateControl.newGameState, 'New Game', (self.width / 2), 450, self.batch),
-            MenuButton(StateControl.loadState, 'Load Game', (self.width / 2), 325, self.batch),
-            MenuButton(StateControl.newSimulationState, 'Training', (self.width / 2), 200, self.batch),
-            MenuButton(StateControl.quit, 'Quit', (self.width / 2), 75, self.batch)
+            MenuButton(StateControl.newGameState, 'New Game', (self.width / 2), (self.height - 225), self.batch),
+            MenuButton(StateControl.loadState, 'Load Game', (self.width / 2), (self.height - 350), self.batch),
+            MenuButton(StateControl.newSimulationState, 'Training', (self.width / 2), (self.height - 475), self.batch),
+            MenuButton(StateControl.quit, 'Quit', (self.width / 2), (self.height - 600), self.batch)
         ]
 
     def startGameState(self, state):
