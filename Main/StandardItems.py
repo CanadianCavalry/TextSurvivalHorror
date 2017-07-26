@@ -23,7 +23,8 @@ class Axe(Items.MeleeWeapon):
             "critChance":10, 
             "notTakenDesc":"A long-handled fire axe is lying across the table.",
             "initPickupDesc":"You lift the axe from the table. It has a weight and heft that is comfortable in your hands.",
-            "stunlength": 3
+            "stunlength": 3,
+            "defenseBonus":5
         }
 
         super(Axe, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)
@@ -45,7 +46,9 @@ class LongSword(Items.MeleeWeapon):
             "initSeenDesc":"A large sword has been thrust into wooden floor here. It seems to glow faintly at first, then fades.",
             "notTakenDesc":"A large sword has been thrust into wooden floor here.",
             "initPickupDesc":"With considerable effort, you pull the blade free from the ground. It's lighter than you expected.",
-            "stunlength": 2
+            "stunlength": 2,
+            "defenseBonus":10,
+            "attackDesc":"You swing your blade."
         }
 
         super(LongSword, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)

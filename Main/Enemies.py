@@ -16,10 +16,8 @@ def enemyAction(player, actingEnemies):
     return resultString
 
 def enemyMovement(movingEnemies, enemyDestination, player):
-    print "Enemy movement phase"
     resultString = ""
     for enemy in movingEnemies:
-        print enemy.name + " is moving to " + enemyDestination.name
         resultString += enemy.travel(enemyDestination, player) + "\n"
     return resultString
 
@@ -82,10 +80,7 @@ class Enemy(object):
                 return self.travelDesc
         
     def takeAction(self, player):
-        #DEBUG
-        print "Enemy taking turn"
         if self.willChase and not self.isChasing:
-            print "Enemy now chasing"
             self.isChasing = True
         if self.health < 1:
             return ""
@@ -111,8 +106,10 @@ class Enemy(object):
 
     def basicAttack(self, player):
         print "Enemy attacking"
+        attackType = "melee"
         resultString = self.attackDesc[randint(0, len(self.attackDesc) - 1)]
-        hitChance = self.calcAttackAccuracy(player)
+        hitChance = self.calcAttackAccuracy(player, attackType)
+        #print "Enemy hit chance: " + str(hitChance)
             
         attackRoll = randint(0,100)
         if attackRoll <= hitChance:
@@ -120,7 +117,7 @@ class Enemy(object):
             modDamageAmount = damageAmount - player.armorRating
             if modDamageAmount < 0:
                 modDamageAmount = 0
-            print "Player hit. DamageRoll: " + str(damageAmount) + ", ArmorRating: " + str(player.armorRating) + ", DamageTaken: " + str(modDamageAmount)
+            #print "Player hit. DamageRoll: " + str(damageAmount) + ", ArmorRating: " + str(player.armorRating) + ", DamageTaken: " + str(modDamageAmount)
             resultString += " The " + self.name + " hits you! "
             resultString += player.takeDamage(modDamageAmount)
         else:
@@ -128,11 +125,11 @@ class Enemy(object):
             
         return resultString
 
-    def calcAttackAccuracy(self, player):
+    def calcAttackAccuracy(self, player, attackType):
         hitChance = self.accuracy - player.dodgeChance
         if player.isDefending:
             hitChance = self.playerIsDefending(hitChance)
-        if hasattr(player.mainHand, 'defenseBonus'):
+        if attackType == "melee" and hasattr(player.mainHand, 'defenseBonus'):
             hitChance -= player.mainHand.defenseBonus
 
         return hitChance
@@ -313,13 +310,13 @@ class TestDemon(Enemy):
         maxHealth = 125
         minDamage = 15
         maxDamage = 19
-        accuracy = 65
+        accuracy = 75
         corpse = Corpse("Demon Corpse", "The body is covered in wounds and blood is slowly pooling on the floor under it. The air around it stinks of sulphur.", "The freshly butchered body of a large, red-skinned demon is lying on the floor.", "body,demon body,dead demon,demon corpse,corpse,demon")
         
         kwargs = {
             "speed":1, 
             "meleeDodge":5,
-            "rangedDodge" 
+            "rangedDodge": 5,
             "baseExorciseChance":50,
             #"isBlockingExit":True,
             "stunDesc": "The demon staggers back, dazed.",

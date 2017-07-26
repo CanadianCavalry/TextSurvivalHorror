@@ -117,7 +117,6 @@ class Weapon(Item):
         #defaults
         self.attackDesc = "You attack."
         self.critChance = 10
-        self.defenseBonus = 0
 
         super(Weapon, self).__init__(name, description, seenDescription, keywords, **kwargs)
         
@@ -240,6 +239,7 @@ class MeleeWeapon(Weapon):
         self.stunLength = 2
         self.missSound = "Sounds/Combat/MeleeMiss.mp3"
         self.attackDesc = "You swing your weapon!"
+        self.defenseBonus = 0
         
         super(MeleeWeapon, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)   
 

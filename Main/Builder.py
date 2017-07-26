@@ -15,6 +15,7 @@ import UniqueEnemies
 import NPCs
 import UniqueNPCs
 
+#Tutorial section
 def buildCombatSimulator(gameState):
     #INTRO
     introText = "Welcome to the tutorial! This area is intended to allow you to learn the basic game commands and practice fighting with various weapons. That said, it is still quite easy to die, so don't get complacent. To get started head through the north door, but before you head out, take a look at the table and make sure you are suitibly equipped. There's no coming back here once you leave.\n\n To get your bearings, type \"look\". To get a closer look at anything, type \"look\" followed by the object."

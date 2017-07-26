@@ -26,7 +26,6 @@ class Area(object):
                 setattr(self, key, value)
         
     def lookAt(self):
-        print self.size
         desc = self.name
         desc += "\n" + self.description[self.roomState] + "\n"
         if self.itemsContained:

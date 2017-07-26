@@ -21,7 +21,6 @@ class DisplayWindow(object):
         )
         font = self.document.get_font()
         height = (font.ascent - font.descent) * 31
-        print height
         
         self.layout = pyglet.text.layout.IncrementalTextLayout(
             self.document, width, height, multiline=True, batch=batch)
@@ -403,7 +402,7 @@ class Window(pyglet.window.Window):
         
         enemyDestination = self.player.currentLocation
         
-        print "Player taking action"
+        print "Player taking action..."
         turnResult = self.parser.parse(userInput)
         try:
             resultString,turnPassed = turnResult
@@ -418,6 +417,7 @@ class Window(pyglet.window.Window):
             return
         
         if turnPassed:
+            print "Turn has passed. Enemies acting..."
             #Perform enemy actions
             if (self.parser.command == "go") and (actingEnemies):
                 resultString = "You turn to run...\n" + Enemies.enemyAction(self.state.player, actingEnemies) + "\n" + resultString
