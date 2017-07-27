@@ -164,8 +164,7 @@ class Enemy(object):
             return "You retreat from the " + self.name, True
     
     def makeStunned(self, stunTime):
-        if self.stunnedTimer == 0:
-            self.stunnedTimer = stunTime
+        self.stunnedTimer = stunTime
         
     def takeHit(self, weapon, attackType):
         resultString = weapon.attackDesc + "\n"

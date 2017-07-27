@@ -137,7 +137,9 @@ class RevolverAmmo(Items.Ammo):
         keywords="ammo,revolver ammo,magnum ammo,ammunition,revolver ammunition,speed-loader,speed loader"
         weaponType="Revolver"
 
-        kwargs = {}
+        kwargs = {
+            "stackable":True
+        }
 
         super(RevolverAmmo, self).__init__(name, description, seenDescription, keywords, weaponType, **kwargs)
 

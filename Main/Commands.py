@@ -394,10 +394,10 @@ def push(player, keyword):
     elif len(matching) > 1:
         return "You need to be more specific"
     elif len(matching) == 1:
-        try:
-            return matching[0].push(player)
-        except AttributeError:
-            return "Why would you want to push on that?"
+        #try:
+        return matching[0].push(player)
+        #except AttributeError:
+            #return "Why would you want to push on that?"
 
 def pull(player, keyword):
     matching = findMatching(player, keyword, list())

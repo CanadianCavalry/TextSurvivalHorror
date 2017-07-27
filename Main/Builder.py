@@ -7,6 +7,7 @@ import AreasFeatures
 import StandardFeatures
 import UniqueAreas
 import UniqueFeatures
+import UniqueHazards
 import Items
 import StandardItems
 import UniqueItems
@@ -67,6 +68,8 @@ def buildCombatSimulator(gameState):
 
     door003B = StandardFeatures.StandardOpenDoor("A heavy wooden door, oak or some kind of hardwood. It been smashed, as though something too large to fit forced it's way through. It's hanging crooked on it's hinges and the frame has deep gouges in it.", "east,east door,door,wood door,wooden door,oak door,hardwood door")
 
+
+    libraryFoyer.addFeature(UniqueHazards.LeaningBookshelf())
 
 
     gameState.addArea(armory)

@@ -7,7 +7,6 @@ import pyglet
 import time
 
 class Area(object):
-    
     def __init__(self, name, description, **kwargs):
         self.name = name
         self.description = description
@@ -123,7 +122,6 @@ class Area(object):
         self.idNum = number
 
 class Feature(object):
-    
     def __init__(self, description, keywords, **kwargs):
         self.description = description
         self.keywords = keywords
@@ -149,8 +147,16 @@ class Feature(object):
     def nextState(self):
         self.state += 1
     
+class Hazard(Feature):
+    def __init__(self, description, keywords, **kwargs):
+        self.triggerDesc = ""
+
+        super(Hazard, self).__init__(description, keywords, **kwargs)
+
+    def triggerHazard(self):
+        pass
+
 class Container(Feature):
-    
     def __init__(self, description, keywords, isOpen, isAccessible, blockedDesc, openDesc, closeDesc, **kwargs):
         self.itemsContained = {}
         self.isOpen = isOpen
@@ -230,7 +236,6 @@ class Container(Feature):
             return self.closeDesc,True
             
 class Link(object):
-    
     def __init__(self, description, keywords, isAccessible, blockedDesc, travelDesc, travelSound=""):
         self.description = description
         self.keywords = keywords
@@ -285,7 +290,6 @@ class Link(object):
         self.idNum = number
     
 class Door(Link):
-    
     def __init__(self, description, keywords, isAccessible, blockedDesc, travelDesc, travelSound=""):
         if not travelSound:
             self.travelSound = "Sounds/Misc/GenericDoor1.mp3"
