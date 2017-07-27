@@ -23,8 +23,6 @@ class LeaningBookshelf(AreasFeatures.Hazard):
         self.state += 1
         if player.currentLocation.enemies:
             enemyHit = player.currentLocation.enemies[random.choice(player.currentLocation.enemies.keys())]
-            print enemyHit
-            print enemyHit.name
             enemyHit.takeDamage(100)
             if enemyHit.health > 0:
                 enemyHit.makeStunned(4)

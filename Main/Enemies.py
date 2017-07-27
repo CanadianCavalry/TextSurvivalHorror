@@ -54,8 +54,13 @@ class Enemy(object):
         self.talkCount = 0
         self.firstSeen = True
         self.willChase = True
+        self.recovering = False
         self.blockingDesc = "The " + self.name + " is between you and the exit. There's no way out.\n"
-        self.stunDesc = "The " + self.name + " staggers away from you, dazed.\n"
+        self.takeExorciseDesc = "It works! The creature recoils from you grasping it's head, and emits an agonizing scream."
+        self.defaultStunDesc = "The " + self.name + " is dazed.\n"
+        self.defaultRecoveryDesc = "The " + self.name + " is no longer dazed."
+        self.stunDesc = self.defaultStunDesc
+        self.recoveryDesc = self.defaultRecoveryDesc
         self.attackDesc = ["The " + self.name + " attacks you.\n"]
         self.firstSeenDesc = seenDesc
         self.exorciseDialogue = ["\"Back to hell with you demon!\"", "\"In the name of god, DIE!\"", "\"With the lord as my weapon, I will destroy you!\""]
@@ -80,26 +85,33 @@ class Enemy(object):
                 return self.travelDesc
         
     def takeAction(self, player):
+        resultString = ""
         if self.willChase and not self.isChasing:
             self.isChasing = True
         if self.health < 1:
             return ""
         if self.stunnedTimer != 0:
             self.stunnedTimer -= 1
-            return "The " + self.name + " is dazed."
+            if self.stunnedTimer == 0:
+                self.recovering = True
+            return self.stunDesc
         
+        if self.recovering:
+            resultString += self.recoveryDesc + "\n"
+            self.recovering = False
+
         if self.actionTimer == 1:
             if self.distanceToPlayer == 1:
-                result = self.attack(player)
+                resultString += self.attack(player)
                 self.actionTimer = self.speed
             else:
-                result = self.advance()
+                resultString += self.advance()
                 self.actionTimer = self.speed
         else:
             self.actionTimer -= 1
-            result = ""
+            resultString += ""
         
-        return result
+        return resultString
 
     def attack(self, player):
         return self.basicAttack(player)
@@ -163,22 +175,23 @@ class Enemy(object):
             self.distanceToPlayer += 1
             return "You retreat from the " + self.name, True
     
-    def makeStunned(self, stunTime):
+    def makeStunned(self, stunTime, stunDesc, recoveryDesc):
         self.stunnedTimer = stunTime
+        self.stunDesc = stunDesc
+        self.recoveryDesc = recoveryDesc
         
     def takeHit(self, weapon, attackType):
         resultString = weapon.attackDesc + "\n"
         damageAmount = (randint(weapon.minDamage, weapon.maxDamage))
-        if (self.stunnedTimer > 0) and (attackType == "heavy"):
+        if ((self.stunnedTimer > 0) or self.recovering) and (attackType == "heavy"):
             resultString = self.takeCrit(weapon)
         elif attackType == "heavy":
             critRoll = randint(0,100)
             if critRoll <= weapon.critChance:
                 resultString = self.takeCrit(weapon)
             else:
-                self.makeStunned(weapon.stunLength)
-                resultString += "You hit the " + self.name + "! "
-                resultString += self.stunDesc
+                self.makeStunned(weapon.stunLength, self.defaultStunDesc, self.defaultRecoveryDesc)
+                resultString += "You hit the " + self.name + "! It is dazed by the strength of your blow."
         else:
             resultString += "You hit the " + self.name + "! "
             resultString += self.takeDamage(damageAmount)
@@ -198,7 +211,7 @@ class Enemy(object):
         return self.critDialogue[randint(0, len(self.critDialogue) - 1)]
         
     def exorciseAttempt(self, player):
-        resultString = "You draw upon your faith to banish the demon. You yell out:\n" + self.exorciseDialogue[randint(0, len(self.exorciseDialogue) - 1)] + "\n"
+        resultString = "You draw upon your faith to banish the demon. You yell out " + self.exorciseDialogue[randint(0, len(self.exorciseDialogue) - 1)] + "\n"
         
         hitChance = self.baseExorciseChance
         hitChance += (player.spirit - 50)
@@ -211,9 +224,13 @@ class Enemy(object):
             return resultString
         
     def takeExorcise(self):
-        self.stunnedTimer = 2
-        return "It works! The " + self.name + " is dazed."
-        
+        stunDesc = "The demon is cowering on the floor, clutching it's head and shrieking."
+        recoveryDesc = "The demon recovers, straightening up and staring at you with loathing.\n'You'll die slowly for that human.'"
+        self.makeStunned(2, stunDesc, recoveryDesc)
+
+        resultString = self.takeExorciseDesc
+        return resultString
+
     def kill(self):
         self.currentLocation.killEnemy(self)
         self.currentLocation.addItem(self.corpse)
@@ -318,7 +335,7 @@ class TestDemon(Enemy):
             "rangedDodge": 5,
             "baseExorciseChance":50,
             #"isBlockingExit":True,
-            "stunDesc": "The demon staggers back, dazed.",
+            "defaultStunDesc": "The demon staggers back, dazed.",
             "attackDesc": ["The demon claws at you with it's talons.", "The demon lunges forwards and snaps at you."],
             "firstSeenDesc":"As you enter the room you hear a rush of wind followed by leathery flapping. Moments later a dark shape drops from above, landing with a heavy thud on the other side of the arena, it's bat-like wings folding behind it's back as it straightens up. The creature stands at least 8 feet tall, with red scaly skin and a long canine muzzle. It glares at you through yellow eyes with a low growl.",
             "firstSeenSound":"Sounds/Monsters/DemonCantWait.mp3",
