@@ -163,11 +163,28 @@ class LeatherJacket(Items.Armor):
         keywords="armor,jacket,leather jacket"
         armorRating=5
 
-        kwargs = {}
+        kwargs = {
+            "initPickupDesc":"It's old and weatherbeaten, and looks like it's been patched extensively, but it should provide a bit of protection at least.",
+            "notTakenDesc":"A faded leather jacket is hanging off one of the cages."
+        }
 
         super(LeatherJacket, self).__init__(name, description, seenDescription, keywords, armorRating, **kwargs)
 
 #Consumables
+class Flask(Items.Alchohol):
+    def __init__(self):
+        name="Flask of Scotch"
+        description="A small silver flask which holds about 4 oz. I received this as a gift from a friend form church before they realized I had a problem. I'm sure they regretted giving it to me once they found out."
+        seenDescription="There is a small silver flask on the floor."
+        keywords="flask,whiskey,scotch,silver flask,flask of scotch,alcohol,booze"
+        useDescription="You unscrew the cap and drain the remaining liquid from the flask. Delicious."
+        alcoholAmount=10
+
+        kwargs = {
+            "initPickupDesc":"By some miracle it's still about half full. You can almost feel the contents calling you."
+        }
+
+        super(Flask, self).__init__(name, description, seenDescription, keywords, useDescription, alcoholAmount, **kwargs)
 
 #Misc
 class Key(Items.Usable):

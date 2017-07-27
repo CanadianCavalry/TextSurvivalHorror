@@ -170,7 +170,7 @@ class Container(Feature):
             del self.itemsContained[itemToRemove.keywords]
         
     def lookAt(self):
-        desc = self.description
+        desc = self.description[self.state]
         if self.isOpen:
             desc += " It is open."
             if self.itemsContained:

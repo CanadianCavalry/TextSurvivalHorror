@@ -154,10 +154,10 @@ def get(player, keyword):
     elif len(matching) > 1:
         return "You need to be more specific"
     elif len(matching) == 1:
-        #try:
-        return matching[0].get(holder, player)
-        #except AttributeError:
-        #    return "You can't pick that up."
+        try:
+            return matching[0].get(holder, player)
+        except AttributeError:
+            return "You can't pick that up."
 
 def drop(player, keyword):
     matching = findMatchingInventory(player, keyword, list())

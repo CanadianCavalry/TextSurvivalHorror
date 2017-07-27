@@ -178,7 +178,7 @@ class RangedWeapon(Weapon):
             if self.ammoRemaining <= 0:
                 source = pyglet.media.load(self.emptySound, streaming=False)
                 source.play()
-                return "You are out of ammo!"
+                return "You pull the trigger but nothing happens. Shit, it's empty...", True
             
             if self.fireSound:
                 source = pyglet.media.load(self.fireSound, streaming=False)
