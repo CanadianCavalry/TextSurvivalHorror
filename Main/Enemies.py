@@ -82,6 +82,8 @@ class Enemy(object):
 
             link.enemyTravel(self)
             if self.currentLocation == player.currentLocation:
+                if self.distanceToPlayer > self.currentLocation.size:
+                    self.distanceToPlayer = self.currentLocation.size
                 return self.travelDesc
         
     def takeAction(self, player):
