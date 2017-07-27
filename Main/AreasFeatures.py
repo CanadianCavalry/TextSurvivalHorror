@@ -77,12 +77,15 @@ class Area(object):
     
     def addItem(self, itemToAdd):
         if itemToAdd.keywords in self.itemsContained:
-            self.itemsContained[itemToAdd.keywords].quantity += 1
+            if itemToAdd.stackable:
+                self.itemsContained[itemToAdd.keywords].quantity += itemToAdd.quantity
+            else:
+                self.itemsContained[itemToAdd.keywords].quantity += 1
         else:
             self.itemsContained[itemToAdd.keywords] = itemToAdd
         
     def removeItem(self, itemToRemove):
-        if self.itemsContained[itemToRemove.keywords].quantity > 1:
+        if (self.itemsContained[itemToRemove.keywords].quantity > 1) and (not itemToRemove.stackable):
             self.itemsContained[itemToRemove.keywords].quantity -= 1
         else:
             del self.itemsContained[itemToRemove.keywords]
@@ -159,12 +162,15 @@ class Container(Feature):
         
     def addItem(self, itemToAdd):
         if itemToAdd.keywords in self.itemsContained:
-            self.itemsContained[itemToAdd.keywords].quantity += 1
+            if itemToAdd.stackable:
+                self.itemsContained[itemToAdd.keywords].quantity += itemToAdd.quantity
+            else:
+                self.itemsContained[itemToAdd.keywords].quantity += 1
         else:
             self.itemsContained[itemToAdd.keywords] = itemToAdd
         
     def removeItem(self, itemToRemove):
-        if self.itemsContained[itemToRemove.keywords].quantity > 1:
+        if (self.itemsContained[itemToRemove.keywords].quantity > 1) and (not itemToRemove.stackable):
             self.itemsContained[itemToRemove.keywords].quantity -= 1
         else:
             del self.itemsContained[itemToRemove.keywords]

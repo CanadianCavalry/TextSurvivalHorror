@@ -39,7 +39,6 @@ def buildCombatSimulator(gameState):
     armory.addItem(StandardItems.KitchenKnife())
     armory.addItem(StandardItems.CrossbowBolt())
     armory.addItem(StandardItems.CrossbowBolt())
-    armory.addItem(StandardItems.CrossbowBolt())
     armory.addItem(StandardItems.LeatherJacket())
     armory.addItem(StandardItems.Flask())
     

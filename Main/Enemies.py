@@ -105,7 +105,7 @@ class Enemy(object):
         return self.basicAttack(player)
 
     def basicAttack(self, player):
-        print "Enemy attacking"
+        #print "Enemy attacking"
         attackType = "melee"
         resultString = self.attackDesc[randint(0, len(self.attackDesc) - 1)]
         hitChance = self.calcAttackAccuracy(player, attackType)

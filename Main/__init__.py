@@ -60,11 +60,14 @@ class Player(object):
         
     def addItem(self, itemToAdd):
         if itemToAdd.keywords in self.inventory:
-        	self.inventory[itemToAdd.keywords].quantity += 1
+        	if itemToAdd.stackable:
+        		self.inventory[itemToAdd.keywords].quantity += itemToAdd.quantity
+        	else:
+        		self.inventory[itemToAdd.keywords].quantity += 1
         else:
         	self.inventory[itemToAdd.keywords] = itemToAdd
         
-    def removeItem(self, itemToRemove):        
+    def removeItem(self, itemToRemove):
         if self.mainHand == itemToRemove:
             self.mainHand = None
         if self.offHand == itemToRemove:
@@ -72,7 +75,7 @@ class Player(object):
         if self.armor == itemToRemove:
             self.armor = None
             
-    	if self.inventory[itemToRemove.keywords].quantity > 1:
+    	if self.inventory[itemToRemove.keywords].quantity > 1 and (not itemToRemove.stackable):
             self.inventory[itemToRemove.keywords].quantity -= 1
         else:
             del self.inventory[itemToRemove.keywords]

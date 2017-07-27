@@ -149,7 +149,9 @@ class CrossbowBolt(Items.Ammo):
         keywords="ammo,crossbow ammo,crossbow bolt,bolt,ammunition,crossbow ammunition"
         weaponType="Crossbow"
 
-        kwargs = {}
+        kwargs = {
+            "stackable":True
+        }
 
         super(CrossbowBolt, self).__init__(name, description, seenDescription, keywords, weaponType, **kwargs)
 

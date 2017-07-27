@@ -18,6 +18,7 @@ class Item(object):
         #set default values for case when no values are given
         self.initPickupDesc = None
         self.quantity = 1
+        self.stackable = False
         self.accessible = True
         self.firstSeen = True
         self.firstTaken = True
@@ -34,32 +35,30 @@ class Item(object):
                 setattr(self, key, value)
 
     def get(self, holder, player):
-        print "Getting " + self.name + " - " + str(self.quantity)
+        #print "Getting " + self.name + " - " + str(self.quantity)
         if not self.accessible:
             return self.inaccessibleDesc,True
         
         self.carried = True
         #If there is more than 1, dup it and pass the dup. Quantity will be decremented later
-        if self.quantity > 1:
-            print "Duping for player"
+        if (self.quantity > 1) and (not self.stackable):
             itemToGet = copy.deepcopy(self)
             itemToGet.quantity = 1
             itemToGet.firsSeen = False
             itemToGet.firstTaken = False
         else:
-            print "No need to dup"
             itemToGet = self
         
         if self.quantity > 1 or (not self.firstTaken) or (not self.initPickupDesc):
             resultString = self.pickupDesc
+            if self.stackable:
+                resultString += "(" + str(self.quantity) + ")"
         else :
             resultString = self.initPickupDesc
             self.firstSeen = False
             self.firstTaken = False
 
-        print "Adding item to player"
         player.addItem(itemToGet)
-        print "Removing item from holder"
         holder.removeItem(self)
 
         if (player.mainHand == None) and (isinstance(itemToGet, Weapon)):
@@ -67,17 +66,18 @@ class Item(object):
         return resultString, True
     
     def drop(self, player):
-        if self.quantity > 1:
-            print "Duping to drop"
+        if (self.quantity > 1) and (not self.stackable):
             itemToDrop = copy.deepcopy(self)
             itemToDrop.quantity = 1
         else:
-            print "No need to dup before dropping"
             itemToDrop = self
 
         player.removeItem(self)
         player.currentLocation.addItem(itemToDrop)
-        return "You drop the " + self.name,True
+        resultString = "You drop the " + self.name
+        if self.quantity > 1 and self.stackable:
+            resultString += "(" + str(self.quantity) + ")"
+        return resultString,True
     
     def destroy(self, holder):
         holder.removeItem(self)
