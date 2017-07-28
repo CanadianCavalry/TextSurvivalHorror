@@ -53,6 +53,7 @@ class Enemy(object):
         self.isBlockingExit = False
         self.talkCount = 0
         self.willChase = True
+        self.helpless = False
         self.recovering = False
         self.firstSeen = True
         self.firstSeenSound = None
@@ -107,6 +108,7 @@ class Enemy(object):
         if self.recovering:
             resultString += self.recoveryDesc + "\n"
             self.recovering = False
+            self.helpless = False
 
         if self.actionTimer == 1:
             if self.distanceToPlayer == 1:
@@ -191,7 +193,7 @@ class Enemy(object):
     def takeHit(self, weapon, attackType):
         resultString = weapon.attackDesc + "\n"
         damageAmount = (randint(weapon.minDamage, weapon.maxDamage))
-        if ((self.stunnedTimer > 0) or self.recovering) and (attackType == "heavy"):
+        if self.helpless and attackType == "heavy":
             resultString = self.takeCrit(weapon)
         elif attackType == "heavy":
             critRoll = randint(0,100)
@@ -235,16 +237,18 @@ class Enemy(object):
         stunDesc = self.exorciseStunDesc[randint(0, len(self.exorciseStunDesc) - 1)]
         recoveryDesc = self.exorciseRecoveryDesc[randint(0, len(self.exorciseRecoveryDesc) - 1)]
         self.makeStunned(2, stunDesc, recoveryDesc)
+        self.helpless = True
 
         resultString = self.takeExorciseDesc[randint(0, len(self.takeExorciseDesc) - 1)]
         return resultString
 
     def kill(self):
-        source = pyglet.media.load(self.deathSound, streaming=False)
-        source.play()
+        if self.deathSound:
+            source = pyglet.media.load(self.deathSound, streaming=False)
+            source.play()
         self.currentLocation.killEnemy(self)
         self.currentLocation.addItem(self.corpse)
-        return self.deathTextv
+        return self.deathText
     
     def talk(self):
         resultString = self.talkDialogue[self.talkCount]
