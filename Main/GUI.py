@@ -222,9 +222,10 @@ class Window(pyglet.window.Window):
         self.state = None
         self.widgets = None
         self.focus = None
-        self.buttonClick = pyglet.media.load('Sounds/UI/menuClick.mp3')
-        soundtrack = pyglet.media.load('Music/Oblivion.mp3')
-        self.menuSoundtrack = soundtrack.play()
+        self.buttonClick = pyglet.media.load('Sounds/UI/menuClick.mp3', streaming=False)
+        self.buttonHover = pyglet.media.load('Sounds/UI/menuHover.wav', streaming=False)
+        self.soundtrack = pyglet.media.load('Music/Oblivion.mp3')
+        self.menuSoundtrack = self.soundtrack.play()
 
         self.title = pyglet.text.Label('Welcome to Hell', x=(self.width / 2), y=(self.height - 100), anchor_x='center', anchor_y='center',
                                         font_name='Times New Roman',font_size=32, batch=self.batch, color=(155,0,0,255), bold=True)
@@ -280,7 +281,7 @@ class Window(pyglet.window.Window):
                 if button.hit_test(x, y):
                     button.defaultSprite.image = button.hoverImage
                     if not button.hover:
-                        pyglet.media.load('Sounds/UI/menuHover.wav').play()
+                        self.buttonHover.play()
                         button.hover = True
                 else:
                     button.defaultSprite.image = button.defaultImage

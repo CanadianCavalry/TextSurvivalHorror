@@ -44,6 +44,7 @@ class Enemy(object):
         self.rangedDodge = 0
         self.armor = 0
         self.baseExorciseChance = 10
+        self.stunResist = 0
         self.enemyState = 0
         self.distanceToPlayer = 1
         self.currentLocation = None
@@ -194,18 +195,25 @@ class Enemy(object):
         resultString = weapon.attackDesc + "\n"
         resultString += "You hit the " + self.name + "! "
         damageAmount = (randint(weapon.minDamage, weapon.maxDamage))
+        hitEffectDesc = self.hitEffect(weapon, attackType)
         if self.helpless and attackType == "heavy":
             resultString = self.takeCrit(weapon)
         elif attackType == "heavy":
             damageAmount = int(damageAmount * 1.25)
             stunRoll = randint(0,100)
-            if stunRoll <= weapon.stunChance:
+            stunChance = weapon.stunChance - self.stunResist
+            if stunRoll <= stunChance:
                 self.makeStunned(weapon.stunLength, self.defaultStunDesc, self.defaultRecoveryDesc)
                 resultString += " It is dazed by the strength of your blow."
             resultString += self.takeDamage(damageAmount)
         else:
             resultString += self.takeDamage(damageAmount)
+        if hitEffectDesc:
+            resultString += hitEffectDesc
         return resultString
+
+    def hitEffect(self, weapon, attackType):
+        pass
         
     def takeDamage(self, damageAmount):
         damageAmount -= self.armor
@@ -374,3 +382,6 @@ class TestDemon(Enemy):
             return "Striking quickly, you land a lucky slash across the demon's eyes, and it let's out an earsplitting screech. As it staggers away you leap onto it's back from behind, drawing the knife quickly across the beasts throat in one fluid motion. It throws you aside and stumbles away, gurgling and grasping it's wound, before slumping over to the floor."
         else:
             return "You kick the stunned creature hard in the chest, knocking it to the ground. You fall upon it with your weapon, striking over and over until it lies still."
+
+
+            

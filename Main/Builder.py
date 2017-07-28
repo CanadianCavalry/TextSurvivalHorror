@@ -24,14 +24,38 @@ def buildCombatSimulator(gameState):
 
     #Combat Test Environment
     #001 - ARMORY
-    armory = AreasFeatures.Area("Armory", ["This tiny, cramped room is lined on all sides by large steel cages packed with weapons of every kind. Sadly, they are all locked. On the metal table in the center of the room is a small collection of items, and a large sign is bolted to the east wall titled \"Tips for newbies\". There is a door to the north."], **{"size":2})
-    arenaDoorA = StandardFeatures.StandardOpenMetalDoor("A heavy steel door. It appears to have some sort of mechanism built into it that locks it once you pass through.", "north,north door,door,metal door,steel door")
-    
-    table = StandardFeatures.AlwaysOpenContainer("The table is littered with all manner of useless junk, as well as a number of weapons, bottles and items of clothing.", "table,small table, metal table")
-    armory.addFeature(table)
-    armorySign = StandardFeatures.Sign(["The large metal sign looks very worn and rusted, and has been riveted straight into the metal wall. It appears that it has been here for a long time, and is not coming down any time soon."], "sign,metal sign, plaque, brass sign, brass plaque", "Tips for Newbies\n\n-Make sure you have a melee weapon and some armor before moving on. Ammo is scarce.\n-Every weapon has different damage and accuracy. Bigger is not always better.\n-As a functioning alchoholic, you perform better with a bit of liquor in your system. It numbs your body, reducing incoming damage, and calms shaking hands, increasing accurracy. Don't go overboard though or you'll go downhill fast.\n\n-Typing HELP will list all commands(not implemented yet), but a few you should get familiar with to start are:\nGET - Pick up things\nI - View your inventory\nEQUIP - Equip weapons or armor\nGO - Travel through doors or down halls\nOPEN - Open doors or containers")
-    armory.addFeature(armorySign)
-    gunCages = StandardFeatures.LockedContainer(["Behind the thick bars you can see a huge array of weaponry, from handguns to rifles and even grenades. The cages are of a heavy duty steel constuction, and don't look like they'll be opening any time soon. With a sigh, you turn your attention back to the room."], "cages,cage,guns,weapons,weaponry,grenade,rifle,pistol,handgun,steel cage,steel cages,metal cage,metal cages", "The doors are locked and won't budge. There's no way to get in without a key.", "", "", False)
+    armory = AreasFeatures.Area(
+        "Armory", 
+        ["This tiny, cramped room is lined on all sides by large steel cages packed with weapons of every kind. Sadly, they are "
+        "all locked. On the metal table in the center of the room is a small collection of items, and a large sign is bolted to "
+        "the east wall titled \"Tips for newbies\". There is a door to the north."],
+         **{"size":2})
+    arenaDoorA = StandardFeatures.StandardOpenMetalDoor(
+        "A heavy steel door. It appears to have some sort of mechanism built into it that locks it once you pass through.",
+         "north,north door,door,metal door,steel door")
+
+    armory.addFeature(StandardFeatures.AlwaysOpenContainer(
+        "The table is littered with all manner of useless junk, as well as a number of weapons, bottles and items of clothing.",
+         "table,small table, metal table"))
+    armory.addFeature(StandardFeatures.Sign(
+        ["The large metal sign looks very worn and rusted, and has been riveted straight into the metal wall. It appears that "
+        "it has been here for a long time, and is not coming down any time soon."],
+        "sign,metal sign, plaque, brass sign, brass plaque",
+        "Tips for Newbies\n\n-Make sure you have a melee weapon and some armor before moving on. Ammo is scarce.\n-Every "
+        "weapon has different damage and accuracy. Bigger is not always better.\n-As a functioning alchoholic, you perform "
+        "better with a bit of liquor in your system. It numbs your body, reducing incoming damage, and calms shaking hands, "
+        "increasing accurracy. Don't go overboard though or you'll go downhill fast.\n\n-Typing HELP will list all "
+        "commands(not implemented yet), but a few you should get familiar with to start are:\nGET - Pick up things\nI - View your "
+        "inventory\nEQUIP - Equip weapons or armor\nGO - Travel through doors or down halls\nOPEN - Open doors or containers"))
+    gunCages = StandardFeatures.LockedContainer(
+        ["Behind the thick bars you can see a huge array of weaponry, from handguns to rifles and even grenades. The cages are "
+        "of a heavy duty steel constuction, and don't look like they'll be opening any time soon. With a sigh, you turn your "
+        "attention back to the room."],
+        "cages,cage,guns,weapons,weaponry,grenade,rifle,pistol,handgun,steel cage,steel cages,metal cage,metal cages",
+        "The doors are locked and won't budge. There's no way to get in without a key.",
+        "",
+        "",
+        False)
     armory.addFeature(gunCages)
     armory.addItem(StandardItems.LongSword())
     armory.addItem(StandardItems.Crossbow())
@@ -46,33 +70,134 @@ def buildCombatSimulator(gameState):
     armory.addItem(StandardItems.Flask())
     
     #002 - ARENA
-    combatRoom01 = AreasFeatures.Area("Arena", ["You are standing in a large, empty colosseum. Against the east wall is a massive sign carved from stone titled \"Combat Tips\". There is a large steel door to the south, with some sort of complex locking mechanism on it. On the far end of the west wall is another, smaller metal door."], **{"size":4})    
-    arenaDoorB = StandardFeatures.StandardLockedDoor("A heavy steel door. It has no handle or lock that you can see.", "south,south door,door,metal door,steel door", None)
+    combatRoom01 = AreasFeatures.Area(
+        "Arena", 
+        ["You are standing in a large, empty colosseum. Against the east wall is a massive sign carved from stone titled "
+        "\"Combat Tips\". There is a large steel door to the south, with some sort of complex locking mechanism on it. On the "
+        "far end of the west wall is another, smaller metal door."],
+        **{"size":4})
+    arenaDoorB = StandardFeatures.StandardLockedDoor(
+        "A heavy steel door. It has no handle or lock that you can see.",
+        "south,south door,door,metal door,steel door",
+        None)
     arenaDoorB.makeSibling(arenaDoorA)
     combatRoom01.connect(armory, arenaDoorB)
     armory.connect(combatRoom01, arenaDoorA)
 
-    door002B = StandardFeatures.StandardOpenMetalDoor("A steel door. It's battered and dented, and has a large, rust colored stain near the handle.", "west,west door,door,metal door,steel door")
+    door002B = StandardFeatures.StandardOpenMetalDoor(
+        "A steel door. It's battered and dented, and has a large, rust colored stain near the handle.",
+        "west,west door,door,metal door,steel door")
 
-    combatSign = StandardFeatures.Sign("The large metal sign takes up a large portion of the east wall. It reads \"Please ensure you are prepared before continuing to the test arena. Good luck\"", "sign, stone sign, large sign", "Combat Tips\n\n-Every enemy has different strengths and weaknesses. Examining an enemy takes no time, and may yield life-saving information.\n-Heavy attacks are less accurate, but deal more damage and can even stun some foes.\n-Exorcising a demonic enemy can have numerous effects, but will often stun or incapacitate them. Some enemies are more resilient to exorcism than others.\n-Performing a heavy attack against a stunned enemy will often result in an execution.\n\n-Important combat commands:\nATTACK - Attack with an equipped weapon\nHEAVY ATTACK - Slower, stronger attack\nEXORCISE - Invoke your faith to weaken an enemy\nRELOAD - Reload your equipped gun(requires ammo)\nDEFEND - Give up your chance to strike to increase your chances of dodging the next attack.")
-    combatRoom01.addFeature(combatSign)
+    combatRoom01.addFeature(StandardFeatures.Sign(
+        "The large metal sign takes up a large portion of the east wall. It reads \"Please ensure you are prepared before continuing "
+        "to the test arena. Good luck\"",
+        "sign, stone sign, large sign",
+        "Combat Tips\n\n-Every enemy has different strengths and weaknesses. Examining an enemy takes no time, and may yield "
+        "life-saving information.\n-Heavy attacks are less accurate, but deal more damage and can even stun some foes.\n-Exorcising "
+        "a demonic enemy can have numerous effects, but will often stun or incapacitate them. Some enemies are more resilient to "
+        "exorcism than others.\n-Performing a heavy attack against a stunned enemy will often result in an execution.\n\n-Important "
+        "combat commands:\nATTACK - Attack with an equipped weapon\nHEAVY ATTACK - Slower, stronger attack\nEXORCISE - Invoke your "
+        "faith to weaken an enemy\nRELOAD - Reload your equipped gun(requires ammo)\nDEFEND - Give up your chance to strike to "
+        "increase your chances of dodging the next attack."))
     
     testDemon = Enemies.TestDemon()
     combatRoom01.spawnEnemy(testDemon, 3)
 
     #003 - LIBRARY FOYER
-    libraryFoyer = AreasFeatures.Area("Library Foyer", ["This appears to be a small reception area, with a wooden desk in the corner next to some rusty filing cabinets and a couple of chairs the have been scattered haphazardly. There is a metal door to the east, and and to the west past the desk is a pair of heavy wooden doors that have been smashed partially inwards. The sign above them reads \"Library\"."])
+    libraryFoyer = AreasFeatures.Area(
+        "Library Foyer",
+        ["This appears to be a small reception area, with a wooden desk in the corner next to some rusty filing cabinets and a "
+        "couple of chairs the have been scattered haphazardly. There is a metal door to the east, and and to the west past the "
+        "desk is a pair of heavy wooden doors that have been smashed partially inwards. The sign above them reads \"Library\"."],
+        **{"size":2})
     
-    door003A = StandardFeatures.StandardOpenMetalDoor("A steel door. It leads back out into the arena.", "east,east door,door,metal door,steel door")
+    door003A = StandardFeatures.StandardOpenMetalDoor(
+        "A steel door. It leads back out into the arena.",
+        "east,east door,door,metal door,steel door")
     door003A.makeSibling(door002B)
     libraryFoyer.connect(combatRoom01, door003A)
     combatRoom01.connect(libraryFoyer, door002B)
 
-    door003B = StandardFeatures.StandardOpenDoor("A heavy wooden door, oak or some kind of hardwood. It been smashed, as though something too large to fit forced it's way through. It's hanging crooked on it's hinges and the frame has deep gouges in it.", "east,east door,door,wood door,wooden door,oak door,hardwood door")
+    door003B = StandardFeatures.StandardOpenDoor(
+        "A heavy wooden door, oak or some kind of hardwood. It been smashed, as though something too large to fit forced it's way "
+        "through into the library. It's hanging crooked on it's hinges and the frame has deep gouges in it.",
+        "west,west door,door,wood door,wooden door,oak door,hardwood door")
 
+    #004 - LIBRARY EAST WING
+    libraryEast = AreasFeatures.Area(
+        "Library - East Wing", 
+        ["This part of the library is a mess, books scattered across the floor, shelves knocked over or slanted precariously over "
+        "the aisle. One massive shelf in particular is leaning so far over you're amazed it's still upright. Most of the aisles are blocked or"
+        "otherwise inaccessible, but it looks like you could work your way further to the west.",
+        "This part of the library is a mess, books scattered across the floor, shelves knocked over or slanted precariously over "
+        "the aisle. In the center of the main aisle is the shattered remains of a huge bookshelf. Most of the aisles are blocked or"
+        "otherwise inaccessible, but it looks like you could work your way further to the west."],
+        **{"size":3})
 
-    libraryFoyer.addFeature(UniqueHazards.LeaningBookshelf())
+    #Links
+    door004A = StandardFeatures.StandardOpenDoor(
+        "A heavy wooden door, oak or some kind of hardwood. It been smashed, as though something too large to fit forced it's way "
+        "through into the library. It's hanging crooked on it's hinges and the frame has deep gouges in it.",
+        "east,east door,door,wood door,wooden door,oak door,hardwood door")
+    door004A.makeSibling(door003B)
+    libraryEast.connect(libraryFoyer, door004A)
+    libraryFoyer.connect(libraryEast, door003B)
 
+    #Features
+    libraryEast.addFeature(UniqueHazards.LeaningBookshelf())
+    libraryEast.addFeature(AreasFeatures.Feature(
+        ["The entire room is lined with creaky, tipping and crumbling bookshelves."],
+        "shelf,shelves,bookshelf,bookshelves,bookcase,bookcases"
+        ))
+    door004B = AreasFeatures.Link(
+        "Though numerous tipped over shelves and piles of debris are in the way, you can see a clear path through to the west end "
+        "of the library", 
+        "west,west wing,path",
+        True,
+        None, 
+        "You pick your way carefully between the shelves and emerge in the west wing.",
+        None)
+
+    #Containers
+
+    #Items
+
+    #Enemies
+
+    #005 - LIBRARY WEST WING
+    libraryWest = AreasFeatures.Area(
+        "Library - West Wing", 
+        ["The west wing looks to be in considerably better shape than the eastern section. While a number of books have been torn apart "
+        "and scattered around, the rest of the room is intact for the most part. On the far wall is a large, ornate stained-glass "
+        "window depicting a violent scene. It has been covered with metal bars."],
+        **{"size":3})
+
+    #Links
+    door005A = AreasFeatures.Link(
+        "Though numerous tipped over shelves and piles of debris are in the way, you can see a clear path through to the east end "
+        "of the library", 
+        "east,east wing,path",
+        True,
+        None, 
+        "Following your previous path through the debris, you return to the east wing.",
+        None)
+    door005A.makeSibling(door004B)
+    libraryWest.connect(libraryEast, door005A)
+    libraryEast.connect(libraryWest, door004B)
+
+    libraryEast.addFeature(AreasFeatures.Feature(
+        ["The entire room is lined with huge, hardwood bookshelves."],
+        "shelf,shelves,bookshelf,bookshelves,bookcase,bookcases"
+        ))
+
+    #Containers
+
+    #Items
+
+    #Enemies
+    libraryHellhound = UniqueEnemies.Hellhound()
+    libraryWest.spawnEnemy(libraryHellhound, 2)
+    
 
     gameState.addArea(armory)
 

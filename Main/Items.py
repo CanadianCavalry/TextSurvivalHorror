@@ -279,58 +279,58 @@ class MeleeWeapon(Weapon):
         super(MeleeWeapon, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)   
 
     def attack(self, enemy, player, attackType):
-        try:
-            if enemy.distanceToPlayer > 1:
-                return "You are not within striking distance."
+        #try:
+        if enemy.distanceToPlayer > 1:
+            return "You are not within striking distance."
 
-            hitChance = self.accuracy
-            #print "Initial hit chance: " + str(hitChance)
+        hitChance = self.accuracy
+        #print "Initial hit chance: " + str(hitChance)
+        
+        if player.intoxication > 75:
+            hitChance -= 20
+        elif player.intoxication > 60:
+            hitChance -= 15
+        elif player.intoxication > 40:
+            hitChance -= 10
+        elif player.intoxication > 25:
+            hitChance -= 5
+        elif player.intoxication > 10:
+            hitChance += 8
+        elif player.intoxication > 1:
+            hitChance += 5
             
-            if player.intoxication > 75:
-                hitChance -= 20
-            elif player.intoxication > 60:
-                hitChance -= 15
-            elif player.intoxication > 40:
-                hitChance -= 10
-            elif player.intoxication > 25:
-                hitChance -= 5
-            elif player.intoxication > 10:
-                hitChance += 8
-            elif player.intoxication > 1:
-                hitChance += 5
-                
-            if attackType == "heavy":
-                hitChance -= 25
-                #print "Heavy attack penalty. New hit chance: " + str(hitChance)
-            
-            if enemy.helpless:
-                hitChance = 100
-            elif enemy.stunnedTimer > 0:
-                hitChance += 15
-                #print "Enemy stunned bonus. New hit chance: " + str(hitChance)
-            else:
-                hitChance -= enemy.meleeDodge
-                #print "enemy dodge penalty. New hit chance: " + str(hitChance)
-            
-            if hitChance < 10:
-                hitChance = 10
-            attackRoll = random.randint(0, 100)
-            #print "Final hit chance: " + str(hitChance)
-            #print "Attack roll: " + str(attackRoll)
-            if attackRoll <= hitChance:
-                resultString = "\n" + enemy.takeHit(self, attackType)
-                if self.hitSound:
-                    source = pyglet.media.load(self.hitSound, streaming=False)
-                    source.play()
-            else:
-                resultString = self.attackDesc
-                resultString += "\nYou miss!"
-                if self.missSound:
-                    source = pyglet.media.load(self.missSound, streaming=False)
-                    source.play()
-            return resultString, True
-        except AttributeError:
-            return "That isn't an enemy..."
+        if attackType == "heavy":
+            hitChance -= 25
+            #print "Heavy attack penalty. New hit chance: " + str(hitChance)
+        
+        if enemy.helpless:
+            hitChance = 100
+        elif enemy.stunnedTimer > 0:
+            hitChance += 15
+            #print "Enemy stunned bonus. New hit chance: " + str(hitChance)
+        else:
+            hitChance -= enemy.meleeDodge
+            #print "enemy dodge penalty. New hit chance: " + str(hitChance)
+        
+        if hitChance < 10:
+            hitChance = 10
+        attackRoll = random.randint(0, 100)
+        #print "Final hit chance: " + str(hitChance)
+        #print "Attack roll: " + str(attackRoll)
+        if attackRoll <= hitChance:
+            resultString = "\n" + enemy.takeHit(self, attackType)
+            if self.hitSound:
+                source = pyglet.media.load(self.hitSound, streaming=False)
+                source.play()
+        else:
+            resultString = self.attackDesc
+            resultString += "\nYou miss!"
+            if self.missSound:
+                source = pyglet.media.load(self.missSound, streaming=False)
+                source.play()
+        return resultString, True
+        #except AttributeError:
+            #return "That isn't an enemy..."
 
     def shoot(self, enemy, player):
         return "Try as you might, you can't find a good way to use your " + player.mainHand.name + " as a gun."

@@ -84,10 +84,10 @@ class Player(object):
         if self.isRestricted:
             return self.restrictedDesc
         
-        try:
-        	return self.mainHand.attack(enemy, self, "light")
-        except AttributeError:
-            return "You are not holding a weapon."
+        #try:
+        return self.mainHand.attack(enemy, self, "light")
+        #except AttributeError:
+            #return "You are not holding a weapon."
         
     def heavyAttack(self, enemy):
         if self.isRestricted:
@@ -151,7 +151,7 @@ class Player(object):
         elif self.health >= 85:
             healthString += "Bruised and Scratched"
         elif self.health >= 60:
-            healthString += "Slightly Injured"
+            healthString += "Injured"
         elif self.health >= 35:
             healthString += "Seriously Injured"
         elif self.health >= 10:

@@ -153,8 +153,8 @@ class Feature(object):
         self.state += 1
     
 class Hazard(Feature):
-    def __init__(self, description, keywords, **kwargs):
-        self.triggerDesc = ""
+    def __init__(self, description, keywords, triggerDesc, **kwargs):
+        self.triggerDesc = triggerDesc
 
         super(Hazard, self).__init__(description, keywords, **kwargs)
 
@@ -241,12 +241,13 @@ class Container(Feature):
             return self.closeDesc,True
             
 class Link(object):
-    def __init__(self, description, keywords, isAccessible, blockedDesc, travelDesc, travelSound=""):
+    def __init__(self, description, keywords, isAccessible, blockedDesc, travelDesc, travelSound=None):
         self.description = description
         self.keywords = keywords
         self.isAccessible = isAccessible
         self.blockedDesc = blockedDesc
         self.travelDesc = travelDesc
+        self.travelSound = travelSound
         self.destination = None
         self.siblingLink = None
         
@@ -295,12 +296,9 @@ class Link(object):
         self.idNum = number
     
 class Door(Link):
-    def __init__(self, description, keywords, isAccessible, blockedDesc, travelDesc, travelSound=""):
-        if not travelSound:
-            self.travelSound = "Sounds/Misc/GenericDoor1.mp3"
-        else:
-            self.travelSound = travelSound 
-        super(Door, self).__init__(description, keywords, isAccessible, blockedDesc, travelDesc)
+    def __init__(self, description, keywords, isAccessible, blockedDesc, travelDesc, travelSound="Sounds/Misc/GenericDoor1.mp3"):
+ 
+        super(Door, self).__init__(description, keywords, isAccessible, blockedDesc, travelDesc, travelSound)
         
     def lookAt(self):
         desc = self.description
