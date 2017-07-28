@@ -98,6 +98,11 @@ class Area(object):
     def spawnEnemy(self, enemyToSpawn, distanceToPlayer):
         self.enemies[enemyToSpawn.keywords] = enemyToSpawn
         enemyToSpawn.setLocation(self)
+        #Make sure the enemy spawns within the confines of the area
+        if distanceToPlayer < 1:
+            distanceToPlayer = 1
+        elif distanceToPlayer > self.size:
+            distanceToPlayer = self.size
         enemyToSpawn.setDistance(distanceToPlayer)
         
     def killEnemy(self, enemyToKill):

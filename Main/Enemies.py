@@ -5,6 +5,7 @@ Created on Aug 3, 2014
 '''
 from Items import Corpse
 from random import randint
+import pyglet
 
 def getActingEnemies(player):
     return player.currentLocation.enemies
@@ -43,7 +44,6 @@ class Enemy(object):
         self.rangedDodge = 0
         self.armor = 0
         self.baseExorciseChance = 10
-        self.firstSeenSound = None
         self.enemyState = 0
         self.distanceToPlayer = 1
         self.currentLocation = None
@@ -52,18 +52,24 @@ class Enemy(object):
         self.isChasing = False
         self.isBlockingExit = False
         self.talkCount = 0
-        self.firstSeen = True
         self.willChase = True
         self.recovering = False
+        self.firstSeen = True
+        self.firstSeenSound = None
+        self.deathSound = None
         self.blockingDesc = "The " + self.name + " is between you and the exit. There's no way out.\n"
-        self.takeExorciseDesc = "It works! The creature recoils from you grasping it's head, and emits an agonizing scream."
         self.defaultStunDesc = "The " + self.name + " is dazed.\n"
         self.defaultRecoveryDesc = "The " + self.name + " is no longer dazed."
         self.stunDesc = self.defaultStunDesc
         self.recoveryDesc = self.defaultRecoveryDesc
         self.attackDesc = ["The " + self.name + " attacks you.\n"]
         self.firstSeenDesc = seenDesc
-        self.exorciseDialogue = ["\"Back to hell with you demon!\"", "\"In the name of god, DIE!\"", "\"With the lord as my weapon, I will destroy you!\""]
+        self.exorciseDesc = ["You stand tall and draw upon your faith, screaming out \"Back to hell with you demon!\"", "You stare the fiend in the eyes and calmly state \"With the lord as my weapon, I will destroy you.\""]
+        self.takeExorciseDesc = ["It works! The creature recoils from you grasping it's head, and emits an agonizing scream."]
+        self.exorciseFailDesc = ["It doesn't seem to have any effect."]
+        self.exorciseStunDesc = ["The demon is cowering on the floor, clutching it's head and shrieking."]
+        self.exorciseRecoveryDesc = ["The demon shakes off the effects of your exorcism attempt."]
+        self.deathText = "The " + self.name + " falls to the ground dead."
         self.talkDialogue = ["It doesn't respond."]
         self.critDialogue = ["You charge forward and knock the creature to the ground. As it struggles to rise, you finish it off with a single strike."]
         self.advanceDialogue = ["The " + self.name + " moves towards you.\n"]
@@ -213,7 +219,7 @@ class Enemy(object):
         return self.critDialogue[randint(0, len(self.critDialogue) - 1)]
         
     def exorciseAttempt(self, player):
-        resultString = "You draw upon your faith to banish the demon. You yell out " + self.exorciseDialogue[randint(0, len(self.exorciseDialogue) - 1)] + "\n"
+        resultString = self.exorciseDesc[randint(0, len(self.exorciseDesc) - 1)] + "\n"
         
         hitChance = self.baseExorciseChance
         hitChance += (player.spirit - 50)
@@ -222,21 +228,23 @@ class Enemy(object):
             resultString += self.takeExorcise()
             return resultString
         else:
-            resultString += "It doesn't seem to have any effect."
+            resultString += self.exorciseFailDesc[randint(0, len(self.exorciseFailDesc) - 1)]
             return resultString
         
     def takeExorcise(self):
-        stunDesc = "The demon is cowering on the floor, clutching it's head and shrieking."
-        recoveryDesc = "The demon recovers, straightening up and staring at you with loathing.\n'You'll die slowly for that human.'"
+        stunDesc = self.exorciseStunDesc[randint(0, len(self.exorciseStunDesc) - 1)]
+        recoveryDesc = self.exorciseRecoveryDesc[randint(0, len(self.exorciseRecoveryDesc) - 1)]
         self.makeStunned(2, stunDesc, recoveryDesc)
 
-        resultString = self.takeExorciseDesc
+        resultString = self.takeExorciseDesc[randint(0, len(self.takeExorciseDesc) - 1)]
         return resultString
 
     def kill(self):
+        source = pyglet.media.load(self.deathSound, streaming=False)
+        source.play()
         self.currentLocation.killEnemy(self)
         self.currentLocation.addItem(self.corpse)
-        return "The " + self.name + " falls to the ground dead."
+        return self.deathTextv
     
     def talk(self):
         resultString = self.talkDialogue[self.talkCount]
@@ -341,8 +349,11 @@ class TestDemon(Enemy):
             "attackDesc": ["The demon claws at you with it's talons.", "The demon lunges forwards and snaps at you."],
             "firstSeenDesc":"As you enter the room you hear a rush of wind followed by leathery flapping. Moments later a dark shape drops from above, landing with a heavy thud on the other side of the arena, it's bat-like wings folding behind it's back as it straightens up. The creature stands at least 8 feet tall, with red scaly skin and a long canine muzzle. It glares at you through yellow eyes with a low growl.",
             "firstSeenSound":"Sounds/Monsters/DemonCantWait.mp3",
+            "deathSound":"Sounds/Monsters/DemonDeath.mp3",
             "advanceDialogue":["The hulking red demon lumbers steadily towards you.", "With a low growl the demon closes the distance between you.", "The demon calmly walks towards you, snarling under it's breath."],
-            "retreatDialogue":["Reeling and terrified, the demon stumbles away from you."]
+            "retreatDialogue":["Reeling and terrified, the demon stumbles away from you."],
+            "exorciseRecoveryDesc":["The demon recovers, straightening up and staring at you with loathing.\n'You'll die slowly for that human.'"]
+       
         }
 
         super(TestDemon, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, corpse, **kwargs)
