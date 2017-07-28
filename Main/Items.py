@@ -26,6 +26,7 @@ class Item(object):
         self.initSeenDesc = None
         self.notTakenDesc = None
         self.carried = False
+        self.pickupSound = "Sounds/Misc/ItemGet.mp3"
         self.inAccessibleDesc = "You can't reach it."
         self.pickupDesc = "You pick up the " + self.name + "."
         
@@ -57,6 +58,9 @@ class Item(object):
             resultString = self.initPickupDesc
             self.firstSeen = False
             self.firstTaken = False
+
+        source = pyglet.media.load(self.pickupSound, streaming=False)
+        source.play()
 
         player.addItem(itemToGet)
         holder.removeItem(self)
@@ -115,6 +119,9 @@ class Armor(Item):
         super(Armor, self).__init__(name, description, seenDescription, keywords, **kwargs)
         
     def equip(self, player):
+        if not(self.keywords in player.inventory):
+            return "I need to pick it up first."
+
         if player.armor == self:
             return "You are already wearing that."
         
@@ -139,6 +146,9 @@ class Weapon(Item):
         super(Weapon, self).__init__(name, description, seenDescription, keywords, **kwargs)
         
     def equip(self, player):
+        if not(self.keywords in player.inventory):
+            return "I need to pick it up first."
+
         if player.mainHand == self:
             return "That is already equipped."
         if self.size == 1:
@@ -260,10 +270,11 @@ class MeleeWeapon(Weapon):
 
         #defaults
         self.stunLength = 2
-        self.missSound = "Sounds/Combat/MeleeMiss.mp3"
-        self.attackDesc = "You swing your weapon!"
         self.defenseBonus = 0
         self.stunChance = 20
+        self.hitSound = None
+        self.missSound = "Sounds/Combat/MeleeMiss.mp3"
+        self.attackDesc = "You swing your weapon!"
         
         super(MeleeWeapon, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)   
 
@@ -289,7 +300,7 @@ class MeleeWeapon(Weapon):
                 hitChance += 5
                 
             if attackType == "heavy":
-                hitChance -= 20
+                hitChance -= 25
                 #print "Heavy attack penalty. New hit chance: " + str(hitChance)
             
             if enemy.helpless:
@@ -308,11 +319,15 @@ class MeleeWeapon(Weapon):
             #print "Attack roll: " + str(attackRoll)
             if attackRoll <= hitChance:
                 resultString = "\n" + enemy.takeHit(self, attackType)
+                if self.hitSound:
+                    source = pyglet.media.load(self.hitSound, streaming=False)
+                    source.play()
             else:
                 resultString = self.attackDesc
                 resultString += "\nYou miss!"
-                source = pyglet.media.load(self.missSound, streaming=False)
-                source.play()
+                if self.missSound:
+                    source = pyglet.media.load(self.missSound, streaming=False)
+                    source.play()
             return resultString, True
         except AttributeError:
             return "That isn't an enemy..."
@@ -376,3 +391,6 @@ class Corpse(Item):
     
     def get(self, holder, player):
         return "I've no desire to carry around a corpse."
+
+    def wear(self, player):
+        return "Assuming you could even lift that, you doubt wearing a corpse will improve your fighting ability much."

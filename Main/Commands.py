@@ -272,7 +272,7 @@ def retreat(player, keyword):
             
 def equip(player, keyword):
     matching = findMatchingInventory(player, keyword, list())
-    #matching = findMatching(player, keyword, matching)
+    matching = findMatching(player, keyword, matching)
             
     if len(matching) == 0:
         return "You are not carrying anything like that."
@@ -286,7 +286,7 @@ def equip(player, keyword):
 
 def wear(player, keyword):
     matching = findMatchingInventory(player, keyword, list())
-    #matching = findMatching(player, keyword, matching)
+    matching = findMatching(player, keyword, matching)
             
     if len(matching) == 0:
         return "You are not carrying anything like that."

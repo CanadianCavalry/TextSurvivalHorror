@@ -330,6 +330,9 @@ class Enemy(object):
     def equip(self, player):
         return "After briefly considering the logistics required to use the " + self.name + " as a weapon, you think better of it."
 
+    def wear(self, player):
+        return "It is generally considered rude to attempt to wear something that is still alive."
+
 class TestDemon(Enemy):
     
     def __init__(self):
