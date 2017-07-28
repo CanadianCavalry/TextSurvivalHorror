@@ -136,7 +136,7 @@ class Enemy(object):
         attackRoll = randint(0,100)
         if attackRoll <= hitChance:
             damageAmount = randint(self.minDamage + 1, self.maxDamage)
-            modDamageAmount = damageAmount - player.armorRating
+            modDamageAmount = int(damageAmount - (damageAmount * (float(player.armorRating) / 100)))
             if modDamageAmount < 0:
                 modDamageAmount = 0
             #print "Player hit. DamageRoll: " + str(damageAmount) + ", ArmorRating: " + str(player.armorRating) + ", DamageTaken: " + str(modDamageAmount)
@@ -192,18 +192,18 @@ class Enemy(object):
         
     def takeHit(self, weapon, attackType):
         resultString = weapon.attackDesc + "\n"
+        resultString += "You hit the " + self.name + "! "
         damageAmount = (randint(weapon.minDamage, weapon.maxDamage))
         if self.helpless and attackType == "heavy":
             resultString = self.takeCrit(weapon)
         elif attackType == "heavy":
-            critRoll = randint(0,100)
-            if critRoll <= weapon.critChance:
-                resultString = self.takeCrit(weapon)
-            else:
+            damageAmount = int(damageAmount * 1.25)
+            stunRoll = randint(0,100)
+            if stunRoll <= weapon.stunChance:
                 self.makeStunned(weapon.stunLength, self.defaultStunDesc, self.defaultRecoveryDesc)
-                resultString += "You hit the " + self.name + "! It is dazed by the strength of your blow."
+                resultString += " It is dazed by the strength of your blow."
+            resultString += self.takeDamage(damageAmount)
         else:
-            resultString += "You hit the " + self.name + "! "
             resultString += self.takeDamage(damageAmount)
         return resultString
         
@@ -338,9 +338,9 @@ class TestDemon(Enemy):
         seenDesc = "You see a Winged Demon glaring at you menacingly."
         keywords = "demon,red demon,winged demon,enemy"
         maxHealth = 125
-        minDamage = 15
-        maxDamage = 19
-        accuracy = 75
+        minDamage = 18
+        maxDamage = 24
+        accuracy = 85
         corpse = Corpse("Demon Corpse", "The body is covered in wounds and blood is slowly pooling on the floor under it. The air around it stinks of sulphur.", "The freshly butchered body of a large, red-skinned demon is lying on the floor.", "body,demon body,dead demon,demon corpse,corpse,demon")
         
         kwargs = {

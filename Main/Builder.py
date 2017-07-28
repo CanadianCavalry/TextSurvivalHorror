@@ -35,6 +35,8 @@ def buildCombatSimulator(gameState):
     armory.addFeature(gunCages)
     armory.addItem(StandardItems.LongSword())
     armory.addItem(StandardItems.Crossbow())
+    armory.addItem(StandardItems.Revolver())
+    armory.addItem(StandardItems.RevolverAmmo())
 
     armory.addItem(StandardItems.Axe())
     armory.addItem(StandardItems.KitchenKnife())

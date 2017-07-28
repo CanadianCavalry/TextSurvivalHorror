@@ -20,10 +20,10 @@ class Axe(Items.MeleeWeapon):
         size=2
 
         kwargs = {
-            "critChance":10, 
+            "stunChance":25, 
             "notTakenDesc":"A long-handled fire axe is lying across the table.",
             "initPickupDesc":"You lift the axe from the table. It has a weight and heft that is comfortable in your hands.",
-            "stunlength": 3,
+            "stunlength": 2,
             "defenseBonus":5
         }
 
@@ -42,7 +42,7 @@ class LongSword(Items.MeleeWeapon):
         size=2
 
         kwargs = {
-            "critChance":15,
+            "stunChance":20,
             "initSeenDesc":"A large sword has been thrust into wooden floor here. It seems to glow faintly at first, then fades.",
             "notTakenDesc":"A large sword has been thrust into wooden floor here.",
             "initPickupDesc":"With considerable effort, you pull the blade free from the ground. It's lighter than you expected.",
@@ -72,7 +72,7 @@ class KitchenKnife(Items.MeleeWeapon):
         size=1
 
         kwargs = {
-            "critChance":5,
+            "stunChance":5,
             "notTakenDesc":"A kitchen knife is lying on the table.",
         }
 
@@ -94,8 +94,8 @@ class Revolver(Items.RangedWeapon):
 
         kwargs = {
             "ammoRemaining":4,
-            "fireSound":"Sounds/Combat/RevolverShot.mp3", 
-            "critChance":10, 
+            "fireSound":"Sounds/Combat/RevolverShot.mp3",
+            "reloadSound":"Sounds/Combat/RevolverReload.mp3", 
             "notTakenDesc":"A revolver rests in the corner of the table.",
             "initPickupDesc":"It's heavier than it looks. You look it over to ensure the safety is off. Let's hope it still fires.",
             "attackDesc":"You open fire with your revolver."
@@ -113,14 +113,12 @@ class Crossbow(Items.RangedWeapon):
         minDamage=70
         maxDamage=85
         size=2
-        accuracy=70
+        accuracy=90
         capacity=1
 
         kwargs = {
             "ammoRemaining":1,
             "fireSound":"Sounds/Combat/CrossbowShot.mp3", 
-            "critChance":20, 
-            "initSeenDesc":"",
             "notTakenDesc":"A crossbow rests on a display next to the door.",
             "initPickupDesc":"It's nowhere near as bulky as most weapons of this type. The string is oiled and the mechanism appears to have been recently cleaned.  You sling it over your shoulder.",
             "attackDesc":"You carefully line up your crossbow, and fire."
@@ -165,7 +163,7 @@ class LeatherJacket(Items.Armor):
         description="An old, faded brown leather jacket. I've had this for longer than I can remember."
         seenDescription="A faded leather jacket is on the floor."
         keywords="armor,jacket,leather jacket"
-        armorRating=5
+        armorRating=10
 
         kwargs = {
             "initPickupDesc":"It's old and weatherbeaten, and looks like it's been patched extensively, but it should provide a bit of protection at least.",

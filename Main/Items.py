@@ -135,7 +135,6 @@ class Weapon(Item):
 
         #defaults
         self.attackDesc = "You attack."
-        self.critChance = 10
 
         super(Weapon, self).__init__(name, description, seenDescription, keywords, **kwargs)
         
@@ -164,8 +163,9 @@ class RangedWeapon(Weapon):
         #defaults
         self.ammoRemaining = capacity
         self.fireSound = None
-        self.rangeMod = [0,5,10]
+        self.reloadSound = None
         self.emptySound = "Sounds/Combat/EmptyGun.mp3"
+        self.rangeMod = [0,5,10,15]
         self.attackDesc = "You open fire!"
 
         super(RangedWeapon, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)
@@ -240,6 +240,10 @@ class RangedWeapon(Weapon):
             if self.name == weaponType:
                 self.ammoRemaining = self.capacity
                 item.destroy(player)
+                if self.fireSound:
+                    source = pyglet.media.load(self.reloadSound, streaming=False)
+                    source.play()
+
                 return "You reload the " + self.name + ".",True
             
         return "You don't have any ammo."
@@ -259,6 +263,7 @@ class MeleeWeapon(Weapon):
         self.missSound = "Sounds/Combat/MeleeMiss.mp3"
         self.attackDesc = "You swing your weapon!"
         self.defenseBonus = 0
+        self.stunChance = 20
         
         super(MeleeWeapon, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)   
 
@@ -268,9 +273,10 @@ class MeleeWeapon(Weapon):
                 return "You are not within striking distance."
 
             hitChance = self.accuracy
+            #print "Initial hit chance: " + str(hitChance)
             
             if player.intoxication > 75:
-                hitChance -= 25
+                hitChance -= 20
             elif player.intoxication > 60:
                 hitChance -= 15
             elif player.intoxication > 40:
@@ -283,16 +289,23 @@ class MeleeWeapon(Weapon):
                 hitChance += 5
                 
             if attackType == "heavy":
-                hitChance -= 10
+                hitChance -= 20
+                #print "Heavy attack penalty. New hit chance: " + str(hitChance)
             
-            if enemy.stunnedTimer > 0:
-                hitChance += 30
+            if enemy.helpless:
+                hitChance = 100
+            elif enemy.stunnedTimer > 0:
+                hitChance += 15
+                #print "Enemy stunned bonus. New hit chance: " + str(hitChance)
             else:
                 hitChance -= enemy.meleeDodge
+                #print "enemy dodge penalty. New hit chance: " + str(hitChance)
             
-            if hitChance < 5:
-                hitChance = 5
+            if hitChance < 10:
+                hitChance = 10
             attackRoll = random.randint(0, 100)
+            #print "Final hit chance: " + str(hitChance)
+            #print "Attack roll: " + str(attackRoll)
             if attackRoll <= hitChance:
                 resultString = "\n" + enemy.takeHit(self, attackType)
             else:
