@@ -314,7 +314,7 @@ class Enemy(object):
     def getDistance(self):
         distanceDescription = ""
         if self.distanceToPlayer == 1:
-            distanceDescription = "It is right in front of you."
+            distanceDescription = "It is right next to you."
         if self.distanceToPlayer == 2:
             distanceDescription = "It is a few meters away."
         if self.distanceToPlayer == 3:

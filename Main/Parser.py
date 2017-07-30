@@ -71,7 +71,7 @@ class Parser(object):
                 self.target += word + " "
             self.target = self.target.strip()
         
-        if (self.command == "go") or (self.command == "travel") or (self.command == "move") or (self.command == "walk"):
+        if (self.command == "go") or (self.command == "travel") or (self.command == "move") or (self.command == "walk") or (self.command == "run"):
             self.command = "go"
             resultString = Commands.go(self.state.player, self.target)
         elif (self.command == "north") or (self.command == "south") or (self.command == "east") or (self.command == "west"):
