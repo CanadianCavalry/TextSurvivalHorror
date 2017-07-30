@@ -12,7 +12,7 @@ class Area(object):
         self.description = description
         self.size = 3
         self.visited = False
-        self.roomState = 0
+        self.state = 0
         self.connectedAreas = {}
         self.features = {}
         self.itemsContained = {}
@@ -26,7 +26,7 @@ class Area(object):
         
     def lookAt(self):
         desc = self.name
-        desc += "\n" + self.description[self.roomState] + "\n"
+        desc += "\n" + self.description[self.state] + "\n"
         if self.itemsContained:
             for item in self.itemsContained.itervalues():    #Display all the visible items
                 if item.accessible:
@@ -61,6 +61,9 @@ class Area(object):
                     if enemy.firstSeenSound:
                         source = pyglet.media.load(enemy.firstSeenSound, streaming=False)
                         source.play()
+                elif enemy.stunnedTimer != 0:
+                    desc += enemy.stunDesc
+                    desc += " " + enemy.getDistance()
                 else:
                     desc += enemy.seenDescription
                     desc += " " + enemy.getDistance()
@@ -91,6 +94,7 @@ class Area(object):
  
     def addFeature(self, featureToAdd):
         self.features[featureToAdd.keywords] = featureToAdd
+        featureToAdd.currentLocation = self
         
     def removeFeature(self, featureToRemove):
         del self.features[featureToRemove.keywords]
@@ -126,11 +130,15 @@ class Area(object):
     def setIdNum(self, number):
         self.idNum = number
 
+    def nextState(self):
+        self.state += 1
+
 class Feature(object):
     def __init__(self, description, keywords, **kwargs):
         self.description = description
         self.keywords = keywords
         self.state = 0
+        self.currentLocation = None
 
         #populate optional stats
         if kwargs is not None:
@@ -155,6 +163,7 @@ class Feature(object):
 class Hazard(Feature):
     def __init__(self, description, keywords, triggerDesc, **kwargs):
         self.triggerDesc = triggerDesc
+        self.readied = True
 
         super(Hazard, self).__init__(description, keywords, **kwargs)
 

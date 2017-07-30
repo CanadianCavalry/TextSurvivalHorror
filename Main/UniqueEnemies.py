@@ -15,7 +15,7 @@ class Hellhound(Enemies.Enemy):
         "protrude from it's form all over, and between that and the enormous jaws it would clearly be a mistake to let this thing "
         "anywhere near you.")
         seenDesc = "A massive Hellhound is in the room, growling at you."
-        keywords = "dog,hound,hellhound,hell hound,huge dog,big dog,huge hound,big hound"
+        keywords = "enemy,dog,hound,hellhound,hell hound,huge dog,big dog,huge hound,big hound"
         maxHealth = 160
         minDamage = 28
         maxDamage = 33
@@ -25,7 +25,7 @@ class Hellhound(Enemies.Enemy):
             "There's so much blood and broken bones that it's almost impossible to tell which wounds killed "
             "it and which it already had. There is a growing pool of blood underneath it, and the smell is even worse than you expected.",
             "A blood smeared hellhound corpse is lying on the floor.", 
-            "body,corpse,hellhound,hellhound body,dead hellhound,hellhound corpse")
+            "body,corpse,hellhound,hellhound body,dead hellhound,hellhound corpse,dead hound,hound,dead dog,dog")
         
         kwargs = {
             "speed":1, 
