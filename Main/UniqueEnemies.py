@@ -10,18 +10,19 @@ from random import randint
 class Hellhound(Enemies.Enemy):    
     def __init__(self):
         name = "Hellhound"
-        description = "A massive canine the size of a horse. Most of it's skin is missing, showing muscle and sinew under tufts "
+        description = ("A massive canine the size of a horse. Most of it's skin is missing, showing muscle and sinew under tufts "
         "of bloodstained fur. It's milky white eyes stare blankly ahead while it's nose sniffs endlessly. Jagged shards of bone "
         "protrude from it's form all over, and between that and the enormous jaws it would clearly be a mistake to let this thing "
-        "anywhere near you."
+        "anywhere near you.")
         seenDesc = "A massive Hellhound is in the room, growling at you."
         keywords = "dog,hound,hellhound,hell hound,huge dog,big dog,huge hound,big hound"
         maxHealth = 160
-        minDamage = 38
-        maxDamage = 46
+        minDamage = 28
+        maxDamage = 33
         accuracy = 90
         corpse = Items.Corpse(
-            "Hellhound Corpse", "There's so much blood and broken bones that it's almost impossible to tell which wounds killed "
+            "Hellhound Corpse", 
+            "There's so much blood and broken bones that it's almost impossible to tell which wounds killed "
             "it and which it already had. There is a growing pool of blood underneath it, and the smell is even worse than you expected.",
             "A blood smeared hellhound corpse is lying on the floor.", 
             "body,corpse,hellhound,hellhound body,dead hellhound,hellhound corpse")
