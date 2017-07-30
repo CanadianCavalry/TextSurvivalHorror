@@ -9,13 +9,16 @@ combatSoundFiles = ['Sounds/Combat/RevolverShot.mp3',
 					'Sounds/Combat/MeleeMiss.mp3',
 					'Sounds/Combat/RevolverReload.mp3']
 
-monsterSoundFiles = ['Sounds/Monsters/DemonCantWait.mp3',
-					 'Sounds/Monsters/DemonLatin.mp3',
-					 'Sounds/Monsters/DemonDeath.mp3']
-
 miscSoundFiles = ['Sounds/Misc/GenericDoor1.mp3',
 				  'Sounds/Misc/GenericDoor2.mp3',
-				  'Sounds/Misc/HeavyDoor.mp3']
+				  'Sounds/Misc/HeavyDoor.mp3',
+				  'Sounds/Misc/ItemGet.mp3']
+
+monsterSoundFiles = ['Sounds/Monsters/DemonCantWait.mp3',
+					 'Sounds/Monsters/DemonLatin.mp3',
+					 'Sounds/Monsters/DemonDeath.mp3',
+					 'Sounds/Monsters/HellhoundDeath.mp3',
+					 'Sounds/Monsters/HellhoundGrowl.mp3']
 
 UISoundFiles = ['Sounds/UI/menuClick.mp3',
 				'Sounds/UI/menuHover.wav']
