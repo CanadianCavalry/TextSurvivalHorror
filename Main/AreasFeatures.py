@@ -78,12 +78,14 @@ class Area(object):
                 self.itemsContained[itemToAdd.keywords].quantity += 1
         else:
             self.itemsContained[itemToAdd.keywords] = itemToAdd
+        itemToAdd.currentLocation = self
         
     def removeItem(self, itemToRemove):
         if (self.itemsContained[itemToRemove.keywords].quantity > 1) and (not itemToRemove.stackable):
             self.itemsContained[itemToRemove.keywords].quantity -= 1
         else:
             del self.itemsContained[itemToRemove.keywords]
+            itemToRemove.currentLocation = None
  
     def addFeature(self, featureToAdd):
         self.features[featureToAdd.keywords] = featureToAdd

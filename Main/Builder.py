@@ -167,6 +167,16 @@ def buildCombatSimulator(gameState):
     libraryEast004.connect(libraryFoyer003, door004A)
     libraryFoyer003.connect(libraryEast004, door003B)
 
+    door004B = AreasFeatures.Link(
+        "Though numerous tipped over shelves and piles of debris are in the way, you can see a clear path through to the west end "
+        "of the library", 
+        "west,west wing,path",
+        True,
+        None, 
+        "You pick your way carefully between the shelves and emerge in the west wing.",
+        None
+    )
+
     #Features
     libraryEast004.addFeature(UniqueHazards.LeaningBookshelf())
     libraryEast004.addFeature(AreasFeatures.Feature(
@@ -178,15 +188,6 @@ def buildCombatSimulator(gameState):
         "interesting, and you doubt you have the time to go searching through the stacks for a certain volume."],
         "book,books"
     ))
-    door004B = AreasFeatures.Link(
-        "Though numerous tipped over shelves and piles of debris are in the way, you can see a clear path through to the west end "
-        "of the library", 
-        "west,west wing,path",
-        True,
-        None, 
-        "You pick your way carefully between the shelves and emerge in the west wing.",
-        None
-    )
 
     #Containers
 
@@ -234,14 +235,25 @@ def buildCombatSimulator(gameState):
         "between them. Doesn't look like you'll be getting out through here."],
         "window,stained glass,glass,mural,"
     ))
-    libraryWest005.addItem(Items.Corpse(
+    libraryCorpse005 = Items.Corpse(
         name="Dead Human",
         description="It looks like it was a man at some point, though he's mostly beyond recognition. He's been badly mauled, "
         "and from the tooth marks it looks like his head and limbs have been chewed on. His clothing indicates he was an employee, "
         "possibly an orderly.",
         seenDescription="A badly mauled corpse is splayed out on the floor.",
         keywords="corpse,dead body,body,dead man,dead human,dead person,victim"
+    )
+    libraryCorpse005.addItem(StandardItems.Key(
+        name="Ornate Key",
+        description="It's covered in strange markings and is topped with an ornate engraving of a demonic face. It looks like it's made from copper or brass.",
+        seenDescription="An ornate metal key is on the ground.",
+        keywords="key,ornate key,copper key,bronze key,demon key",
+        useDescription="You slide the key into the lock and it turns with little effort. A loud click echoes through the hall.",
+        **{
+        "notTakenDesc":"There is a large, ornate metal key clutched in what's left of the mans hand."
+        }
     ))
+    libraryWest005.addItem(libraryCorpse005)
 
     #Containers
 

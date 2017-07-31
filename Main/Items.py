@@ -14,6 +14,7 @@ class Item(object):
         self.description = description
         self.seenDescription = seenDescription
         self.keywords = keywords
+        self.currentLocation = None
 
         #set default values for case when no values are given
         self.initPickupDesc = None
@@ -387,6 +388,7 @@ class Note(Readable):
 
 class Corpse(Item):
     def __init__(self, name, description, seenDescription, keywords, **kwargs):
+        self.itemsContained = {}
         super(Corpse, self).__init__(name, description, seenDescription, keywords, **kwargs)
     
     def get(self, holder, player):
@@ -398,5 +400,47 @@ class Corpse(Item):
     def equip(self, player):
         return "Though the idea of beating a demon to death with a dead body is incredibly metal, it doesn't seem very practical."
 
+    def addItem(self, itemToAdd):
+        if itemToAdd.keywords in self.itemsContained:
+            if itemToAdd.stackable:
+                self.itemsContained[itemToAdd.keywords].quantity += itemToAdd.quantity
+            else:
+                self.itemsContained[itemToAdd.keywords].quantity += 1
+        else:
+            self.itemsContained[itemToAdd.keywords] = itemToAdd
+
+    def removeItem(self, itemToRemove):
+        if (self.itemsContained[itemToRemove.keywords].quantity > 1) and (not itemToRemove.stackable):
+            self.itemsContained[itemToRemove.keywords].quantity -= 1
+        else:
+            del self.itemsContained[itemToRemove.keywords]
+            itemToRemove.currentLocation = None
+
     def search(self, player):
-        return ""
+        if self.currentLocation.enemies:
+            return "You won't have time to search while there are enemies nearby."
+
+        itemsToRemove = []
+        resultString = "You look the body over."
+        if self.itemsContained:
+            for item in self.itemsContained.itervalues():    #Display all the visible items
+                if item.firstSeen and item.initSeenDesc:
+                    resultString += "\n" + item.initSeenDesc
+                elif item.firstTaken and item.notTakenDesc:
+                    resultString += "\n" + item.notTakenDesc
+                else:
+                    resultString += "\n" + item.seenDescription
+
+                if item.quantity > 1:
+                    resultString += " (" + str(item.quantity) + ")"
+                item.firstSeen = False
+
+                self.currentLocation.addItem(item)
+                itemsToRemove.append(item.keywords)
+
+            for keywords in itemsToRemove:
+                del self.itemsContained[keywords]
+        else:
+            resultString += "\nYou don't find anything of interest."
+
+        return resultString, True

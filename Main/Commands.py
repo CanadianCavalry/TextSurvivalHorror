@@ -326,6 +326,20 @@ def closeThing(player, keyword):
         except AttributeError:
             return "You can't close that."
 
+def search(player, keyword):
+    matching = findMatching(player, keyword, list())
+    matching = findMatchingInventory(player, keyword, matching)
+
+    if len(matching) == 0:
+        return "You do not see anything like that here."
+    elif len(matching) > 1:
+        return "You need to be more specific."
+    elif len(matching) == 1:
+        #try:
+        return matching[0].search(player)
+        #except AttributeError:
+            #return "You can't search that."
+
 def drink(player, keyword):
     matching = findMatching(player, keyword, list())
     matching = findMatchingInventory(player, keyword, matching)

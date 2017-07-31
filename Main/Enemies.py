@@ -364,7 +364,7 @@ class TestDemon(Enemy):
             "meleeDodge":5,
             "rangedDodge": 5,
             "baseExorciseChance":50,
-            #"isBlockingExit":True,
+            "isBlockingExit":True,
             "defaultStunDesc": "The demon staggers back, dazed.",
             "attackDesc": ["The demon claws at you with it's talons.", "The demon lunges forwards and snaps at you."],
             "firstSeenDesc":"As you enter the room you hear a rush of wind followed by leathery flapping. Moments later a dark shape drops from above, landing with a heavy thud on the other side of the arena, it's bat-like wings folding behind it's back as it straightens up. The creature stands at least 8 feet tall, with red scaly skin and a long canine muzzle. It glares at you through yellow eyes with a low growl.",
