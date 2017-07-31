@@ -229,7 +229,7 @@ class RangedWeapon(Weapon):
                 
             attackRoll = random.randint(0, 100)
             if attackRoll <= hitChance:
-                resultString = enemy.takeHit(self, "ranged")
+                resultString = enemy.takeHit(player, self, "ranged")
             else:
                 resultString = self.attackDesc
                 resultString += "\nYou miss!"
@@ -318,7 +318,7 @@ class MeleeWeapon(Weapon):
         #print "Final hit chance: " + str(hitChance)
         #print "Attack roll: " + str(attackRoll)
         if attackRoll <= hitChance:
-            resultString = "\n" + enemy.takeHit(self, attackType)
+            resultString = enemy.takeHit(player, self, attackType)
             if self.hitSound:
                 source = pyglet.media.load(self.hitSound, streaming=False)
                 source.play()

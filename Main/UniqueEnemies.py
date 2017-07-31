@@ -17,8 +17,8 @@ class Hellhound(Enemies.Enemy):
         seenDesc = "A massive Hellhound is in the room, growling at you."
         keywords = "enemy,dog,hound,hellhound,hell hound,huge dog,big dog,huge hound,big hound"
         maxHealth = 160
-        minDamage = 28
-        maxDamage = 33
+        minDamage = 24
+        maxDamage = 29
         accuracy = 90
         corpse = Items.Corpse(
             "Hellhound Corpse", 
@@ -58,6 +58,11 @@ class Hellhound(Enemies.Enemy):
             return "Acting quickly, you come along side the thrashing hellhound. You wait for an opening between it's frantic twisting and thrashing, then quickly reverse your grip on the sword, plunging it down into the things side. The tip finds what passes for the hounds heart, and with a final yelp it lies still."
         else:
             return "You kick the stunned creature hard in the chest, knocking it to the ground. You fall upon it with your weapon, striking over and over until it lies still."
+
+    def hitEffect(self, player, weapon, attackType):
+        if isinstance(weapon, Items.MeleeWeapon):
+            player.takeDamage(randint(7,10))
+            return "\nAs you hit the Hellhound, you cut yourself on the jagged bone spikes.\nYou are " + player.getCondition() + "."
 
 class BentHost201(Enemies.Enemy):
     

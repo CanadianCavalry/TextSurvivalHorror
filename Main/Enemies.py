@@ -191,14 +191,15 @@ class Enemy(object):
         self.stunDesc = stunDesc
         self.recoveryDesc = recoveryDesc
         
-    def takeHit(self, weapon, attackType):
+    def takeHit(self, player, weapon, attackType):
         resultString = weapon.attackDesc + "\n"
         resultString += "You hit the " + self.name + "! "
         damageAmount = (randint(weapon.minDamage, weapon.maxDamage))
-        hitEffectDesc = self.hitEffect(weapon, attackType)
+        hitEffectDesc = ""
         if self.helpless and attackType == "heavy":
             resultString = self.takeCrit(weapon)
         elif attackType == "heavy":
+            hitEffectDesc = self.hitEffect(player, weapon, attackType)
             damageAmount = int(damageAmount * 1.25)
             stunRoll = randint(0,100)
             stunChance = weapon.stunChance - self.stunResist
@@ -207,12 +208,16 @@ class Enemy(object):
                 resultString += " It is dazed by the strength of your blow."
             resultString += self.takeDamage(damageAmount)
         else:
+            hitEffectDesc = self.hitEffect(player, weapon, attackType)
             resultString += self.takeDamage(damageAmount)
         if hitEffectDesc:
             resultString += hitEffectDesc
         return resultString
 
-    def hitEffect(self, weapon, attackType):
+    def hitEffect(self, player, weapon, attackType):
+        pass
+
+    def missEffect(self, player, weapon, attackType):
         pass
         
     def takeDamage(self, damageAmount):
