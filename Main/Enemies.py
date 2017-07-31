@@ -221,8 +221,8 @@ class Enemy(object):
         pass
         
     def takeDamage(self, damageAmount):
-        damageAmount -= self.armor
-        self.health -= damageAmount
+        modDamageAmount = int(damageAmount - (damageAmount * (float(self.armor) / 100)))
+        self.health -= modDamageAmount
         if self.health <= 0:
             return self.kill()
         else:

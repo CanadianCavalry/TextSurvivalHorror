@@ -225,7 +225,7 @@ class Player(object):
         armorRating = 0
         if self.armor:
             armorRating += self.armor.armorRating
-        armorRating += self.intoxication * 0.2
+        armorRating += self.intoxication * 0.25
         return armorRating
         
     def beginTurn(self):
