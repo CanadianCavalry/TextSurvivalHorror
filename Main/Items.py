@@ -52,7 +52,7 @@ class Item(object):
         
         if self.quantity > 1 or (not self.firstTaken) or (not self.initPickupDesc):
             resultString = self.pickupDesc
-            if self.stackable:
+            if self.stackable and (self.quantity > 1):
                 resultString += "(" + str(self.quantity) + ")"
         else :
             resultString = self.initPickupDesc

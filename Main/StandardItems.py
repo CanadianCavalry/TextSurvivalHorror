@@ -9,7 +9,7 @@ import AreasFeatures
 #Melee Weapons
 class Axe(Items.MeleeWeapon):
     
-    def __init__(self):
+    def __init__(self, **kwargs):
         name="Axe"
         description="A long handled fire axe, intended for emergency use. The current situation probably qualifies. It's heavy and unwieldy, and will seriously ruin the day of anyone on the recieving end."
         seenDescription="A fire axe is lying on the floor."
@@ -31,7 +31,7 @@ class Axe(Items.MeleeWeapon):
 
 class LongSword(Items.MeleeWeapon):
     
-    def __init__(self):
+    def __init__(self, **kwargs):
         name="Long Sword" 
         description="A long bladed medieval weapon, excellent for slaying men, demons and ferocious rabbits. It's suprisingly light for it's size."
         seenDescription="A long sword is lying on the floor."
@@ -61,7 +61,7 @@ class LongSword(Items.MeleeWeapon):
         
 class KitchenKnife(Items.MeleeWeapon):
     
-    def __init__(self):
+    def __init__(self, **kwargs):
         name="Kitchen Knife" 
         description="A 12 inch chefs knife. You know what they say: 'Guns are for show, knives are for pro.'"
         seenDescription="A knife is lying on the floor."
@@ -81,7 +81,7 @@ class KitchenKnife(Items.MeleeWeapon):
 #Ranged Weapons
 class Revolver(Items.RangedWeapon):
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         name="Revolver"
         description="A heavy .457 magnum revolver. It holds 6 rounds."
         seenDescription="A revolver is lying on the floor."
@@ -105,7 +105,7 @@ class Revolver(Items.RangedWeapon):
 
 class Crossbow(Items.RangedWeapon):
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         name="Crossbow"
         description="A wood and steel crossbow, straight out of the middle ages. Despite the obvious wear from excessive use, it appears to be very well maintained. It is considerably smaller than most, and as such is much easier to reload."
         seenDescription="A crossbow is lying on the floor."
@@ -128,11 +128,11 @@ class Crossbow(Items.RangedWeapon):
 
 #Ammo
 class RevolverAmmo(Items.Ammo):
-    def __init__(self):
+    def __init__(self, **kwargs):
         name="Revolver Ammo"
         description="A speed-loader for a six shot revolver. It is filled with .457 ammunition."
         seenDescription="A speed-loader is on the ground."
-        keywords="ammo,revolver ammo,magnum ammo,ammunition,revolver ammunition,speed-loader,speed loader"
+        keywords="ammo,revolver ammo,magnum ammo,ammunition,revolver ammunition,speed-loader,speed loader,bullets,speedloader"
         weaponType="Revolver"
 
         kwargs = {
@@ -142,7 +142,7 @@ class RevolverAmmo(Items.Ammo):
         super(RevolverAmmo, self).__init__(name, description, seenDescription, keywords, weaponType, **kwargs)
 
 class CrossbowBolt(Items.Ammo):
-    def __init__(self):
+    def __init__(self, **kwargs):
         name="Crossbow Bolt"
         description="A steel crossbow bolt. The head appears to be made from silver."
         seenDescription="A crossbow bolt is on the ground."
@@ -158,7 +158,7 @@ class CrossbowBolt(Items.Ammo):
 
 #Armor
 class LeatherJacket(Items.Armor):
-    def __init__(self):
+    def __init__(self, **kwargs):
         name="Leather Jacket"
         description="An old, faded brown leather jacket. I've had this for longer than I can remember."
         seenDescription="A faded leather jacket is on the floor."
@@ -174,7 +174,7 @@ class LeatherJacket(Items.Armor):
 
 #Consumables
 class Flask(Items.Alchohol):
-    def __init__(self):
+    def __init__(self, **kwargs):
         name="Flask of Scotch"
         description="A small silver flask which holds about 4 oz. I received this as a gift from a friend form church before they realized I had a problem. I'm sure they regretted giving it to me once they found out."
         seenDescription="There is a small silver flask on the floor."
@@ -191,15 +191,15 @@ class Flask(Items.Alchohol):
 class FirstAidKit(Items.Usable):
     def __init__(self, **kwargs):
         name="First Aid Kit"
-        description="A small, self contained medical kit with bandages, painkillers, antiseptic, closures and gauze. You could treat most minor wounds with this, but it's small size means there is not a lot to it. It will only be good for a single treatment.."
+        description="A small, self contained medical kit with bandages, painkillers, antiseptic, closures and gauze. You could treat most minor wounds with this, but it's small size means there is not a lot to it. It will only be good for a single treatment."
         seenDescription="A small first aid kit is on the floor."
         keywords="first aid kit,first aid,kit,medical kit,medkit,healing"
         useDescription="You lay out the kit and get to work. You manage to do a decent job with the paltry supplies, and clean up your wounds as best you can. By the time you're finished, there's nothing useful left in the kit."
 
-        kwargs = {
+        kwargs.update({
             "stackable":True,
             "initPickupDesc":"It's small, but it's got the most important items for trauma care. It's been a while since you had to stich anyone up, so hopefully you remember what you're doing."
-        }
+        })
 
         super(FirstAidKit, self).__init__(name, description, seenDescription, keywords, useDescription, **kwargs)
 

@@ -137,10 +137,10 @@ def buildCombatSimulator(gameState):
         "You half expect it to break, but it slides open with a loud squeak.",
         "You slide the drawer closed."
     )
-
-    firstAidKit003 = StandardItems.FirstAidKit()
-    firstAidKit003.notTakenDesc = "A first aid kit is lying in the drawer amongst the pens and loose paper."
-    libraryDeskDrawer.addItem(firstAidKit003)
+    
+    libraryDeskDrawer.addItem(StandardItems.FirstAidKit(**{
+        "notTakenDesc":"A first aid kit is lying in the drawer amongst the pens and loose paper."
+        }))
     libraryFoyer003.addFeature(libraryDeskDrawer)
 
     #004 - LIBRARY EAST WING
