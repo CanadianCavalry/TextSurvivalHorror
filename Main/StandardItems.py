@@ -188,10 +188,33 @@ class Flask(Items.Alchohol):
 
         super(Flask, self).__init__(name, description, seenDescription, keywords, useDescription, alcoholAmount, **kwargs)
 
+class FirstAidKit(Items.Usable):
+    def __init__(self, **kwargs):
+        name="First Aid Kit"
+        description="A small, self contained medical kit with bandages, painkillers, antiseptic, closures and gauze. You could treat most minor wounds with this, but it's small size means there is not a lot to it. It will only be good for a single treatment.."
+        seenDescription="A small first aid kit is on the floor."
+        keywords="first aid kit,first aid,kit,medical kit,medkit,healing"
+        useDescription="You lay out the kit and get to work. You manage to do a decent job with the paltry supplies, and clean up your wounds as best you can. By the time you're finished, there's nothing useful left in the kit."
+
+        kwargs = {
+            "stackable":True,
+            "initPickupDesc":"It's small, but it's got the most important items for trauma care. It's been a while since you had to stich anyone up, so hopefully you remember what you're doing."
+        }
+
+        super(FirstAidKit, self).__init__(name, description, seenDescription, keywords, useDescription, **kwargs)
+
+    def use(self, player):
+        if player.health == 100:
+            return "You don't have any wounds that need attention."
+        
+        player.heal(40)
+        del player.inventory[self.keywords]
+        return self.useDescription, True
+
 #Misc
 class Key(Items.Usable):
     
-    def use(self):
+    def use(self, player):
         return "Use the key on what?"
     
     def useOn(self, player, recipient):

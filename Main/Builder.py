@@ -24,7 +24,7 @@ def buildCombatSimulator(gameState):
 
     #Combat Test Environment
     #001 - ARMORY
-    armory = AreasFeatures.Area(
+    armory001 = AreasFeatures.Area(
         "Armory", 
         ["This tiny, cramped room is lined on all sides by large steel cages packed with weapons of every kind. Sadly, they are "
         "all locked. On the metal table in the center of the room is a small collection of items, and a large sign is bolted to "
@@ -34,10 +34,10 @@ def buildCombatSimulator(gameState):
         "A heavy steel door. It appears to have some sort of mechanism built into it that locks it once you pass through.",
          "north,north door,door,metal door,steel door")
 
-    armory.addFeature(StandardFeatures.AlwaysOpenContainer(
+    armory001.addFeature(StandardFeatures.AlwaysOpenContainer(
         "The table is littered with all manner of useless junk, as well as a number of weapons, bottles and items of clothing.",
          "table,small table, metal table"))
-    armory.addFeature(StandardFeatures.Sign(
+    armory001.addFeature(StandardFeatures.Sign(
         ["The large metal sign looks very worn and rusted, and has been riveted straight into the metal wall. It appears that "
         "it has been here for a long time, and is not coming down any time soon."],
         "sign,metal sign, plaque, brass sign, brass plaque",
@@ -56,21 +56,21 @@ def buildCombatSimulator(gameState):
         "",
         "",
         False)
-    armory.addFeature(gunCages)
-    armory.addItem(StandardItems.LongSword())
-    armory.addItem(StandardItems.Crossbow())
-    armory.addItem(StandardItems.Revolver())
-    armory.addItem(StandardItems.RevolverAmmo())
+    armory001.addFeature(gunCages)
+    armory001.addItem(StandardItems.LongSword())
+    armory001.addItem(StandardItems.Crossbow())
+    armory001.addItem(StandardItems.Revolver())
+    armory001.addItem(StandardItems.RevolverAmmo())
 
-    armory.addItem(StandardItems.Axe())
-    armory.addItem(StandardItems.KitchenKnife())
-    armory.addItem(StandardItems.CrossbowBolt())
-    armory.addItem(StandardItems.CrossbowBolt())
-    armory.addItem(StandardItems.LeatherJacket())
-    armory.addItem(StandardItems.Flask())
+    armory001.addItem(StandardItems.Axe())
+    armory001.addItem(StandardItems.KitchenKnife())
+    armory001.addItem(StandardItems.CrossbowBolt())
+    armory001.addItem(StandardItems.CrossbowBolt())
+    armory001.addItem(StandardItems.LeatherJacket())
+    armory001.addItem(StandardItems.Flask())
     
     #002 - ARENA
-    combatRoom01 = AreasFeatures.Area(
+    arena002 = AreasFeatures.Area(
         "Arena", 
         ["You are standing in a large, empty colosseum. Against the east wall is a massive sign carved from stone titled "
         "\"Combat Tips\". There is a large steel door to the south, with some sort of complex locking mechanism on it. On the "
@@ -81,14 +81,14 @@ def buildCombatSimulator(gameState):
         "south,south door,door,metal door,steel door",
         None)
     arenaDoorB.makeSibling(arenaDoorA)
-    combatRoom01.connect(armory, arenaDoorB)
-    armory.connect(combatRoom01, arenaDoorA)
+    arena002.connect(armory001, arenaDoorB)
+    armory001.connect(arena002, arenaDoorA)
 
     door002B = StandardFeatures.StandardOpenMetalDoor(
         "A steel door. It's battered and dented, and has a large, rust colored stain near the handle.",
         "west,west door,door,metal door,steel door")
 
-    combatRoom01.addFeature(StandardFeatures.Sign(
+    arena002.addFeature(StandardFeatures.Sign(
         "The large metal sign takes up a large portion of the east wall. It reads \"Please ensure you are prepared before continuing "
         "to the test arena. Good luck\"",
         "sign, stone sign, large sign",
@@ -101,30 +101,50 @@ def buildCombatSimulator(gameState):
         "increase your chances of dodging the next attack."))
     
     testDemon = Enemies.TestDemon()
-    combatRoom01.spawnEnemy(testDemon, 3)
+    arena002.spawnEnemy(testDemon, 3)
 
     #003 - LIBRARY FOYER
-    libraryFoyer = AreasFeatures.Area(
+    libraryFoyer003 = AreasFeatures.Area(
         "Library Foyer",
         ["This appears to be a small reception area, with a wooden desk in the corner next to some rusty filing cabinets and a "
         "couple of chairs the have been scattered haphazardly. There is a metal door to the east, and and to the west past the "
         "desk is a pair of heavy wooden doors that have been smashed partially inwards. The sign above them reads \"Library\"."],
         **{"size":2})
     
+    #Links
     door003A = StandardFeatures.StandardOpenMetalDoor(
         "A steel door. It leads back out into the arena.",
         "east,east door,door,metal door,steel door")
     door003A.makeSibling(door002B)
-    libraryFoyer.connect(combatRoom01, door003A)
-    combatRoom01.connect(libraryFoyer, door002B)
+    libraryFoyer003.connect(arena002, door003A)
+    arena002.connect(libraryFoyer003, door002B)
 
     door003B = StandardFeatures.StandardOpenDoor(
         "A heavy wooden door, oak or some kind of hardwood. It been smashed, as though something too large to fit forced it's way "
         "through into the library. It's hanging crooked on it's hinges and the frame has deep gouges in it.",
         "west,west door,door,wood door,wooden door,oak door,hardwood door")
 
+    #Features
+    libraryFoyer003.addFeature(AreasFeatures.Feature(
+        ["It looks ancient, worn to the point of falling apart. From the patches of faded paint still clinging to the wood, you'd guess "
+        "it used to be green. It has single drawer in it."],
+        "desk,wood desk,wooden desk"
+    ))
+
+    libraryDeskDrawer = StandardFeatures.UnlockedContainer(
+        ["Flimsy and creaky, just like the desk it's attached to."],
+        "drawer,desk drawer",
+        "You half expect it to break, but it slides open with a loud squeak.",
+        "You slide the drawer closed."
+    )
+
+    firstAidKit003 = StandardItems.FirstAidKit()
+    firstAidKit003.notTakenDesc = "A first aid kit is lying in the drawer amongst the pens and loose paper."
+    libraryDeskDrawer.addItem(firstAidKit003)
+    libraryFoyer003.addFeature(libraryDeskDrawer)
+
     #004 - LIBRARY EAST WING
-    libraryEast = AreasFeatures.Area(
+    libraryEast004 = AreasFeatures.Area(
         "Library - East Wing", 
         ["This part of the library is a mess, books scattered across the floor, shelves knocked over or slanted precariously over "
         "the aisle. One massive shelf in particular is leaning so far over you're amazed it's still upright. Most of the aisles are blocked or"
@@ -140,12 +160,12 @@ def buildCombatSimulator(gameState):
         "through into the library. It's hanging crooked on it's hinges and the frame has deep gouges in it.",
         "east,east door,door,wood door,wooden door,oak door,hardwood door")
     door004A.makeSibling(door003B)
-    libraryEast.connect(libraryFoyer, door004A)
-    libraryFoyer.connect(libraryEast, door003B)
+    libraryEast004.connect(libraryFoyer003, door004A)
+    libraryFoyer003.connect(libraryEast004, door003B)
 
     #Features
-    libraryEast.addFeature(UniqueHazards.LeaningBookshelf())
-    libraryEast.addFeature(AreasFeatures.Feature(
+    libraryEast004.addFeature(UniqueHazards.LeaningBookshelf())
+    libraryEast004.addFeature(AreasFeatures.Feature(
         ["The entire room is lined with creaky, tipping and crumbling bookshelves."],
         "shelf,shelves,bookshelf,bookshelves,bookcase,bookcases"
         ))
@@ -165,7 +185,7 @@ def buildCombatSimulator(gameState):
     #Enemies
 
     #005 - LIBRARY WEST WING
-    libraryWest = AreasFeatures.Area(
+    libraryWest005 = AreasFeatures.Area(
         "Library - West Wing", 
         ["The west wing looks to be in considerably better shape than the eastern section. While a number of books have been torn apart "
         "and scattered around, the rest of the room is intact for the most part. On the far wall is a large, ornate stained-glass "
@@ -182,10 +202,10 @@ def buildCombatSimulator(gameState):
         "Following your previous path through the debris, you return to the east wing.",
         None)
     door005A.makeSibling(door004B)
-    libraryWest.connect(libraryEast, door005A)
-    libraryEast.connect(libraryWest, door004B)
+    libraryWest005.connect(libraryEast004, door005A)
+    libraryEast004.connect(libraryWest005, door004B)
 
-    libraryEast.addFeature(AreasFeatures.Feature(
+    libraryEast004.addFeature(AreasFeatures.Feature(
         ["The entire room is lined with huge, hardwood bookshelves."],
         "shelf,shelves,bookshelf,bookshelves,bookcase,bookcases"
         ))
@@ -196,10 +216,10 @@ def buildCombatSimulator(gameState):
 
     #Enemies
     libraryHellhound = UniqueEnemies.Hellhound()
-    libraryWest.spawnEnemy(libraryHellhound, 2)
+    libraryWest005.spawnEnemy(libraryHellhound, 2)
     
 
-    gameState.addArea(armory)
+    gameState.addArea(armory001)
 
 def buildWorld(gameState):
     buildPrologue100(gameState)

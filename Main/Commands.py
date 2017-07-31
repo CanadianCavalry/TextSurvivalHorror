@@ -90,7 +90,7 @@ def use(player, keyword):
         return "You need to be more specific"
     elif len(matching) == 1:
         try:
-            return matching[0].use()
+            return matching[0].use(player)
         except AttributeError:
             return "I can't use that."
     return

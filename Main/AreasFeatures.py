@@ -32,20 +32,13 @@ class Area(object):
                 if item.accessible:
                     if item.firstSeen and item.initSeenDesc:
                         desc += "\n" + item.initSeenDesc
-                        if item.quantity > 1:
-                            desc += "\n" + item.seenDescription
-                            if item.quantity > 2:
-                                desc += " (" + str(item.quantity) + ")"
                     elif item.firstTaken and item.notTakenDesc:
                         desc += "\n" + item.notTakenDesc
-                        if item.quantity > 1:
-                            desc += "\n" + item.seenDescription
-                            if item.quantity > 2:
-                                desc += " (" + str(item.quantity) + ")"
                     else:
                         desc += "\n" + item.seenDescription
-                        if item.quantity > 1:
-                            desc += " (" + str(item.quantity) + ")"
+                    
+                    if item.quantity > 1:
+                        desc += " (" + str(item.quantity) + ")"
                     item.firstSeen = False
 
         if self.NPCs or self.enemies:
@@ -194,30 +187,28 @@ class Container(Feature):
             self.itemsContained[itemToRemove.keywords].quantity -= 1
         else:
             del self.itemsContained[itemToRemove.keywords]
+
+    def displayContents(self):
+        desc = ""
+        for item in self.itemsContained.itervalues():    #Display all the visible items
+            if item.firstSeen and item.initSeenDesc:
+                desc += "\n" + item.initSeenDesc
+            elif item.firstTaken and item.notTakenDesc:
+                desc += "\n" + item.notTakenDesc
+            else:
+                desc += "\n" + item.seenDescription
+
+            if item.quantity > 1:
+                desc += " (" + str(item.quantity) + ")"
+            item.firstSeen = False
+        return desc
         
     def lookAt(self):
         desc = self.description[self.state]
         if self.isOpen:
             desc += " It is open."
             if self.itemsContained:
-                for item in self.itemsContained.itervalues():    #Display all the visible items
-                    if item.firstSeen and item.initSeenDesc:
-                        desc += "\n" + item.initSeenDesc
-                        if item.quantity > 1:
-                            desc += "\n" + item.seenDescription
-                            if item.quantity > 2:
-                                desc += " (" + str(item.quantity) + ")"
-                    elif item.firstTaken and item.notTakenDesc:
-                        desc += "\n" + item.notTakenDesc
-                        if item.quantity > 1:
-                            desc += "\n" + item.seenDescription
-                            if item.quantity > 2:
-                                desc += " (" + str(item.quantity) + ")"
-                    else:
-                        desc += "\n" + item.seenDescription
-                        if item.quantity > 1:
-                            desc += " (" + str(item.quantity) + ")"
-                    item.firstSeen = False
+                desc += self.displayContents()
         else:
             desc += " It is closed."
 
@@ -233,11 +224,9 @@ class Container(Feature):
             return "It is already open."
         else:
             self.isOpen = True
-            desc = self.openDesc + " "
+            desc = self.openDesc + "\n"
             if self.itemsContained:
-                desc += "Inside you see:\n"
-                for item in self.itemsContained.itervalues():
-                    desc += item.seenDescription + "\n"
+                desc += self.displayContents()
             else:
                 desc += "It appears to be empty."
         return desc,True

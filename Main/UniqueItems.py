@@ -5,6 +5,8 @@ Created on Jan 23, 2015
 '''
 import Items
 import UniqueFeatures
+import StandardItems
+
 
 class Scalpel201(Items.MeleeWeapon):
     

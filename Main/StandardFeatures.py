@@ -54,7 +54,7 @@ class StandardDownwardStairs(AreasFeatures.Link):
 class UnlockedContainer(AreasFeatures.Container):
     
     def __init__(self, description, keywords, openDesc, closeDesc):
-        super(UnlockedContainer, self).__init__(description, keywords, False, True, "",openDesc, closeDesc)
+        super(UnlockedContainer, self).__init__(description, keywords, False, True, None, openDesc, closeDesc)
         
     def unlock(self, usedItem):
         if self.isAccessible:
