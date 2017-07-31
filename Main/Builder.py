@@ -126,6 +126,10 @@ def buildCombatSimulator(gameState):
 
     #Features
     libraryFoyer003.addFeature(AreasFeatures.Feature(
+        ["A couple of cheap metal folding chairs. They look incredibly uncomfortable."],
+        "chair,chairs,metal chair,metal chairs"
+    ))
+    libraryFoyer003.addFeature(AreasFeatures.Feature(
         ["It looks ancient, worn to the point of falling apart. From the patches of faded paint still clinging to the wood, you'd guess "
         "it used to be green. It has single drawer in it."],
         "desk,wood desk,wooden desk"
@@ -168,7 +172,12 @@ def buildCombatSimulator(gameState):
     libraryEast004.addFeature(AreasFeatures.Feature(
         ["The entire room is lined with creaky, tipping and crumbling bookshelves."],
         "shelf,shelves,bookshelf,bookshelves,bookcase,bookcases"
-        ))
+    ))
+    libraryEast004.addFeature(AreasFeatures.Feature(
+        ["There must be thousands of books in this room, mostly religious and academic works. None jump out as being particularly "
+        "interesting, and you doubt you have the time to go searching through the stacks for a certain volume."],
+        "book,books"
+    ))
     door004B = AreasFeatures.Link(
         "Though numerous tipped over shelves and piles of debris are in the way, you can see a clear path through to the west end "
         "of the library", 
@@ -176,7 +185,8 @@ def buildCombatSimulator(gameState):
         True,
         None, 
         "You pick your way carefully between the shelves and emerge in the west wing.",
-        None)
+        None
+    )
 
     #Containers
 
@@ -188,9 +198,10 @@ def buildCombatSimulator(gameState):
     libraryWest005 = AreasFeatures.Area(
         "Library - West Wing", 
         ["The west wing looks to be in considerably better shape than the eastern section. While a number of books have been torn apart "
-        "and scattered around, the rest of the room is intact for the most part. On the far wall is a large, ornate stained-glass "
-        "window depicting a violent scene. It has been covered with metal bars."],
-        **{"size":3})
+        "and scattered around, the rest of the room is intact for the most part. On the far wall is a large, ornate stained glass "
+        "window depicting a biblical looking scene. It has been covered with metal bars."],
+        **{"size":3}
+    )
 
     #Links
     door005A = AreasFeatures.Link(
@@ -200,26 +211,49 @@ def buildCombatSimulator(gameState):
         True,
         None, 
         "Following your previous path through the debris, you return to the east wing.",
-        None)
+        None
+    )
     door005A.makeSibling(door004B)
     libraryWest005.connect(libraryEast004, door005A)
     libraryEast004.connect(libraryWest005, door004B)
 
-    libraryEast004.addFeature(AreasFeatures.Feature(
-        ["The entire room is lined with huge, hardwood bookshelves."],
+    #Features
+    libraryWest005.addFeature(AreasFeatures.Feature(
+        ["The entire room is filled with huge, hardwood bookshelves."],
         "shelf,shelves,bookshelf,bookshelves,bookcase,bookcases"
-        ))
+    ))
+    libraryWest005.addFeature(AreasFeatures.Feature(
+        ["There must be thousands of books in this room, mostly religious and academic works. None jump out as being particularly "
+        "interesting, and you doubt you have the time to go searching through the stacks for a certain volume."],
+        "book,books"
+    ))
+    libraryWest005.addFeature(AreasFeatures.Feature(
+        ["This circular stained glass window takes up a good portion of the west wall. It depicts an ancient scholar being attacked "
+        "by a large dog. The robed figure is holding out a book, which seems to be warding off the animal. Though the style looks "
+        "biblical, it's nothing I remember learning about.\nThe entire thing is covered with steel bars with only about 6 inches "
+        "between them. Doesn't look like you'll be getting out through here."],
+        "window,stained glass,glass,mural,"
+    ))
+    libraryWest005.addItem(Items.Corpse(
+        name="Dead Human",
+        description="It looks like it was a man at some point, though he's mostly beyond recognition. He's been badly mauled, "
+        "and from the tooth marks it looks like his head and limbs have been chewed on. His clothing indicates he was an employee, "
+        "possibly an orderly.",
+        seenDescription="A badly mauled corpse is splayed out on the floor.",
+        keywords="corpse,dead body,body,dead man,dead human,dead person,victim"
+    ))
 
     #Containers
 
     #Items
 
     #Enemies
-    libraryHellhound = UniqueEnemies.Hellhound()
-    libraryWest005.spawnEnemy(libraryHellhound, 2)
-    
+    libraryWest005.spawnEnemy(UniqueEnemies.Hellhound(), 2)
 
-    gameState.addArea(armory001)
+    #Debug Config:
+    spawnLocation = armory001
+
+    gameState.addArea(spawnLocation)
 
 def buildWorld(gameState):
     buildPrologue100(gameState)

@@ -394,3 +394,9 @@ class Corpse(Item):
 
     def wear(self, player):
         return "Assuming you could even lift that, you doubt wearing a corpse will improve your fighting ability much."
+
+    def equip(self, player):
+        return "Though the idea of beating a demon to death with a dead body is incredibly metal, it doesn't seem very practical."
+
+    def search(self, player):
+        return ""

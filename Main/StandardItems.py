@@ -19,13 +19,13 @@ class Axe(Items.MeleeWeapon):
         accuracy=75
         size=2
 
-        kwargs = {
+        kwargs.update({
             "stunChance":25, 
             "notTakenDesc":"A long-handled fire axe is lying across the table.",
             "initPickupDesc":"You lift the axe from the table. It has a weight and heft that is comfortable in your hands.",
             "stunlength": 2,
             "defenseBonus":5
-        }
+        })
 
         super(Axe, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)
 
@@ -41,7 +41,7 @@ class LongSword(Items.MeleeWeapon):
         accuracy=85
         size=2
 
-        kwargs = {
+        kwargs.update({
             "stunChance":20,
             "initSeenDesc":"A large sword has been thrust into wooden floor here. It seems to glow faintly at first, then fades.",
             "notTakenDesc":"A large sword has been thrust into wooden floor here.",
@@ -49,7 +49,7 @@ class LongSword(Items.MeleeWeapon):
             "stunlength": 2,
             "defenseBonus":10,
             "attackDesc":"You swing your blade."
-        }
+        })
 
         super(LongSword, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)
         
@@ -71,10 +71,10 @@ class KitchenKnife(Items.MeleeWeapon):
         accuracy=95
         size=1
 
-        kwargs = {
+        kwargs.update({
             "stunChance":5,
             "notTakenDesc":"A kitchen knife is lying on the table.",
-        }
+        })
 
         super(KitchenKnife, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)
         
@@ -92,14 +92,14 @@ class Revolver(Items.RangedWeapon):
         accuracy=75
         capacity=6
 
-        kwargs = {
+        kwargs.update({
             "ammoRemaining":4,
             "fireSound":"Sounds/Combat/RevolverShot.mp3",
             "reloadSound":"Sounds/Combat/RevolverReload.mp3", 
             "notTakenDesc":"A revolver rests in the corner of the table.",
             "initPickupDesc":"It's heavier than it looks. You look it over to ensure the safety is off. Let's hope it still fires.",
             "attackDesc":"You open fire with your revolver."
-        }
+        })
         
         super(Revolver, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, capacity, **kwargs)
 
@@ -116,13 +116,13 @@ class Crossbow(Items.RangedWeapon):
         accuracy=90
         capacity=1
 
-        kwargs = {
+        kwargs.update({
             "ammoRemaining":1,
             "fireSound":"Sounds/Combat/CrossbowShot.mp3", 
             "notTakenDesc":"A crossbow rests on a display next to the door.",
             "initPickupDesc":"It's nowhere near as bulky as most weapons of this type. The string is oiled and the mechanism appears to have been recently cleaned.  You sling it over your shoulder.",
             "attackDesc":"You carefully line up your crossbow, and fire."
-        }
+        })
         
         super(Crossbow, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, capacity, **kwargs)
 
@@ -135,9 +135,9 @@ class RevolverAmmo(Items.Ammo):
         keywords="ammo,revolver ammo,magnum ammo,ammunition,revolver ammunition,speed-loader,speed loader,bullets,speedloader"
         weaponType="Revolver"
 
-        kwargs = {
+        kwargs.update({
             "stackable":True
-        }
+        })
 
         super(RevolverAmmo, self).__init__(name, description, seenDescription, keywords, weaponType, **kwargs)
 
@@ -149,9 +149,9 @@ class CrossbowBolt(Items.Ammo):
         keywords="ammo,crossbow ammo,crossbow bolt,bolt,ammunition,crossbow ammunition"
         weaponType="Crossbow"
 
-        kwargs = {
+        kwargs.update({
             "stackable":True
-        }
+        })
 
         super(CrossbowBolt, self).__init__(name, description, seenDescription, keywords, weaponType, **kwargs)
 
@@ -165,10 +165,10 @@ class LeatherJacket(Items.Armor):
         keywords="armor,jacket,leather jacket"
         armorRating=10
 
-        kwargs = {
+        kwargs.update({
             "initPickupDesc":"It's old and weatherbeaten, and looks like it's been patched extensively, but it should provide a bit of protection at least.",
             "notTakenDesc":"A faded leather jacket is hanging off one of the cages."
-        }
+        })
 
         super(LeatherJacket, self).__init__(name, description, seenDescription, keywords, armorRating, **kwargs)
 
@@ -182,9 +182,9 @@ class Flask(Items.Alchohol):
         useDescription="You unscrew the cap and drain the remaining liquid from the flask. Delicious."
         alcoholAmount=10
 
-        kwargs = {
+        kwargs.update({
             "initPickupDesc":"By some miracle it's still about half full. You can almost feel the contents calling you."
-        }
+        })
 
         super(Flask, self).__init__(name, description, seenDescription, keywords, useDescription, alcoholAmount, **kwargs)
 
@@ -204,6 +204,8 @@ class FirstAidKit(Items.Usable):
         super(FirstAidKit, self).__init__(name, description, seenDescription, keywords, useDescription, **kwargs)
 
     def use(self, player):
+        if player.currentLocation.enemies:
+            return "You can't perform first aid when an enemy is nearby."
         if player.health == 100:
             return "You don't have any wounds that need attention."
         
