@@ -7,6 +7,16 @@ from Items import Corpse
 from random import randint
 import pyglet
 
+#Generator for creating unqiue enemy ID's
+def createGenerator():
+    idList = range(10000)
+    for i in idList:
+        yield i
+
+def generateId():
+    return generateId.generator.next()
+generateId.generator = createGenerator()
+
 def getActingEnemies(player):
     return player.currentLocation.enemies
 
@@ -36,6 +46,10 @@ class Enemy(object):
         self.maxDamage = maxDamage
         self.accuracy = accuracy
         self.corpse = corpse
+        self.idNum = generateId()
+
+        #Since enemies can't stack, each needs a unique keyword string
+        self.keywords = str(self.idNum) + "," + keywords
 
         #set default values for case when no values are given
         self.currentLocation = None

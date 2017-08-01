@@ -16,6 +16,7 @@ class Item(object):
         self.seenDescription = seenDescription
         self.keywords = keywords
         self.currentLocation = None
+        self.enemiesBlocking = {}
 
         #set default values for case when no values are given
         self.initPickupDesc = None

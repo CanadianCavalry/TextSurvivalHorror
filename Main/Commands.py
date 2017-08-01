@@ -67,6 +67,18 @@ def findMatchingWithHolder(player, keyword, matching):
 
     return matching, holder
 
+def selectEnemy(matching):
+    closest = None
+    for match in matching:
+        if not hasattr(match, "health"):
+            return False
+        if (not closest) or (match.distanceToPlayer < closest.distanceToPlayer):
+            closest = match
+        elif match.distanceToPlayer == closest.distanceToPlayer:
+            if match.health < closest.health:
+                closest = match
+    return closest
+
 def go(player, keyword):
     matching = findMatching(player, keyword, list())
 
@@ -181,12 +193,14 @@ def attack(player, keyword):
     if len(matching) == 0:
         return "There is nothing like that here."
     elif len(matching) > 1:
-        return "You need to be more specific"
-    elif len(matching) == 1:
-        try:
-            return player.attack(matching[0])
-        except AttributeError:
-           return "I see no reason to attack that right now."
+        autoTarget = selectEnemy(matching)
+        if not autoTarget:
+            return "You need to be more specific"
+        matching[0] = autoTarget
+    try:
+        return player.attack(matching[0])
+    except AttributeError:
+       return "I see no reason to attack that right now."
         
 def heavyAttack(player, keyword):
     if keyword == "":
@@ -197,12 +211,14 @@ def heavyAttack(player, keyword):
     if len(matching) == 0:
         return "There is nothing like that here."
     elif len(matching) > 1:
-        return "You need to be more specific"
-    elif len(matching) == 1:
-        try:
-            return player.heavyAttack(matching[0])
-        except AttributeError:
-            return "I see no reason to attack that right now."
+        autoTarget = selectEnemy(matching)
+        if not autoTarget:
+            return "You need to be more specific"
+        matching[0] = autoTarget
+    try:
+        return player.heavyAttack(matching[0])
+    except AttributeError:
+        return "I see no reason to attack that right now."
 
 def shoot(player, keyword):
     if keyword == "":
@@ -213,12 +229,14 @@ def shoot(player, keyword):
     if len(matching) == 0:
         return "There is nothing like that here."
     elif len(matching) > 1:
-        return "You need to be more specific"
-    elif len(matching) == 1:
-        try:
-            return player.attack(matching[0])
-        except AttributeError:
-            return "I see no reason to attack that right now."
+        autoTarget = selectEnemy(matching)
+        if not autoTarget:
+            return "You need to be more specific"
+        matching[0] = autoTarget
+    try:
+        return player.attack(matching[0])
+    except AttributeError:
+        return "I see no reason to attack that right now."
 
 def reload(player):
         return player.reload()
@@ -235,12 +253,14 @@ def exorcise(player, keyword):
     if len(matching) == 0:
         return "There is nothing like that here."
     elif len(matching) > 1:
-        return "You need to be more specific"
-    elif len(matching) == 1:
-        try:
-            return player.exorcise(matching[0])
-        except AttributeError:
-            return "I can only exorcise demonic creatures."
+        autoTarget = selectEnemy(matching)
+        if not autoTarget:
+            return "You need to be more specific"
+        matching[0] = autoTarget
+    try:
+        return player.exorcise(matching[0])
+    except AttributeError:
+        return "I can only exorcise demonic creatures."
 
 def advance(player, keyword):
     matching = findMatching(player, keyword, list())
@@ -249,12 +269,14 @@ def advance(player, keyword):
     if len(matching) == 0:
         return "There is nothing like that here."
     elif len(matching) > 1:
-        return "You need to be more specific"
-    elif len(matching) == 1:
-        try:
-            return player.advance(matching[0])
-        except AttributeError:
-            return "That isn't an enemy."
+        autoTarget = selectEnemy(matching)
+        if not autoTarget:
+            return "You need to be more specific"
+        matching[0] = autoTarget
+    try:
+        return player.advance(matching[0])
+    except AttributeError:
+        return "That isn't an enemy."
     
 def retreat(player, keyword):
     matching = findMatching(player, keyword, list())
@@ -263,12 +285,14 @@ def retreat(player, keyword):
     if len(matching) == 0:
         return "There is nothing like that here."
     elif len(matching) > 1:
-        return "You need to be more specific"
-    elif len(matching) == 1:
-        try:
-            return player.retreat(matching[0])
-        except AttributeError:
-            return "That isn't an enemy."
+        autoTarget = selectEnemy(matching)
+        if not autoTarget:
+            return "You need to be more specific"
+        matching[0] = autoTarget
+    try:
+        return player.retreat(matching[0])
+    except AttributeError:
+        return "That isn't an enemy."
             
 def equip(player, keyword):
     matching = findMatchingInventory(player, keyword, list())
