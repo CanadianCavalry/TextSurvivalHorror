@@ -520,8 +520,10 @@ def look(player, keyword):
     matching = findMatchingInventory(player, keyword, matching)
             
     if len(matching) == 0:
-        return "You don't see anything like that here."
-    if len(matching) > 1:
-        return "You need to be more specific"
-    elif len(matching) == 1:
-        return matching[0].lookAt()
+        return "There is nothing like that here."
+    elif len(matching) > 1:
+        autoTarget = selectEnemy(matching)
+        if not autoTarget:
+            return "You need to be more specific"
+    matching[0] = autoTarget
+    return matching[0].lookAt()
