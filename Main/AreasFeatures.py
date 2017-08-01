@@ -222,7 +222,11 @@ class Container(Feature):
     def open(self, player):
         if not self.isAccessible:
             return self.blockedDesc
-        elif self.isOpen:
+        for key, enemy in self.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
+
+        if self.isOpen:
             return "It is already open."
         else:
             self.isOpen = True
@@ -236,6 +240,9 @@ class Container(Feature):
     def close(self, player):
         if not self.isOpen:
             return "It is already closed."
+        for key, enemy in self.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
         else:
             self.isOpen = False
             return self.closeDesc,True
@@ -255,9 +262,9 @@ class Link(object):
         return self.description
         
     def travel(self, player):
-        for enemy in player.currentLocation.enemies.itervalues():
-            if enemy.isBlockingExit:
-                return enemy.blockingDesc
+        for key, enemy in player.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
 
         if self.isAccessible == False:
             return self.blockedDesc

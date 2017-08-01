@@ -104,6 +104,7 @@ def buildCombatSimulator(gameState):
     
     testDemon = Enemies.TestDemon()
     arena002.spawnEnemy(testDemon, 3)
+    testDemon.protectThing(door002B)
 
     #003 - LIBRARY FOYER
     libraryFoyer003 = AreasFeatures.Area(
@@ -262,7 +263,9 @@ def buildCombatSimulator(gameState):
     #Items
 
     #Enemies
-    libraryWest005.spawnEnemy(UniqueEnemies.Hellhound(), 2)
+    libraryHellhound = UniqueEnemies.Hellhound()
+    libraryWest005.spawnEnemy(libraryHellhound, 2)
+    libraryHellhound.protectThing(libraryCorpse005, "The hellhound is directly between you and the corpse.")
 
     #Debug Config:
     spawnLocation = armory001

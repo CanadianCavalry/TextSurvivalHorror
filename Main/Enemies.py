@@ -47,6 +47,7 @@ class Enemy(object):
         self.accuracy = accuracy
         self.corpse = corpse
         self.idNum = generateId()
+        self.protectedThings = {}
 
         #Since enemies can't stack, each needs a unique keyword string
         self.keywords = str(self.idNum) + "," + keywords
@@ -73,7 +74,7 @@ class Enemy(object):
         self.firstSeen = True
         self.firstSeenSound = None
         self.deathSound = None
-        self.blockingDesc = "The " + self.name + " is between you and the exit. There's no way out.\n"
+        self.defaultBlockDesc = "The " + self.name + " is between you and the exit. There's no way out.\n"
         self.defaultStunDesc = "The " + self.name + " is dazed.\n"
         self.defaultRecoveryDesc = "The " + self.name + " is no longer dazed."
         self.stunDesc = self.defaultStunDesc
@@ -98,6 +99,7 @@ class Enemy(object):
                 setattr(self, key, value)
         
     def travel(self, location, player):
+        self.protectedThings = {}
         for link in self.currentLocation.connectedAreas.itervalues():
             if not link.destination == location:
                 continue
@@ -173,6 +175,11 @@ class Enemy(object):
 
     def playerIsDefending(self, hitChance):
         return hitChance - 20
+
+    def protectThing(self, thing, blockDesc=""):
+        if not blockDesc:
+            blockDesc = self.defaultBlockDesc
+        self.protectedThings[thing] = blockDesc
         
     def advance(self):
         if self.distanceToPlayer > 1:

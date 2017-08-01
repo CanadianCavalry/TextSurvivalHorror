@@ -23,6 +23,9 @@ class StandardLockedDoor(AreasFeatures.Door):
         super(StandardLockedDoor, self).__init__(description, keywords, False, "The door is locked. It won't budge.", "You open the door and step through.")
         
     def unlock(self, usedItem):
+        for key, enemy in self.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
         if usedItem == self.itemToOpen:
             self.isAccessible = True
             return usedItem.useDescription,True
@@ -57,6 +60,9 @@ class UnlockedContainer(AreasFeatures.Container):
         super(UnlockedContainer, self).__init__(description, keywords, False, True, None, openDesc, closeDesc)
         
     def unlock(self, usedItem):
+        for key, enemy in self.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
         if self.isAccessible:
             if usedItem == self.itemToOpen:
                 self.isAccessible = True
@@ -73,6 +79,9 @@ class LockedContainer(AreasFeatures.Container):
         super(LockedContainer, self).__init__(description, keywords, False, False, blockedDesc, openDesc, closeDesc)
         
     def unlock(self, usedItem):
+        for key, enemy in self.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
         if self.isAccessible:
             if usedItem == self.itemToOpen:
                 self.isAccessible = True

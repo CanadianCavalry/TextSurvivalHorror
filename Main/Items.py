@@ -16,7 +16,6 @@ class Item(object):
         self.seenDescription = seenDescription
         self.keywords = keywords
         self.currentLocation = None
-        self.enemiesBlocking = {}
 
         #set default values for case when no values are given
         self.initPickupDesc = None
@@ -41,6 +40,9 @@ class Item(object):
         #print "Getting " + self.name + " - " + str(self.quantity)
         if not self.accessible:
             return self.inaccessibleDesc,True
+        for key, enemy in self.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
         
         #If there is more than 1, dup it and pass the dup. Quantity will be decremented later
         if (self.quantity > 1) and (not self.stackable):
@@ -366,6 +368,9 @@ class Alchohol(Drinkable):
         super(Alchohol, self).__init__(name, description, seenDescription, keywords, useDescription, **kwargs)
         
     def drink(self, player):
+        for key, enemy in self.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
         source = pyglet.media.load(self.useSound, streaming=False)
         source.play()
         player.increaseIntox(self.alcoholAmount)
@@ -396,6 +401,9 @@ class Note(Readable):
         super(Note, self).__init__(name, description, seenDescription, keywords, **kwargs)
     
     def read(self):
+        for key, enemy in self.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
         return self.contents,True
 
 class Key(Usable):
@@ -411,6 +419,9 @@ class Key(Usable):
         return "Use the key on what?"
     
     def useOn(self, player, recipient):
+        for key, enemy in self.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
         if (isinstance(recipient, AreasFeatures.Door)) or (isinstance(recipient, AreasFeatures.Container)):
             return recipient.unlock(self)
         else:
@@ -447,9 +458,9 @@ class Corpse(Item):
             itemToRemove.currentLocation = None
 
     def search(self, player):
-        if self.currentLocation.enemies:
-            return "You won't have time to search while there are enemies nearby."
-
+        for key, enemy in self.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
         itemsToRemove = []
         resultString = "You look the body over."
         if self.itemsContained:
