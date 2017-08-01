@@ -6,6 +6,7 @@ Created on Aug 22, 2014
 import random
 import pyglet
 import copy
+import Enemies
 
 class Item(object):
     #required params. instance cannot be created without these
@@ -26,7 +27,6 @@ class Item(object):
         self.initPickupDesc = None
         self.initSeenDesc = None
         self.notTakenDesc = None
-        self.carried = False
         self.pickupSound = "Sounds/Misc/ItemGet.mp3"
         self.inAccessibleDesc = "You can't reach it."
         self.pickupDesc = "You pick up the " + self.name + "."
@@ -41,7 +41,6 @@ class Item(object):
         if not self.accessible:
             return self.inaccessibleDesc,True
         
-        self.carried = True
         #If there is more than 1, dup it and pass the dup. Quantity will be decremented later
         if (self.quantity > 1) and (not self.stackable):
             itemToGet = copy.deepcopy(self)
@@ -182,7 +181,7 @@ class RangedWeapon(Weapon):
         super(RangedWeapon, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)
                             #Me name es Wayne Purkle coz when I nommin' grapes day be PURKLE!!!
     def attack(self, enemy, player, attackType):
-        try:
+        if isinstance(enemy, Enemies.Enemy):
             if attackType == "heavy":
                 return "You are not holding a melee weapon."
             
@@ -235,7 +234,7 @@ class RangedWeapon(Weapon):
                 resultString = self.attackDesc
                 resultString += "\nYou miss!"
             return resultString, True
-        except AttributeError:
+        else:
             return "That isn't worth wasting ammo on..."
 
     def shoot(self, enemy, player):
@@ -280,58 +279,58 @@ class MeleeWeapon(Weapon):
         super(MeleeWeapon, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)   
 
     def attack(self, enemy, player, attackType):
-        #try:
-        if enemy.distanceToPlayer > 1:
-            return "You are not within striking distance."
+        if isinstance(enemy, Enemies.Enemy):
+            if enemy.distanceToPlayer > 1:
+                return "You are not within striking distance."
 
-        hitChance = self.accuracy
-        #print "Initial hit chance: " + str(hitChance)
-        
-        if player.intoxication > 75:
-            hitChance -= 20
-        elif player.intoxication > 60:
-            hitChance -= 15
-        elif player.intoxication > 40:
-            hitChance -= 10
-        elif player.intoxication > 25:
-            hitChance -= 5
-        elif player.intoxication > 10:
-            hitChance += 8
-        elif player.intoxication > 1:
-            hitChance += 5
+            hitChance = self.accuracy
+            #print "Initial hit chance: " + str(hitChance)
             
-        if attackType == "heavy":
-            hitChance -= 25
-            #print "Heavy attack penalty. New hit chance: " + str(hitChance)
-        
-        if enemy.helpless:
-            hitChance = 100
-        elif enemy.stunnedTimer > 0:
-            hitChance += 15
-            #print "Enemy stunned bonus. New hit chance: " + str(hitChance)
+            if player.intoxication > 75:
+                hitChance -= 20
+            elif player.intoxication > 60:
+                hitChance -= 15
+            elif player.intoxication > 40:
+                hitChance -= 10
+            elif player.intoxication > 25:
+                hitChance -= 5
+            elif player.intoxication > 10:
+                hitChance += 8
+            elif player.intoxication > 1:
+                hitChance += 5
+                
+            if attackType == "heavy":
+                hitChance -= 25
+                #print "Heavy attack penalty. New hit chance: " + str(hitChance)
+            
+            if enemy.helpless:
+                hitChance = 100
+            elif enemy.stunnedTimer > 0:
+                hitChance += 15
+                #print "Enemy stunned bonus. New hit chance: " + str(hitChance)
+            else:
+                hitChance -= enemy.meleeDodge
+                #print "enemy dodge penalty. New hit chance: " + str(hitChance)
+            
+            if hitChance < 10:
+                hitChance = 10
+            attackRoll = random.randint(0, 100)
+            #print "Final hit chance: " + str(hitChance)
+            #print "Attack roll: " + str(attackRoll)
+            if attackRoll <= hitChance:
+                resultString = enemy.takeHit(player, self, attackType)
+                if self.hitSound:
+                    source = pyglet.media.load(self.hitSound, streaming=False)
+                    source.play()
+            else:
+                resultString = self.attackDesc
+                resultString += "\nYou miss!"
+                if self.missSound:
+                    source = pyglet.media.load(self.missSound, streaming=False)
+                    source.play()
+            return resultString, True
         else:
-            hitChance -= enemy.meleeDodge
-            #print "enemy dodge penalty. New hit chance: " + str(hitChance)
-        
-        if hitChance < 10:
-            hitChance = 10
-        attackRoll = random.randint(0, 100)
-        #print "Final hit chance: " + str(hitChance)
-        #print "Attack roll: " + str(attackRoll)
-        if attackRoll <= hitChance:
-            resultString = enemy.takeHit(player, self, attackType)
-            if self.hitSound:
-                source = pyglet.media.load(self.hitSound, streaming=False)
-                source.play()
-        else:
-            resultString = self.attackDesc
-            resultString += "\nYou miss!"
-            if self.missSound:
-                source = pyglet.media.load(self.missSound, streaming=False)
-                source.play()
-        return resultString, True
-        #except AttributeError:
-            #return "That isn't an enemy..."
+            return "That isn't an enemy..."
 
     def shoot(self, enemy, player):
         return "Try as you might, you can't find a good way to use your " + player.mainHand.name + " as a gun."
@@ -357,9 +356,17 @@ class Alchohol(Drinkable):
     
     def __init__(self, name, description, seenDescription, keywords, useDescription, alcoholAmount, **kwargs):
         self.alcoholAmount = alcoholAmount
+
+
+        kwargs.update({
+            "useSound":"Sounds/Misc/LiquorDrink.mp3"
+        })
+
         super(Alchohol, self).__init__(name, description, seenDescription, keywords, useDescription, **kwargs)
         
     def drink(self, player):
+        source = pyglet.media.load(self.useSound, streaming=False)
+        source.play()
         player.increaseIntox(self.alcoholAmount)
         spiritDecrease = self.alcoholAmount / 2
         if spiritDecrease > 10:
@@ -381,10 +388,32 @@ class Note(Readable):
     
     def __init__(self, name, description, seenDescription, keywords, contents, **kwargs):
         self.contents = contents
+
+        kwargs.update({
+            "pickupSound":"Sounds/Misc/PaperGet" + str(random.randint(1,3)) + ".mp3"
+        })
         super(Note, self).__init__(name, description, seenDescription, keywords, **kwargs)
     
     def read(self):
-        return self.contents,True        
+        return self.contents,True
+
+class Key(Usable):
+    def __init__(self, name, description, seenDescription, keywords, useDescription, **kwargs):
+
+        kwargs.update({
+            "pickupSound":"Sounds/Misc/KeyGet.mp3"
+        })
+
+        super(Key, self).__init__(name, description, seenDescription, keywords, useDescription, **kwargs)
+    
+    def use(self, player):
+        return "Use the key on what?"
+    
+    def useOn(self, player, recipient):
+        if (isinstance(recipient, AreasFeatures.Door)) or (isinstance(recipient, AreasFeatures.Container)):
+            return recipient.unlock(self)
+        else:
+            return "It doesn't have a lock to put the key in..."
 
 class Corpse(Item):
     def __init__(self, name, description, seenDescription, keywords, **kwargs):

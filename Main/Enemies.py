@@ -354,8 +354,8 @@ class TestDemon(Enemy):
         seenDesc = "You see a Winged Demon glaring at you menacingly."
         keywords = "demon,red demon,winged demon,enemy"
         maxHealth = 125
-        minDamage = 18
-        maxDamage = 24
+        minDamage = 15
+        maxDamage = 21
         accuracy = 85
         corpse = Corpse("Demon Corpse", "The body is covered in wounds and blood is slowly pooling on the floor under it. The air around it stinks of sulphur.", "The freshly butchered body of a large, red-skinned demon is lying on the floor.", "body,demon body,dead demon,demon corpse,corpse,demon")
         

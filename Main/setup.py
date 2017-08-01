@@ -12,7 +12,12 @@ combatSoundFiles = ['Sounds/Combat/RevolverShot.mp3',
 miscSoundFiles = ['Sounds/Misc/GenericDoor1.mp3',
 				  'Sounds/Misc/GenericDoor2.mp3',
 				  'Sounds/Misc/HeavyDoor.mp3',
-				  'Sounds/Misc/ItemGet.mp3']
+				  'Sounds/Misc/ItemGet.mp3',
+				  'Sounds/Misc/KeyGet.mp3',
+				  'Sounds/Misc/LiquorDrink.mp3'
+				  'Sounds/Misc/PaperGet1.mp3',
+				  'Sounds/Misc/PaperGet2.mp3',
+				  'Sounds/Misc/PaperGet3.mp3']
 
 monsterSoundFiles = ['Sounds/Monsters/DemonCantWait.mp3',
 					 'Sounds/Monsters/DemonLatin.mp3',

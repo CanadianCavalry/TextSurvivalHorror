@@ -103,6 +103,31 @@ class Revolver(Items.RangedWeapon):
         
         super(Revolver, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, capacity, **kwargs)
 
+class WeskersRevolver(Items.RangedWeapon):
+
+    def __init__(self, **kwargs):
+        name="Weskers Revolver"
+        description="A heavy .457 magnum revolver. It holds 6 rounds. The initials A.W. have been engraved on the side."
+        seenDescription="A large, black revolver is lying on the floor."
+        keywords="gun,handgun,pistol,revolver,magnum,weskers gun,weskers revolver"
+        minDamage=200
+        maxDamage=200
+        size=1
+        accuracy=150
+        capacity=6
+
+        kwargs.update({
+            "ammoRemaining":6,
+            "fireSound":"Sounds/Combat/RevolverShot.mp3",
+            "reloadSound":"Sounds/Combat/RevolverReload.mp3", 
+            "notTakenDesc":"A large, black revolver rests in the corner of the table.",
+            "initPickupDesc":"Poor demons.",
+            "attackDesc":"You open fire and the recoil nearly knocks you on your ass."
+        })
+        
+        super(WeskersRevolver, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, capacity, **kwargs)
+
+
 class Crossbow(Items.RangedWeapon):
 
     def __init__(self, **kwargs):
@@ -214,13 +239,3 @@ class FirstAidKit(Items.Usable):
         return self.useDescription, True
 
 #Misc
-class Key(Items.Usable):
-    
-    def use(self, player):
-        return "Use the key on what?"
-    
-    def useOn(self, player, recipient):
-        if (isinstance(recipient, AreasFeatures.Door)) or (isinstance(recipient, AreasFeatures.Container)):
-            return recipient.unlock(self)
-        else:
-            return "It doesn't have a lock to put the key in..."

@@ -183,10 +183,10 @@ def attack(player, keyword):
     elif len(matching) > 1:
         return "You need to be more specific"
     elif len(matching) == 1:
-        #try:
-        return player.attack(matching[0])
-        #except AttributeError:
-           #return "I see no reason to attack that right now."
+        try:
+            return player.attack(matching[0])
+        except AttributeError:
+           return "I see no reason to attack that right now."
         
 def heavyAttack(player, keyword):
     if keyword == "":
@@ -335,10 +335,10 @@ def search(player, keyword):
     elif len(matching) > 1:
         return "You need to be more specific."
     elif len(matching) == 1:
-        #try:
-        return matching[0].search(player)
-        #except AttributeError:
-            #return "You can't search that."
+        try:
+            return matching[0].search(player)
+        except AttributeError:
+            return "You can't search that."
 
 def drink(player, keyword):
     matching = findMatching(player, keyword, list())

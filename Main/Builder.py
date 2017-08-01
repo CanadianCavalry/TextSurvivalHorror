@@ -57,15 +57,17 @@ def buildCombatSimulator(gameState):
         "",
         False)
     armory001.addFeature(gunCages)
-    armory001.addItem(StandardItems.LongSword())
-    armory001.addItem(StandardItems.Crossbow())
-    armory001.addItem(StandardItems.Revolver())
-    armory001.addItem(StandardItems.RevolverAmmo())
+    armory001.addItem(StandardItems.WeskersRevolver())
+    armory001.addItem(Items.Note(
+        name="Strange Note",
+        description="A hastily written note scrawled on a napkin.",
+        seenDescription="There is a scrunched up note pinned to the table.",
+        keywords="note,paper,napkin,page",
+        contents="The gun is for official testers only. It will get you wherever you need to go. -dev"
+    ))
 
     armory001.addItem(StandardItems.Axe())
     armory001.addItem(StandardItems.KitchenKnife())
-    armory001.addItem(StandardItems.CrossbowBolt())
-    armory001.addItem(StandardItems.CrossbowBolt())
     armory001.addItem(StandardItems.LeatherJacket())
     armory001.addItem(StandardItems.Flask())
     
@@ -243,7 +245,7 @@ def buildCombatSimulator(gameState):
         seenDescription="A badly mauled corpse is splayed out on the floor.",
         keywords="corpse,dead body,body,dead man,dead human,dead person,victim"
     )
-    libraryCorpse005.addItem(StandardItems.Key(
+    libraryCorpse005.addItem(Items.Key(
         name="Ornate Key",
         description="It's covered in strange markings and is topped with an ornate engraving of a demonic face. It looks like it's made from copper or brass.",
         seenDescription="An ornate metal key is on the ground.",
