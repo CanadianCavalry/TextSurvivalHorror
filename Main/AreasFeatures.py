@@ -222,7 +222,7 @@ class Container(Feature):
     def open(self, player):
         if not self.isAccessible:
             return self.blockedDesc
-            
+
         for key, enemy in player.currentLocation.enemies.iteritems():
             if self in enemy.protectedThings:
                 return enemy.protectedThings[self]
@@ -280,7 +280,7 @@ class Link(object):
         if self.travelSound:
             source = pyglet.media.load(self.travelSound, streaming=False)
             source.play()
-            time.sleep(2.5)
+            time.sleep(1.8)
         if player.currentLocation.visited == False:
             player.currentLocation.visited = True
             desc += player.currentLocation.lookAt()

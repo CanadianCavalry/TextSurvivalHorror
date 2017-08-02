@@ -74,6 +74,10 @@ class Enemy(object):
         self.firstSeen = True
         self.firstSeenSound = None
         self.deathSound = None
+        self.basicAttackSound = None
+        self.exorciseSound = None
+        self.exorciseHitSound = None
+        self.exorciseFailSound = None
         self.defaultBlockDesc = "The " + self.name + " is between you and the exit. There's no way out.\n"
         self.defaultStunDesc = "The " + self.name + " is dazed.\n"
         self.defaultRecoveryDesc = "The " + self.name + " is no longer dazed."
@@ -99,6 +103,8 @@ class Enemy(object):
                 setattr(self, key, value)
         
     def calcMovement(self, destination, player):
+        if self.stunnedTimer > 0:
+            return ""
         if self.currentLocation == player.currentLocation:
             resultString = "You run straight into the " + self.name + " chasing you!\n"
             resultString += self.takeAction(player)
@@ -111,7 +117,7 @@ class Enemy(object):
         if self.isChasing:
             if not self.trackPlayer(player):
                 self.isChasing = False
-                
+
         return resultString
 
     def trackPlayer(self, player):
@@ -173,6 +179,10 @@ class Enemy(object):
         hitChance = self.calcAttackAccuracy(player, attackType)
         #print "Enemy hit chance: " + str(hitChance)
             
+        if self.basicAttackSound:
+            source = pyglet.media.load(self.basicAttackSound, streaming=False)
+            source.play()
+
         attackRoll = randint(0,100)
         if attackRoll <= hitChance:
             damageAmount = randint(self.minDamage + 1, self.maxDamage)
@@ -278,15 +288,24 @@ class Enemy(object):
         return self.critDialogue[randint(0, len(self.critDialogue) - 1)]
         
     def exorciseAttempt(self, player):
+        if self.exorciseSound:
+            sourse = pyglet.media.load(self.exorciseSound, streaming=False)
+            source.play()
         resultString = self.exorciseDesc[randint(0, len(self.exorciseDesc) - 1)] + "\n"
         
         hitChance = self.baseExorciseChance
         hitChance += (player.spirit - 50)
         attackRoll = randint(0, 100)
         if attackRoll <= hitChance:
+            if self.exorciseHitSound:
+                sourse = pyglet.media.load(self.exorciseHitSound, streaming=False)
+                source.play()
             resultString += self.takeExorcise()
             return resultString
         else:
+            if self.exorciseFailSound:
+                sourse = pyglet.media.load(self.exorciseFailSound, streaming=False)
+                source.play()
             resultString += self.exorciseFailDesc[randint(0, len(self.exorciseFailDesc) - 1)]
             return resultString
         
