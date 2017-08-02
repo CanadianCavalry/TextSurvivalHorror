@@ -141,6 +141,8 @@ class Parser(object):
             resultString = StateControl.save(self.state)
         elif (self.command == "quit") or (self.command == "exit"):
             resultString = StateControl.quit()
+        elif (self.command == "/dev"):
+            resultString = Commands.devCommand(self.state.player, self.target)
         else:
             resultString = "I don't understand that."
             

@@ -229,13 +229,18 @@ class FirstAidKit(Items.Usable):
         super(FirstAidKit, self).__init__(name, description, seenDescription, keywords, useDescription, **kwargs)
 
     def use(self, player):
+        for key, enemy in player.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
+            elif self.currentLocation in enemy.protectedThings:
+                return enemy.protectedThings[self.currentLocation]
         if player.currentLocation.enemies:
             return "You can't perform first aid when an enemy is nearby."
         if player.health == 100:
             return "You don't have any wounds that need attention."
         
         player.heal(40)
-        del player.inventory[self.keywords]
+        self.currentLocation.removeItem(self)
         return self.useDescription, True
 
 #Misc

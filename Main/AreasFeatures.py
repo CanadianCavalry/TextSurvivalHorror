@@ -78,14 +78,13 @@ class Area(object):
                 self.itemsContained[itemToAdd.keywords].quantity += 1
         else:
             self.itemsContained[itemToAdd.keywords] = itemToAdd
-        itemToAdd.currentLocation = self
+            itemToAdd.currentLocation = self
         
     def removeItem(self, itemToRemove):
         if (self.itemsContained[itemToRemove.keywords].quantity > 1) and (not itemToRemove.stackable):
             self.itemsContained[itemToRemove.keywords].quantity -= 1
         else:
             del self.itemsContained[itemToRemove.keywords]
-            itemToRemove.currentLocation = None
  
     def addFeature(self, featureToAdd):
         self.features[featureToAdd.keywords] = featureToAdd
@@ -183,6 +182,7 @@ class Container(Feature):
                 self.itemsContained[itemToAdd.keywords].quantity += 1
         else:
             self.itemsContained[itemToAdd.keywords] = itemToAdd
+            itemToAdd.currentLocation = self
         
     def removeItem(self, itemToRemove):
         if (self.itemsContained[itemToRemove.keywords].quantity > 1) and (not itemToRemove.stackable):
@@ -222,9 +222,12 @@ class Container(Feature):
     def open(self, player):
         if not self.isAccessible:
             return self.blockedDesc
-        for key, enemy in self.currentLocation.enemies.iteritems():
+            
+        for key, enemy in player.currentLocation.enemies.iteritems():
             if self in enemy.protectedThings:
                 return enemy.protectedThings[self]
+            elif self.currentLocation in enemy.protectedThings:
+                return enemy.protectedThings[self.currentLocation]
 
         if self.isOpen:
             return "It is already open."

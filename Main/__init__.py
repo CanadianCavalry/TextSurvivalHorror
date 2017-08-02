@@ -65,7 +65,8 @@ class Player(object):
         	else:
         		self.inventory[itemToAdd.keywords].quantity += 1
         else:
-        	self.inventory[itemToAdd.keywords] = itemToAdd
+            self.inventory[itemToAdd.keywords] = itemToAdd
+            itemToAdd.currentLocation = self
         
     def removeItem(self, itemToRemove):
         if self.mainHand == itemToRemove:

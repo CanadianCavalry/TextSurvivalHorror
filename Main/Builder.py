@@ -57,7 +57,10 @@ def buildCombatSimulator(gameState):
         "",
         False)
     armory001.addFeature(gunCages)
-    armory001.addItem(StandardItems.WeskersRevolver())
+
+    armory001.addItem(StandardItems.Axe())
+    armory001.addItem(StandardItems.LeatherJacket())
+    armory001.addItem(StandardItems.Flask())
     armory001.addItem(Items.Note(
         name="Strange Note",
         description="A hastily written note scrawled on a napkin.",
@@ -65,11 +68,6 @@ def buildCombatSimulator(gameState):
         keywords="note,paper,napkin,page",
         contents="The gun is for official testers only. It will get you wherever you need to go. -dev"
     ))
-
-    armory001.addItem(StandardItems.Axe())
-    armory001.addItem(StandardItems.KitchenKnife())
-    armory001.addItem(StandardItems.LeatherJacket())
-    armory001.addItem(StandardItems.Flask())
     
     #002 - ARENA
     arena002 = AreasFeatures.Area(
@@ -268,7 +266,7 @@ def buildCombatSimulator(gameState):
     libraryHellhound.protectThing(libraryCorpse005, "The hellhound is directly between you and the corpse.")
 
     #Debug Config:
-    spawnLocation = armory001
+    spawnLocation = libraryFoyer003
 
     gameState.addArea(spawnLocation)
 

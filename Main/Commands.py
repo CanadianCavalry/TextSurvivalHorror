@@ -1,4 +1,5 @@
 import AreasFeatures
+import StandardItems
 
 def findMatchingInventory(player, keyword, matching):
     for key,item in player.inventory.iteritems():
@@ -527,3 +528,8 @@ def look(player, keyword):
             return "You need to be more specific"
         matching[0] = autoTarget
     return matching[0].lookAt()
+
+def devCommand(player, command):
+    if command == "dylanwantsagun":
+        player.addItem(StandardItems.WeskersRevolver())
+        return "Now I just feel sorry for the demons."

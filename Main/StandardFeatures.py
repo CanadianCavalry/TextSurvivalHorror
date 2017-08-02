@@ -60,9 +60,12 @@ class UnlockedContainer(AreasFeatures.Container):
         super(UnlockedContainer, self).__init__(description, keywords, False, True, None, openDesc, closeDesc)
         
     def unlock(self, usedItem):
-        for key, enemy in self.currentLocation.enemies.iteritems():
+        for key, enemy in player.currentLocation.enemies.iteritems():
             if self in enemy.protectedThings:
                 return enemy.protectedThings[self]
+            elif self.currentLocation in enemy.protectedThings:
+                return enemy.protectedThings[self.currentLocation]
+
         if self.isAccessible:
             if usedItem == self.itemToOpen:
                 self.isAccessible = True
@@ -79,9 +82,12 @@ class LockedContainer(AreasFeatures.Container):
         super(LockedContainer, self).__init__(description, keywords, False, False, blockedDesc, openDesc, closeDesc)
         
     def unlock(self, usedItem):
-        for key, enemy in self.currentLocation.enemies.iteritems():
+        for key, enemy in player.currentLocation.enemies.iteritems():
             if self in enemy.protectedThings:
                 return enemy.protectedThings[self]
+            elif self.currentLocation in enemy.protectedThings:
+                return enemy.protectedThings[self.currentLocation]
+                
         if self.isAccessible:
             if usedItem == self.itemToOpen:
                 self.isAccessible = True

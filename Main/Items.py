@@ -40,9 +40,12 @@ class Item(object):
         #print "Getting " + self.name + " - " + str(self.quantity)
         if not self.accessible:
             return self.inaccessibleDesc,True
-        for key, enemy in self.currentLocation.enemies.iteritems():
+
+        for key, enemy in player.currentLocation.enemies.iteritems():
             if self in enemy.protectedThings:
                 return enemy.protectedThings[self]
+            elif self.currentLocation in enemy.protectedThings:
+                return enemy.protectedThings[self.currentLocation]
         
         #If there is more than 1, dup it and pass the dup. Quantity will be decremented later
         if (self.quantity > 1) and (not self.stackable):
@@ -360,7 +363,6 @@ class Alchohol(Drinkable):
     def __init__(self, name, description, seenDescription, keywords, useDescription, alcoholAmount, **kwargs):
         self.alcoholAmount = alcoholAmount
 
-
         kwargs.update({
             "useSound":"Sounds/Misc/LiquorDrink.mp3"
         })
@@ -368,9 +370,12 @@ class Alchohol(Drinkable):
         super(Alchohol, self).__init__(name, description, seenDescription, keywords, useDescription, **kwargs)
         
     def drink(self, player):
-        for key, enemy in self.currentLocation.enemies.iteritems():
+        for key, enemy in player.currentLocation.enemies.iteritems():
             if self in enemy.protectedThings:
                 return enemy.protectedThings[self]
+            elif self.currentLocation in enemy.protectedThings:
+                return enemy.protectedThings[self.currentLocation]
+
         source = pyglet.media.load(self.useSound, streaming=False)
         source.play()
         player.increaseIntox(self.alcoholAmount)
@@ -378,7 +383,7 @@ class Alchohol(Drinkable):
         if spiritDecrease > 10:
             spiritDecrease = 10
         player.decreaseSpirit(spiritDecrease)
-        player.removeItem(self)
+        self.currentLocation.removeItem(self)
         return self.useDescription,True
     
 
@@ -401,9 +406,12 @@ class Note(Readable):
         super(Note, self).__init__(name, description, seenDescription, keywords, **kwargs)
     
     def read(self):
-        for key, enemy in self.currentLocation.enemies.iteritems():
+        for key, enemy in player.currentLocation.enemies.iteritems():
             if self in enemy.protectedThings:
                 return enemy.protectedThings[self]
+            elif self.currentLocation in enemy.protectedThings:
+                return enemy.protectedThings[self.currentLocation]
+
         return self.contents,True
 
 class Key(Usable):
@@ -419,9 +427,12 @@ class Key(Usable):
         return "Use the key on what?"
     
     def useOn(self, player, recipient):
-        for key, enemy in self.currentLocation.enemies.iteritems():
+        for key, enemy in player.currentLocation.enemies.iteritems():
             if self in enemy.protectedThings:
                 return enemy.protectedThings[self]
+            elif self.currentLocation in enemy.protectedThings:
+                return enemy.protectedThings[self.currentLocation]
+
         if (isinstance(recipient, AreasFeatures.Door)) or (isinstance(recipient, AreasFeatures.Container)):
             return recipient.unlock(self)
         else:
@@ -449,6 +460,7 @@ class Corpse(Item):
                 self.itemsContained[itemToAdd.keywords].quantity += 1
         else:
             self.itemsContained[itemToAdd.keywords] = itemToAdd
+            itemToAdd.currentLocation = self
 
     def removeItem(self, itemToRemove):
         if (self.itemsContained[itemToRemove.keywords].quantity > 1) and (not itemToRemove.stackable):
@@ -458,9 +470,12 @@ class Corpse(Item):
             itemToRemove.currentLocation = None
 
     def search(self, player):
-        for key, enemy in self.currentLocation.enemies.iteritems():
+        for key, enemy in player.currentLocation.enemies.iteritems():
             if self in enemy.protectedThings:
                 return enemy.protectedThings[self]
+            elif self.currentLocation in enemy.protectedThings:
+                return enemy.protectedThings[self.currentLocation]
+                
         itemsToRemove = []
         resultString = "You look the body over."
         if self.itemsContained:
