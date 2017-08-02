@@ -28,15 +28,15 @@ class LeaningBookshelf(AreasFeatures.Hazard):
         self.state += 1
         self.readied = False
         self.currentLocation.nextState()
+        if triggerCause == "push":
+            resultString = "You throw yourself into the side of the shelf. "
+        elif triggerCause == "attack":
+            resultString = "You hack at the shelf with your weapon."
+        resultString += self.triggerDesc
+
         if player.currentLocation.enemies:
             enemyHit = player.currentLocation.enemies[random.choice(player.currentLocation.enemies.keys())]
             enemyHit.takeDamage(100)
-            if triggerCause == "push":
-                resultString = "You throw yourself into the side of the shelf. "
-            elif triggerCause == "attack":
-                resultString = "You hack at the shelf with your weapon."
-
-            resultString += self.triggerDesc
 
             if enemyHit.name == "Winged Demon":
                 resultString += "\nThe Winged Demon attempts to leap aside, but it's bulk in addition to the narrow confines of the library make it impossible. It let's out an angonizing screech as the shelf crashes down on top of it."
@@ -64,8 +64,6 @@ class LeaningBookshelf(AreasFeatures.Hazard):
                 enemyHit.makeStunned(3, stunDesc, recoveryDesc)
                 enemyHit.helpless = True
                 enemyHit.distanceToPlayer = 1
-
-           
 
         return resultString
 

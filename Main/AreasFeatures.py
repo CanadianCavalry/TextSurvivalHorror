@@ -283,9 +283,9 @@ class Link(object):
             time.sleep(1.8)
         if player.currentLocation.visited == False:
             player.currentLocation.visited = True
-            desc += player.currentLocation.lookAt()
-        else:
-            desc += player.currentLocation.name + "\n"
+        desc += player.currentLocation.lookAt()
+        #else:
+        #    desc += player.currentLocation.name + "\n"
         return desc,True
         
     def enemyTravel(self, enemy):

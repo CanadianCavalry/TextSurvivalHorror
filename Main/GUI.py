@@ -453,7 +453,7 @@ class Window(pyglet.window.Window):
     def updateText(self, dt):
         if self.writingText:
             if len(self.textToWrite) > 0:
-                self.disp.document.text += self.textToWrite[:2]
-                self.textToWrite = self.textToWrite[2:]
+                self.disp.document.text += self.textToWrite[:3]
+                self.textToWrite = self.textToWrite[3:]
             else:
                self.writingText = False

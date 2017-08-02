@@ -103,20 +103,27 @@ class Enemy(object):
                 setattr(self, key, value)
         
     def calcMovement(self, destination, player):
-        if self.stunnedTimer > 0:
-            return ""
+        resultString = ""
         if self.currentLocation == player.currentLocation:
-            resultString = "You run straight into the " + self.name + " chasing you!\n"
+            if self.stunnedTimer == 0:
+                resultString += "You run straight into the " + self.name + " chasing you!\n"
             resultString += self.takeAction(player)
             return resultString
+        
+        if self.stunnedTimer != 0:
+            self.stunnedTimer -= 1
+            if self.stunnedTimer == 0:
+                self.recovering = True
+            return ""
 
         resultString = self.travel(destination, player)
 
         #If the enemy fails to get any closer to the player, OR cannot find the player nearby, then
         #they have lost the players scent and will stop chasing
-        if self.isChasing:
-            if not self.trackPlayer(player):
-                self.isChasing = False
+        if not self.trackPlayer(player):
+            self.isChasing = False
+            self.stunnedTimer = 0
+            self.recovering = False
 
         return resultString
 
