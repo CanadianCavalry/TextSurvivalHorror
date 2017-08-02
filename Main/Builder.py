@@ -58,7 +58,10 @@ def buildCombatSimulator(gameState):
         False)
     armory001.addFeature(gunCages)
 
-    armory001.addItem(StandardItems.Axe())
+    armory001.addItem(StandardItems.Axe(**{
+        "notTakenDesc":"A long-handled fire axe is lying across the table.",
+        "initPickupDesc":"You lift the axe from the table. It has a weight and heft that is comfortable in your hands."
+    }))
     armory001.addItem(StandardItems.LeatherJacket())
     armory001.addItem(StandardItems.Flask())
     armory001.addItem(Items.Note(
@@ -66,7 +69,7 @@ def buildCombatSimulator(gameState):
         description="A hastily written note scrawled on a napkin.",
         seenDescription="There is a scrunched up note pinned to the table.",
         keywords="note,paper,napkin,page",
-        contents="The gun is for official testers only. It will get you wherever you need to go. -dev"
+        contents="FOR TESTER USE ONLY\nDev commands are executed with \"/dev\":\n\ndylanwantsagun: Get some firepower.\n\n       -dev"
     ))
     
     #002 - ARENA
@@ -74,7 +77,7 @@ def buildCombatSimulator(gameState):
         "Arena", 
         ["You are standing in a large, empty colosseum. Against the east wall is a massive sign carved from stone titled "
         "\"Combat Tips\". There is a large steel door to the south, with some sort of complex locking mechanism on it. On the "
-        "far end of the west wall is another, smaller metal door."],
+        "far end of the west wall is another, smaller metal door. To the east is a set of concrete stairs leading downwards."],
         **{"size":4})
     arenaDoorB = StandardFeatures.StandardLockedDoor(
         "A heavy steel door. It has no handle or lock that you can see.",
@@ -87,6 +90,11 @@ def buildCombatSimulator(gameState):
     door002B = StandardFeatures.StandardOpenMetalDoor(
         "A steel door. It's battered and dented, and has a large, rust colored stain near the handle.",
         "west,west door,door,metal door,steel door")
+
+    door002C = StandardFeatures.StandardDownwardStairs(
+        "The concrete steps lead downward into the darkness, though you can see light further down. It must be a basement of some sort.",
+        "east,east stairs,stairs,stone stairs,concrete stairs,dirty stairs,east steps,steps,staircase,stone steps")
+    
 
     arena002.addFeature(StandardFeatures.Sign(
         "The large metal sign takes up a large portion of the east wall. It reads \"Please ensure you are prepared before continuing "
@@ -264,6 +272,44 @@ def buildCombatSimulator(gameState):
     libraryHellhound = UniqueEnemies.Hellhound()
     libraryWest005.spawnEnemy(libraryHellhound, 2)
     libraryHellhound.protectThing(libraryCorpse005, "The hellhound is directly between you and the corpse.")
+
+    #006 - BASEMENT ENTRANCE
+    basementEntrance006 = AreasFeatures.Area(
+        "Basement Entrance", 
+        ["You find yourself in a small room with cement floors and walls. Mold and mildew have spread across much of the walls, "
+        "and the steady sound of dripping water fills the space. The room is bare, with nothing of note besides a set of concrete "
+        "stairs to the west, and two metal doors, one to the east and one to the south."],
+        **{"size":2}
+    )
+
+    #Links
+    door006A = StandardFeatures.StandardUpwardStairs(
+        "Like everything else in this room, they're wet, dirty and covered in mildew. At least the concrete steps seem to be in "
+        "relatively good condition, so there's that.",
+        "west,west stairs,stairs,stone stairs,concrete stairs,dirty stairs,west steps,steps,staircase,stone steps")
+    door006A.makeSibling(door002C)
+    basementEntrance006.connect(arena002, door006A)
+    arena002.connect(basementEntrance006, door002C)
+
+    door006B = StandardFeatures.StandardOpenDoor(
+        "It's covered in rust, mold, and several other unidentifiable stains. It appears to have a working lock as well. That "
+        "could come in handy.",
+        "east,east door,door,metal door,steel door,rusty door,dirty door")
+
+    door006B = StandardFeatures.StandardOpenDoor(
+        "It's cleaner than the other door, but that isn't saying much considering the condition of the room. You can hear a faint humming "
+        "noise from beyond the door.",
+        "south,south door,door,metal door,steel door")
+
+    #Features
+
+    #Containers
+
+    #Items
+
+
+    #Enemies
+
 
     #Debug Config:
     spawnLocation = armory001

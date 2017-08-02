@@ -392,7 +392,7 @@ def read(player, keyword):
         return "You need to be more specific"
     elif len(matching) == 1:
         try:
-            return matching[0].read()
+            return matching[0].read(player)
         except AttributeError:
             return "That isn't something you can read."
     

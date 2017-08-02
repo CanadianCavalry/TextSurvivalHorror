@@ -14,17 +14,15 @@ class Axe(Items.MeleeWeapon):
         description="A long handled fire axe, intended for emergency use. The current situation probably qualifies. It's heavy and unwieldy, and will seriously ruin the day of anyone on the recieving end."
         seenDescription="A fire axe is lying on the floor."
         keywords="axe,fire axe,weapon"
-        minDamage=18
-        maxDamage=23
-        accuracy=75
+        minDamage=22
+        maxDamage=29
+        accuracy=80
         size=2
 
         kwargs.update({
-            "stunChance":25, 
-            "notTakenDesc":"A long-handled fire axe is lying across the table.",
-            "initPickupDesc":"You lift the axe from the table. It has a weight and heft that is comfortable in your hands.",
+            "stunChance":25,
             "stunlength": 2,
-            "defenseBonus":5
+            "defenseBonus":10
         })
 
         super(Axe, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)
@@ -36,18 +34,18 @@ class LongSword(Items.MeleeWeapon):
         description="A long bladed medieval weapon, excellent for slaying men, demons and ferocious rabbits. It's suprisingly light for it's size."
         seenDescription="A long sword is lying on the floor."
         keywords="sword,long sword,blade"
-        minDamage=16
-        maxDamage=21
-        accuracy=85
+        minDamage=20
+        maxDamage=26
+        accuracy=90
         size=2
 
         kwargs.update({
             "stunChance":20,
-            "initSeenDesc":"A large sword has been thrust into wooden floor here. It seems to glow faintly at first, then fades.",
-            "notTakenDesc":"A large sword has been thrust into wooden floor here.",
-            "initPickupDesc":"With considerable effort, you pull the blade free from the ground. It's lighter than you expected.",
+            #"initSeenDesc":"A large sword has been thrust into wooden floor here. It seems to glow faintly at first, then fades.",
+            #"notTakenDesc":"A large sword has been thrust into wooden floor here.",
+            #"initPickupDesc":"With considerable effort, you pull the blade free from the ground. It's lighter than you expected.",
             "stunlength": 2,
-            "defenseBonus":10,
+            "defenseBonus":15,
             "attackDesc":"You swing your blade."
         })
 
@@ -66,14 +64,14 @@ class KitchenKnife(Items.MeleeWeapon):
         description="A 12 inch chefs knife. You know what they say: 'Guns are for show, knives are for pro.'"
         seenDescription="A knife is lying on the floor."
         keywords="knife,kitchen knife,weapon,blade"
-        minDamage=13
-        maxDamage=18
+        minDamage=16
+        maxDamage=20
         accuracy=95
         size=1
 
         kwargs.update({
             "stunChance":5,
-            "notTakenDesc":"A kitchen knife is lying on the table.",
+            "defenseBonus":5
         })
 
         super(KitchenKnife, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)
@@ -86,8 +84,8 @@ class Revolver(Items.RangedWeapon):
         description="A heavy .457 magnum revolver. It holds 6 rounds."
         seenDescription="A revolver is lying on the floor."
         keywords="gun,handgun,pistol,revolver,magnum"
-        minDamage=30
-        maxDamage=38
+        minDamage=35
+        maxDamage=44
         size=1
         accuracy=75
         capacity=6
@@ -96,7 +94,6 @@ class Revolver(Items.RangedWeapon):
             "ammoRemaining":4,
             "fireSound":"Sounds/Combat/RevolverShot.mp3",
             "reloadSound":"Sounds/Combat/RevolverReload.mp3", 
-            "notTakenDesc":"A revolver rests in the corner of the table.",
             "initPickupDesc":"It's heavier than it looks. You look it over to ensure the safety is off. Let's hope it still fires.",
             "attackDesc":"You open fire with your revolver."
         })
@@ -120,8 +117,6 @@ class WeskersRevolver(Items.RangedWeapon):
             "ammoRemaining":6,
             "fireSound":"Sounds/Combat/RevolverShot.mp3",
             "reloadSound":"Sounds/Combat/RevolverReload.mp3", 
-            "notTakenDesc":"A large, black revolver rests in the corner of the table.",
-            "initPickupDesc":"Poor demons.",
             "attackDesc":"You open fire and the recoil nearly knocks you on your ass."
         })
         
@@ -144,7 +139,6 @@ class Crossbow(Items.RangedWeapon):
         kwargs.update({
             "ammoRemaining":1,
             "fireSound":"Sounds/Combat/CrossbowShot.mp3", 
-            "notTakenDesc":"A crossbow rests on a display next to the door.",
             "initPickupDesc":"It's nowhere near as bulky as most weapons of this type. The string is oiled and the mechanism appears to have been recently cleaned.  You sling it over your shoulder.",
             "attackDesc":"You carefully line up your crossbow, and fire."
         })
