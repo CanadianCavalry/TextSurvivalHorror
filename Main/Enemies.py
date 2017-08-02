@@ -104,7 +104,21 @@ class Enemy(object):
             resultString += self.takeAction(player)
             return resultString
 
-        return self.travel(destination, player)
+        resultString = self.travel(destination, player)
+
+        #If the enemy fails to get any closer to the player, OR cannot find the player nearby, then
+        #they have lost the players scent and will stop chasing
+        if self.isChasing:
+            if not self.trackPlayer(player):
+                self.isChasing = False
+                
+        return resultString
+
+    def trackPlayer(self, player):
+        for link in self.currentLocation.connectedAreas.itervalues():
+            if player.currentLocation == link.destination:
+                return link
+        return False
 
     def travel(self, destination, player):
         self.protectedThings = {}
@@ -117,10 +131,6 @@ class Enemy(object):
                 if self.distanceToPlayer > self.currentLocation.size:
                     self.distanceToPlayer = self.currentLocation.size
                 return self.travelDesc
-        #If the enemy fails to get any closer to the player, then they have lost the players 
-        #scent and will stop chasing
-        if self.currentLocation != destination:
-            self.isChasing = False
         return ""
         
     def takeAction(self, player):
