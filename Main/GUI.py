@@ -423,7 +423,7 @@ class Window(pyglet.window.Window):
             if (self.parser.command == "go") and (actingEnemies):
                 resultString = "You turn to run...\n" + Enemies.enemyAction(self.state.player, actingEnemies) + "\n" + resultString
             else:
-                resultString += "\n\n" + Enemies.enemyAction(self.state.player, actingEnemies)
+                resultString += "\n" + Enemies.enemyAction(self.state.player, actingEnemies)
             self.state.player.beginTurn()
             
             gameOver = self.checkGameOver()
@@ -434,6 +434,12 @@ class Window(pyglet.window.Window):
                 
             if pursuingEnemies:
                 resultString += Enemies.enemyMovement(pursuingEnemies, enemyDestination, self.player)
+
+            gameOver = self.checkGameOver()
+            if gameOver:
+                resultString += gameOver
+                self.updateTextBox(resultString)
+                return
             
         self.updateTextBox(resultString)
 

@@ -29,7 +29,7 @@ def enemyAction(player, actingEnemies):
 def enemyMovement(movingEnemies, enemyDestination, player):
     resultString = ""
     for enemy in movingEnemies:
-        resultString += enemy.travel(enemyDestination, player) + "\n"
+        resultString += enemy.calcMovement(enemyDestination, player) + "\n"
     return resultString
 
 class Enemy(object):
@@ -98,10 +98,18 @@ class Enemy(object):
             for key, value in kwargs.iteritems():
                 setattr(self, key, value)
         
-    def travel(self, location, player):
+    def calcMovement(self, destination, player):
+        if self.currentLocation == player.currentLocation:
+            resultString = "You run straight into the " + self.name + " chasing you!\n"
+            resultString += self.takeAction(player)
+            return resultString
+
+        return self.travel(destination, player)
+
+    def travel(self, destination, player):
         self.protectedThings = {}
         for link in self.currentLocation.connectedAreas.itervalues():
-            if not link.destination == location:
+            if not link.destination == destination:
                 continue
 
             link.enemyTravel(self)
@@ -109,6 +117,11 @@ class Enemy(object):
                 if self.distanceToPlayer > self.currentLocation.size:
                     self.distanceToPlayer = self.currentLocation.size
                 return self.travelDesc
+        #If the enemy fails to get any closer to the player, then they have lost the players 
+        #scent and will stop chasing
+        if self.currentLocation != destination:
+            self.isChasing = False
+        return ""
         
     def takeAction(self, player):
         resultString = ""
@@ -157,10 +170,10 @@ class Enemy(object):
             if modDamageAmount < 0:
                 modDamageAmount = 0
             #print "Player hit. DamageRoll: " + str(damageAmount) + ", ArmorRating: " + str(player.armorRating) + ", DamageTaken: " + str(modDamageAmount)
-            resultString += " The " + self.name + " hits you! "
+            resultString += " It hits you! "
             resultString += player.takeDamage(modDamageAmount)
         else:
-            resultString += " The " + self.name + "'s attack misses."
+            resultString += " It misses!"
             
         return resultString
 
