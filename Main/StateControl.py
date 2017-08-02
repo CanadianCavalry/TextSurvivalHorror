@@ -5,6 +5,7 @@ Created on Sep 5, 2014
 '''
 import sys
 import Builder
+import Player
 import jsonpickle
 
 global SAVEGAME_FILENAME
@@ -28,17 +29,17 @@ class GameState(object):
         self.player = player
         self.player.currentLocation = self.areaList[0]
 
-def newGameState(player):
+def newGameState():
     state = GameState()
     Builder.buildWorld(state)
-    state.addPlayer(player)
+    state.addPlayer(Player.Player())
     return state
 
-def newSimulationState(player):
+def newSimulationState():
     state = GameState()
     #Builder.buildAreaOne200(state) #Debug for encounter 1
     Builder.buildCombatSimulator(state)
-    state.addPlayer(player)
+    state.addPlayer(Player.Player())
     return state
 
 def save(state):
@@ -46,10 +47,10 @@ def save(state):
         savegame.write(jsonpickle.encode(state))
     return "Game saved."
     
-def loadState(player=None):
+def loadState():
     with open(SAVEGAME_FILENAME, 'r') as savegame:
         state = jsonpickle.decode(savegame.read())
         return state
     
-def quit(player=None):
+def quit():
     sys.exit()

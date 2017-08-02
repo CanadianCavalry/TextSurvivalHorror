@@ -203,10 +203,9 @@ class EquipPanel(object):
 
 class Window(pyglet.window.Window):
 
-    def __init__(self, player, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(Window, self).__init__(1024, 768, caption='Text Game')
 
-        self.newPlayer = player
         self.inMenu = False
         self.writingText = False
         self.textToWrite = ""
@@ -218,7 +217,6 @@ class Window(pyglet.window.Window):
         self.batch = pyglet.graphics.Batch()
         self.batch2 = pyglet.graphics.Batch()
         self.parser = Parser.Parser()
-        self.player = copy.copy(self.newPlayer)
         self.state = None
         self.widgets = None
         self.focus = None
@@ -244,7 +242,6 @@ class Window(pyglet.window.Window):
         self.batch2 = pyglet.graphics.Batch()
         self.state = state
         self.parser.loadState(state)
-
         
         self.menuSoundtrack.pause()
         
@@ -335,7 +332,7 @@ class Window(pyglet.window.Window):
                 for button in self.menuButtons:
                     if button.hit_test(x, y) and button.pressed:
                         self.buttonClick.play()
-                        state = button.buttonFunction(self.player)
+                        state = button.buttonFunction()
                         self.startGameState(state)
         else:
             if self.gameButtons:    
@@ -398,10 +395,10 @@ class Window(pyglet.window.Window):
             
     def parsePlayerInput(self, userInput):
         print "Tracking Enemies"
-        actingEnemies = self.player.getActingEnemies()
-        pursuingEnemies = self.player.getPursuingEnemies()
+        actingEnemies = self.state.player.getActingEnemies()
+        pursuingEnemies = self.state.player.getPursuingEnemies()
         
-        enemyDestination = self.player.currentLocation
+        enemyDestination = self.state.player.currentLocation
         
         print "Player taking action"
         turnResult = self.parser.parse(userInput)
@@ -433,7 +430,7 @@ class Window(pyglet.window.Window):
                 return
                 
             if pursuingEnemies:
-                resultString += Enemies.enemyMovement(pursuingEnemies, enemyDestination, self.player)
+                resultString += Enemies.enemyMovement(pursuingEnemies, enemyDestination, self.state.player)
 
             gameOver = self.checkGameOver()
             if gameOver:
