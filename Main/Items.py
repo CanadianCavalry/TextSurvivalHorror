@@ -411,6 +411,9 @@ class Note(Readable):
                 return enemy.protectedThings[self]
             elif self.currentLocation in enemy.protectedThings:
                 return enemy.protectedThings[self.currentLocation]
+        
+        source = pyglet.media.load(self.pickupSound, streaming=False)
+        source.play()
 
         return self.contents,True
 
@@ -475,7 +478,7 @@ class Corpse(Item):
                 return enemy.protectedThings[self]
             elif self.currentLocation in enemy.protectedThings:
                 return enemy.protectedThings[self.currentLocation]
-                
+
         itemsToRemove = []
         resultString = "You look the body over."
         if self.itemsContained:

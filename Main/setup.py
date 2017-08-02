@@ -14,7 +14,8 @@ miscSoundFiles = ['Sounds/Misc/GenericDoor1.mp3',
 				  'Sounds/Misc/HeavyDoor.mp3',
 				  'Sounds/Misc/ItemGet.mp3',
 				  'Sounds/Misc/KeyGet.mp3',
-				  'Sounds/Misc/LiquorDrink.mp3'
+				  'Sounds/Misc/LiquorDrink.mp3',
+				  'Sounds/Misc/LoudCrash.mp3',
 				  'Sounds/Misc/PaperGet1.mp3',
 				  'Sounds/Misc/PaperGet2.mp3',
 				  'Sounds/Misc/PaperGet3.mp3']

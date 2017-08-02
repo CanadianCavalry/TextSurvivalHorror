@@ -4,6 +4,7 @@ Created on Jul 5, 2014
 @author: Thomas
 '''
 import AreasFeatures
+import pyglet
 import random
 
 #Jacobs Room
@@ -16,7 +17,7 @@ class LeaningBookshelf(AreasFeatures.Hazard):
         triggerDesc = "Suprisingly, it doesn't move at first, and it looks like it's sheer weight will keep it upright. After a few seconds it finally begins to tip, picking up speed before coming crashing down in a hail of books and woodem shrapnel."
 
         kwargs = {
-            "triggerSound":None
+            "triggerSound":"Sounds/Misc/LoudCrash.mp3"
         }
 
         super(LeaningBookshelf, self).__init__(description, keywords, triggerDesc, **kwargs)

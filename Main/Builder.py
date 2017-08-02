@@ -41,7 +41,7 @@ def buildCombatSimulator(gameState):
         ["The large metal sign looks very worn and rusted, and has been riveted straight into the metal wall. It appears that "
         "it has been here for a long time, and is not coming down any time soon."],
         "sign,metal sign, plaque, brass sign, brass plaque",
-        "Tips for Newbies\n\n-Make sure you have a melee weapon and some armor before moving on. Ammo is scarce.\n-Every "
+        "Tips for Newbies\n\n-Make sure you have a melee weapon and some armor before moving on.\n-Every "
         "weapon has different damage and accuracy. Bigger is not always better.\n-As a functioning alchoholic, you perform "
         "better with a bit of liquor in your system. It numbs your body, reducing incoming damage, and calms shaking hands, "
         "increasing accurracy. Don't go overboard though or you'll go downhill fast.\n\n-Typing HELP will list all "
@@ -95,7 +95,7 @@ def buildCombatSimulator(gameState):
         "Combat Tips\n\n-Every enemy has different strengths and weaknesses. Examining an enemy takes no time, and may yield "
         "life-saving information.\n-Heavy attacks are less accurate, but deal more damage and can even stun some foes.\n-Exorcising "
         "a demonic enemy can have numerous effects, but will often stun or incapacitate them. Some enemies are more resilient to "
-        "exorcism than others.\n-Performing a heavy attack against a stunned enemy will often result in an execution.\n\n-Important "
+        "exorcism than others.\n-Performing a heavy attack against a helpless enemy will often result in an execution.\n\n-Important "
         "combat commands:\nATTACK - Attack with an equipped weapon\nHEAVY ATTACK - Slower, stronger attack\nEXORCISE - Invoke your "
         "faith to weaken an enemy\nRELOAD - Reload your equipped gun(requires ammo)\nDEFEND - Give up your chance to strike to "
         "increase your chances of dodging the next attack."))
@@ -266,7 +266,7 @@ def buildCombatSimulator(gameState):
     libraryHellhound.protectThing(libraryCorpse005, "The hellhound is directly between you and the corpse.")
 
     #Debug Config:
-    spawnLocation = libraryFoyer003
+    spawnLocation = armory001
 
     gameState.addArea(spawnLocation)
 
