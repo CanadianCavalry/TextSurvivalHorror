@@ -139,17 +139,17 @@ class StatsPanel(object):
         
         conditionOk_seq = pyglet.image.ImageGrid(pyglet.image.load("Sprites/ekgOK.png"), 1, 19)
         conditionOk_anim = pyglet.image.Animation.from_image_sequence(conditionOk_seq, 0.08, True)
-        self.conditionOk_sprite = pyglet.sprite.Sprite(conditionOk_anim, x=x+35, y=y+120, batch=labelBatch)
+        self.conditionOk_sprite = pyglet.sprite.Sprite(conditionOk_anim, x=x+40, y=y+120, batch=labelBatch)
         self.conditionOk_sprite.scale = 2.2
 
         conditionCaution_seq = pyglet.image.ImageGrid(pyglet.image.load("Sprites/ekgCAUTION.png"), 1, 19)
         conditionCaution_anim = pyglet.image.Animation.from_image_sequence(conditionCaution_seq, 0.06, True)
-        self.conditionCaution_sprite = pyglet.sprite.Sprite(conditionCaution_anim, x=x+35, y=y+120)
+        self.conditionCaution_sprite = pyglet.sprite.Sprite(conditionCaution_anim, x=x+40, y=y+120)
         self.conditionCaution_sprite.scale = 2.2
 
         conditionDanger_seq = pyglet.image.ImageGrid(pyglet.image.load("Sprites/ekgDANGER.png"), 1, 19)
         conditionDanger_anim = pyglet.image.Animation.from_image_sequence(conditionDanger_seq, 0.04, True)
-        self.conditionDanger_sprite = pyglet.sprite.Sprite(conditionDanger_anim, x=x+35, y=y+120)
+        self.conditionDanger_sprite = pyglet.sprite.Sprite(conditionDanger_anim, x=x+40, y=y+120)
         self.conditionDanger_sprite.scale = 2.2
 
         self.conditionSprite = self.conditionOk_sprite
