@@ -140,10 +140,10 @@ class Player(object):
         
     def wait(self):
         return "You wait.", True
-        
+
     def getCondition(self):
         healthString = ""
-        if self.health >= 95:
+        if self.health >= 100:
             healthString += "Unhurt"
         elif self.health >= 85:
             healthString += "Bruised and Scratched"

@@ -137,21 +137,46 @@ class StatsPanel(object):
         self.filler = Rectangle(x - pad + 5, y - pad + 5,
                                    x + width + pad -5, y + height + pad - 5, [0, 0, 0, 255], batch)
         
+        conditionOk_seq = pyglet.image.ImageGrid(pyglet.image.load("Sprites/ekgOK.png"), 1, 19)
+        conditionOk_anim = pyglet.image.Animation.from_image_sequence(conditionOk_seq, 0.08, True)
+        self.conditionOk_sprite = pyglet.sprite.Sprite(conditionOk_anim, x=x+35, y=y+120, batch=labelBatch)
+        self.conditionOk_sprite.scale = 2.2
+
+        conditionCaution_seq = pyglet.image.ImageGrid(pyglet.image.load("Sprites/ekgCAUTION.png"), 1, 19)
+        conditionCaution_anim = pyglet.image.Animation.from_image_sequence(conditionCaution_seq, 0.06, True)
+        self.conditionCaution_sprite = pyglet.sprite.Sprite(conditionCaution_anim, x=x+35, y=y+120)
+        self.conditionCaution_sprite.scale = 2.2
+
+        conditionDanger_seq = pyglet.image.ImageGrid(pyglet.image.load("Sprites/ekgDANGER.png"), 1, 19)
+        conditionDanger_anim = pyglet.image.Animation.from_image_sequence(conditionDanger_seq, 0.04, True)
+        self.conditionDanger_sprite = pyglet.sprite.Sprite(conditionDanger_anim, x=x+35, y=y+120)
+        self.conditionDanger_sprite.scale = 2.2
+
+        self.conditionSprite = self.conditionOk_sprite
+        
         self.labels = [
-            pyglet.text.Label('Condition:\n' + self.condition, x=x+15, y=y+200, font_name='Times New Roman',font_size=16,
+            pyglet.text.Label('Condition', x=x+15, y=y+200, font_name='Times New Roman',font_size=16,
+                                       batch=labelBatch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10),
+            pyglet.text.Label('Spirit:\n' + self.spirit, x=x+15, y=y+95, font_name='Times New Roman',font_size=16,
                                         batch=labelBatch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10),
-            pyglet.text.Label('Spirit:\n' + self.spirit, x=x+15, y=y+130, font_name='Times New Roman',font_size=16,
-                                        batch=labelBatch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10),
-            pyglet.text.Label('Intoxication:\n' + self.intoxication, x=x+15, y=y+60, font_name='Times New Roman',font_size=16,
+            pyglet.text.Label('Intoxication:\n' + self.intoxication, x=x+15, y=y+38, font_name='Times New Roman',font_size=16,
                                         batch=labelBatch, color=(155,0,0,255), bold=True, multiline=True, width = width - 10)
         ]
         
-    def updateStats(self, player):
+    def updateStats(self, player, labelBatch):
         condition = player.getCondition()
         spirit = player.getSpirit()
         intoxication = player.getIntoxication()
-        
-        self.labels[0].text = 'Condition:\n' + condition
+
+        self.conditionSprite.batch = None
+        if player.health > 80:
+            self.conditionSprite = self.conditionOk_sprite
+        elif player.health > 40:
+            self.conditionSprite = self.conditionCaution_sprite
+        else:
+            self.conditionSprite = self.conditionDanger_sprite
+
+        self.conditionSprite.batch = labelBatch
         self.labels[1].text = 'Spirit:\n' + spirit
         self.labels[2].text = 'Intoxication:\n' + intoxication
 
@@ -390,7 +415,7 @@ class Window(pyglet.window.Window):
         self.parsePlayerInput(userInput)
         self.widgets[0].clearContents()
         
-        self.statsDisplay.updateStats(self.state.player)
+        self.statsDisplay.updateStats(self.state.player, self.batch2)
         self.equipDisplay.updateEquip(self.state.player)
             
     def parsePlayerInput(self, userInput):
