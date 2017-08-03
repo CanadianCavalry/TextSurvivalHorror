@@ -20,7 +20,8 @@ miscSoundFiles = ['Sounds/Misc/GenericDoor1.mp3',
 				  'Sounds/Misc/PaperGet2.mp3',
 				  'Sounds/Misc/PaperGet3.mp3']
 
-monsterSoundFiles = ['Sounds/Monsters/DemonCantWait.mp3',
+monsterSoundFiles = ['Sounds/Monsters/BentHostLaugh.mp3',
+					 'Sounds/Monsters/DemonCantWait.mp3',
 					 'Sounds/Monsters/DemonLatin.mp3',
 					 'Sounds/Monsters/DemonDeath.mp3',
 					 'Sounds/Monsters/HellhoundDeath.mp3',
