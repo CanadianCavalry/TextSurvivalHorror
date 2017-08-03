@@ -31,7 +31,10 @@ UISoundFiles = ['Sounds/UI/menuClick.mp3',
 
 spriteFiles = ['Sprites/buttonHighLight.png',
 			   'Sprites/buttonNormal.png',
-			   'Sprites/buttonPressed.png']
+			   'Sprites/buttonPressed.png',
+			   'Sprites/ekgOK.png',
+			   'Sprites/ekgDANGER.png',
+			   'Sprites/ekgCAUTION.png']
 
 setup (console=['__init__.py'],
 data_files=[('Sounds/Combat',combatSoundFiles),

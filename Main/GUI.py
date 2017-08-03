@@ -143,12 +143,17 @@ class StatsPanel(object):
         self.conditionOk_sprite.scale = 2.2
 
         conditionCaution_seq = pyglet.image.ImageGrid(pyglet.image.load("Sprites/ekgCAUTION.png"), 1, 19)
-        conditionCaution_anim = pyglet.image.Animation.from_image_sequence(conditionCaution_seq, 0.06, True)
+        conditionCaution_anim = pyglet.image.Animation.from_image_sequence(conditionCaution_seq, 0.065, True)
         self.conditionCaution_sprite = pyglet.sprite.Sprite(conditionCaution_anim, x=x+40, y=y+120)
         self.conditionCaution_sprite.scale = 2.2
 
+        conditionCaution2_seq = pyglet.image.ImageGrid(pyglet.image.load("Sprites/ekgCAUTION2.png"), 1, 19)
+        conditionCaution2_anim = pyglet.image.Animation.from_image_sequence(conditionCaution2_seq, 0.05, True)
+        self.conditionCaution2_sprite = pyglet.sprite.Sprite(conditionCaution2_anim, x=x+40, y=y+120)
+        self.conditionCaution2_sprite.scale = 2.2
+
         conditionDanger_seq = pyglet.image.ImageGrid(pyglet.image.load("Sprites/ekgDANGER.png"), 1, 19)
-        conditionDanger_anim = pyglet.image.Animation.from_image_sequence(conditionDanger_seq, 0.04, True)
+        conditionDanger_anim = pyglet.image.Animation.from_image_sequence(conditionDanger_seq, 0.035, True)
         self.conditionDanger_sprite = pyglet.sprite.Sprite(conditionDanger_anim, x=x+40, y=y+120)
         self.conditionDanger_sprite.scale = 2.2
 
@@ -169,10 +174,12 @@ class StatsPanel(object):
         intoxication = player.getIntoxication()
 
         self.conditionSprite.batch = None
-        if player.health > 80:
+        if player.health > 90:
             self.conditionSprite = self.conditionOk_sprite
-        elif player.health > 40:
+        elif player.health > 60:
             self.conditionSprite = self.conditionCaution_sprite
+        elif player.health > 30:
+            self.conditionSprite = self.conditionCaution2_sprite
         else:
             self.conditionSprite = self.conditionDanger_sprite
 
