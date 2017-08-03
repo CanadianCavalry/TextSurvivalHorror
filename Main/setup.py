@@ -34,7 +34,8 @@ spriteFiles = ['Sprites/buttonHighLight.png',
 			   'Sprites/buttonPressed.png',
 			   'Sprites/ekgOK.png',
 			   'Sprites/ekgDANGER.png',
-			   'Sprites/ekgCAUTION.png']
+			   'Sprites/ekgCAUTION.png',
+			   'Sprites/ekgCAUTION2.png']
 
 setup (console=['__init__.py'],
 data_files=[('Sounds/Combat',combatSoundFiles),

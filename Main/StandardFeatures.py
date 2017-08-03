@@ -115,7 +115,7 @@ class Sign(AreasFeatures.Feature):
         
         super(Sign, self).__init__(description, keywords)
     
-    def read(self):
+    def read(self, player):
         return self.readDescription
 
     def lookAt(self):

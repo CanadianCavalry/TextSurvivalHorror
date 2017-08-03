@@ -44,7 +44,7 @@ def buildCombatSimulator(gameState):
         "Tips for Newbies\n\n-Make sure you have a melee weapon and some armor before moving on.\n-Every "
         "weapon has different damage and accuracy. Bigger is not always better.\n-As a functioning alchoholic, you perform "
         "better with a bit of liquor in your system. It numbs your body, reducing incoming damage, and calms shaking hands, "
-        "increasing accurracy. Don't go overboard though or you'll go downhill fast.\n\n-Typing HELP will list all "
+        "increasing accurracy. Don't go overboard though or you'll go downhill fast.\n\nTyping HELP will list all "
         "commands(not implemented yet), but a few you should get familiar with to start are:\nGET - Pick up things\nI - View your "
         "inventory\nEQUIP - Equip weapons or armor\nGO - Travel through doors or down halls\nOPEN - Open doors or containers"))
     gunCages = StandardFeatures.LockedContainer(
@@ -103,14 +103,14 @@ def buildCombatSimulator(gameState):
         "Combat Tips\n\n-Every enemy has different strengths and weaknesses. Examining an enemy takes no time, and may yield "
         "life-saving information.\n-Heavy attacks are less accurate, but deal more damage and can even stun some foes.\n-Exorcising "
         "a demonic enemy can have numerous effects, but will often stun or incapacitate them. Some enemies are more resilient to "
-        "exorcism than others.\n-Performing a heavy attack against a helpless enemy will often result in an execution.\n\n-Important "
+        "exorcism than others.\n-Performing a heavy attack against a helpless enemy will often result in an execution.\n\nImportant "
         "combat commands:\nATTACK - Attack with an equipped weapon\nHEAVY ATTACK - Slower, stronger attack\nEXORCISE - Invoke your "
         "faith to weaken an enemy\nRELOAD - Reload your equipped gun(requires ammo)\nDEFEND - Give up your chance to strike to "
         "increase your chances of dodging the next attack."))
     
     testDemon = Enemies.TestDemon()
-    arena002.spawnEnemy(testDemon, 3)
-    testDemon.protectThing(door002B)
+    #arena002.spawnEnemy(testDemon, 3)
+    #testDemon.protectThing(door002B)
 
     #003 - LIBRARY FOYER
     libraryFoyer003 = AreasFeatures.Area(
@@ -278,7 +278,8 @@ def buildCombatSimulator(gameState):
         "Basement Entrance", 
         ["You find yourself in a small room with cement floors and walls. Mold and mildew have spread across much of the walls, "
         "and the steady sound of dripping water fills the space. The room is bare, with nothing of note besides a set of concrete "
-        "stairs to the west, and two metal doors, one to the east and one to the south."],
+        "stairs to the west, and two metal doors, one to the east and one to the south.\nIt looks like someone has scratched words "
+        "into the east door."],
         **{"size":2}
     )
 
@@ -291,12 +292,24 @@ def buildCombatSimulator(gameState):
     basementEntrance006.connect(arena002, door006A)
     arena002.connect(basementEntrance006, door002C)
 
-    door006B = StandardFeatures.StandardOpenDoor(
+    key006B = Items.Key(
+        name="Small Rusty Key",
+        description="It's the size of a typical house key, and partially covered in rust.",
+        seenDescription="A small rusty key is on the ground.",
+        keywords="key,rusty key,small key,metal key,basement key",
+        useDescription="After some wiggling, you manage to turn the key and the door unlocks. For a moment, you think you can hear something rustling on the other side of the door.",
+        **{
+            "notTakenDesc":"There is a small key in the dead man's pocket."
+        }
+    )
+    door006B = StandardFeatures.StandardLockedDoor(
         "It's covered in rust, mold, and several other unidentifiable stains. It appears to have a working lock as well. That "
-        "could come in handy.",
-        "east,east door,door,metal door,steel door,rusty door,dirty door")
+        "could come in handy.\nSomeone has scratched a message into the metal: \"DON'T LET THEM OUT\"",
+        "east,east door,door,metal door,steel door,rusty door,dirty door",
+        key006B
+    )
 
-    door006B = StandardFeatures.StandardOpenDoor(
+    door006C = StandardFeatures.StandardOpenDoor(
         "It's cleaner than the other door, but that isn't saying much considering the condition of the room. You can hear a faint humming "
         "noise from beyond the door.",
         "south,south door,door,metal door,steel door")
@@ -307,9 +320,56 @@ def buildCombatSimulator(gameState):
 
     #Items
 
-
     #Enemies
 
+
+    #007 - GENERATOR ROOM
+    generatorRoom007 = AreasFeatures.Area(
+        "Generator Room", 
+        ["The door leads to a small cramped room. A large generator takes up most of the south wall, humming loudly. Someone has built a "
+        "makeshift bed here out of dirty blankets, and the floor is littered with garbage. It looks like someone has been living here. A "
+        "door leads back to the north."],
+        **{"size":1}
+    )
+
+    #Links
+    door007A = StandardFeatures.StandardOpenDoor(
+        "A sturdy metal door that leads back to the basement entrance.",
+        "north,north door,door,metal door,steel door")
+    door007A.makeSibling(door006C)
+    generatorRoom007.connect(basementEntrance006, door007A)
+    basementEntrance006.connect(generatorRoom007, door006C)
+
+    #Features
+    generatorRoom007.addFeature(AreasFeatures.Feature(
+        ["The blankets are disgusting, covered in layers of dirt and dried blood, among other things. It looks like he was living here for some time."],
+        "bed,blanket,blankets"
+    ))
+    generatorRoom007.addFeature(AreasFeatures.Feature(
+        ["Food wrappers, rags, and various used toiletries make up the bulk of the mess. Nothing worth taking, and it's doubtful you'd "
+        "want to touch it if there was."],
+        "floor,trash,garbage,mess,wrappers,rags,toiletries"
+    ))
+
+    #Containers
+
+    #Items
+    crossbow007 = StandardItems.Crossbow(**{
+        "notTakenDesc":"Lying on the floor next to the makeshift bed is a loaded crossbow."
+    })
+    generatorRoom007.addItem(crossbow007)
+    generatorRoom007.addItem(StandardItems.CrossbowBolt(**{
+        "notTakenDesc":"Lying amongst the trash on the floor you can see a steel bolt, for a crossbow."
+    }))
+
+    #Enemies
+    bentHost007A = UniqueEnemies.BentHost(**{
+        "firstSeenDesc":"A man suddenly rises from the bed, previously hidden by blankets. He locks eyes with you, and a wide, terrifying grin spreads "
+        "across his face. He raises his arm and you see a pair of bloody scissors clutched in his hand. He lets out a small giggle and charges towards you."
+    })
+    bentHost007A.corpse.addItem(key006B)
+    bentHost007A.protectThing(crossbow007)
+    generatorRoom007.spawnEnemy(bentHost007A, 1)
 
     #Debug Config:
     spawnLocation = armory001

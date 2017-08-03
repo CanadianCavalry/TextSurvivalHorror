@@ -77,7 +77,7 @@ class Enemy(object):
         self.exorciseSound = None
         self.exorciseHitSound = None
         self.exorciseFailSound = None
-        self.defaultBlockDesc = "The " + self.name + " is between you and the exit. There's no way out.\n"
+        self.defaultBlockDesc = "The " + self.name + " is blocking the way, you can't reach it.\n"
         self.defaultStunDesc = "The " + self.name + " is dazed.\n"
         self.defaultRecoveryDesc = "The " + self.name + " is no longer dazed."
         self.stunDesc = self.defaultStunDesc

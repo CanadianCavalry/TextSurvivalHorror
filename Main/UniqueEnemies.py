@@ -72,8 +72,8 @@ class BentHost(Enemies.Enemy):
         seenDesc = "A wounded, blood soaked man carrying a pair of scissors is here with you."
         keywords = "enemy,host,man,bent host,possessed,possessed man,lunatic,maniac,demon"
         maxHealth = 40
-        minDamage = 12
-        maxDamage = 16
+        minDamage = 10
+        maxDamage = 14
         accuracy = 60
         corpse = Items.Corpse(
             "Human Corpse", 
