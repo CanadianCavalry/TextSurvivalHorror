@@ -351,27 +351,12 @@ class Enemy(object):
         
     def setLocation(self, location):
         self.currentLocation = location
-        
-    def setExorciseDialogue(self, textList):
-        self.exorciseDialogue = textList
-        
-    def addExorciseDialogue(self, text):
-        self.exorciseDialogue.append(text)
-
-    def removeExorciseDialogue(self, index):
-        del self.exorciseDialogue[index]
     
     def setTalkDialogue(self, textList):
         self.talkDialogue = textList
         
     def addTalkDialogue(self, text):
         self.talkDialogue.append(text)
-        
-    def setAdvanceDialogue(self, text):
-        self.advanceDialogue = text
-        
-    def setRetreatDialogue(self, text):
-        self.retreatDialogue = text
     
     def getCondition(self):
         if self.health == self.maxHealth:

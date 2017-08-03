@@ -304,7 +304,7 @@ def buildCombatSimulator(gameState):
     )
     door006B = StandardFeatures.StandardLockedDoor(
         "It's covered in rust, mold, and several other unidentifiable stains. It appears to have a working lock as well. That "
-        "could come in handy.\nSomeone has scratched a message into the metal: \"DON'T LET THEM OUT\"",
+        "could come in handy.\nSomeone has scratched a message into the metal: \"DON'T LET THEM OUT\"\n",
         "east,east door,door,metal door,steel door,rusty door,dirty door",
         key006B
     )
@@ -365,11 +365,71 @@ def buildCombatSimulator(gameState):
     #Enemies
     bentHost007A = UniqueEnemies.BentHost(**{
         "firstSeenDesc":"A man suddenly rises from the bed, previously hidden by blankets. He locks eyes with you, and a wide, terrifying grin spreads "
-        "across his face. He raises his arm and you see a pair of bloody scissors clutched in his hand. He lets out a small giggle and charges towards you."
+            "across his face. He raises his arm and you see a pair of bloody scissors clutched in his hand. He lets out a small giggle and charges towards you."
     })
-    bentHost007A.corpse.addItem(key006B)
+    bentHost007A.description = ["Though human, the twisted facial features and sadistic grin mark him as the puppet of an demonic creature. "
+            "Long, deep slashes cover his exposed forearms and wrists, and his clothes are smeared in blood both dried and fresh. "
+            "He carries a pair of scissors in one hand."]
     bentHost007A.protectThing(crossbow007)
+    bentHost007A.corpse.addItem(key006B)
     generatorRoom007.spawnEnemy(bentHost007A, 1)
+
+
+    #008 - UTILITIES ROOM
+    utilitiesRoom008 = AreasFeatures.Area(
+        "Utilities Room", 
+        ["This room is quite large, and filled with all kinds of pipes, electrical conduits, and ventilation ducts. It seems "
+        "to be a central utility room. Most of the equiptment is in a state of disrepair, and several inches of water cover the floor. "
+        "There is a narrow door on the far wall to the east, and another one leading back the basement entrance to the west."],
+        **{"size":3}
+    )
+
+    #Links
+    door008A = StandardFeatures.StandardOpenDoor(
+        "A sturdy metal door that leads back to the basement entrance.",
+        "west,west door,door,metal door,steel door")
+    door008A.makeSibling(door006B)
+    utilitiesRoom008.connect(basementEntrance006, door008A)
+    basementEntrance006.connect(utilitiesRoom008, door006B)
+
+    door008B = StandardFeatures.StandardOpenDoor(
+        "A narrow metal door. It looks like a storage room or closet.",
+        "east,east door,door,metal door,steel door,storage door,closet door")
+    #Features
+    utilitiesRoom008.addFeature(AreasFeatures.Feature(
+        ["The machinery is all ancient, rusted and on the verge of falling apart. You doubt very much if any of it still functions."],
+        "pipes,vents,machinery,machines,ventilation,plumbing,pipe,conduit,electrical conduit,wires"
+    ))
+    utilitiesRoom008.addFeature(AreasFeatures.Feature(
+        ["It's murky and stagnant. If must have come from a burst pipe or leaking pump, but that had to have been some time ago."],
+        "water,floor,flooding"
+    ))
+
+    #Containers
+
+    #Items
+
+    #Enemies
+    bentHost008A = UniqueEnemies.BentHost(**{
+        "firstSeenDesc":"As you step through the door, maniacal laughter fills the room. A figure emerges from the darkness, a young "
+        "woman carrying a large kitchen knife. A moment later she is joined by another, then another. In unison, all three begin walking "
+        "towards you.",
+        "firstSeenSound": "Sounds/Monsters/BentHostLaugh.mp3"
+    })
+    bentHost008A.protectThing(door008B, "There's no way you can reach the door with the hosts in the way.")
+    utilitiesRoom008.spawnEnemy(bentHost008A, 3)
+
+    bentHost008B = UniqueEnemies.BentHost(**{
+        "firstSeenDesc":" "
+    })
+    bentHost008B.protectThing(door008B, "There's no way you can reach the door with the hosts in the way.")
+    utilitiesRoom008.spawnEnemy(bentHost008B, 3)
+
+    bentHost008C = UniqueEnemies.BentHost(**{
+        "firstSeenDesc":" "
+    })
+    bentHost008C.protectThing(door008B, "There's no way you can reach the door with the hosts in the way.")
+    utilitiesRoom008.spawnEnemy(bentHost008C, 3)
 
     #Debug Config:
     spawnLocation = armory001

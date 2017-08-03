@@ -16,7 +16,7 @@ class Axe(Items.MeleeWeapon):
         keywords="axe,fire axe,weapon"
         minDamage=22
         maxDamage=29
-        accuracy=80
+        accuracy=75
         size=2
 
         kwargs.update({

@@ -256,7 +256,7 @@ class RangedWeapon(Weapon):
             if self.name == weaponType:
                 self.ammoRemaining = self.capacity
                 item.destroy(player)
-                if self.fireSound:
+                if self.reloadSound:
                     source = pyglet.media.load(self.reloadSound, streaming=False)
                     source.play()
 
@@ -436,9 +436,9 @@ class Key(Usable):
             elif self.currentLocation in enemy.protectedThings:
                 return enemy.protectedThings[self.currentLocation]
 
-        if (isinstance(recipient, AreasFeatures.Door)) or (isinstance(recipient, AreasFeatures.Container)):
-            return recipient.unlock(self)
-        else:
+        try:
+            return recipient.unlock(self, player)
+        except AttributeError:
             return "It doesn't have a lock to put the key in..."
 
 class Corpse(Item):

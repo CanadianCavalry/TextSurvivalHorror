@@ -66,15 +66,15 @@ class Hellhound(Enemies.Enemy):
 class BentHost(Enemies.Enemy):    
     def __init__(self, **kwargs):
         name = "Bent Host"
-        description = (["Though human, the twisted facial features and sadistic grin mark him as the puppet of an demonic creature. "
-            "Long, deep slashes cover his exposed forearms and wrists, and his clothes are smeared in blood both dried and fresh. "
-            "He carries a pair of scissors in one hand."])
+        description = (["A twisted, tortured human posessed by a demonic entity. Though incapable of controlling their bodies, "
+            "these \'bent hosts\' are fully aware and forced to spectate while their captor does what it wishes. They tend to be "
+            "clumsy and have little regard for their own safety, but should not be underestimated."])
         seenDesc = "A wounded, blood soaked man carrying a pair of scissors is here with you."
         keywords = "enemy,host,man,bent host,possessed,possessed man,lunatic,maniac,demon"
         maxHealth = 40
         minDamage = 10
         maxDamage = 14
-        accuracy = 60
+        accuracy = 70
         corpse = Items.Corpse(
             "Human Corpse", 
             "The demon has left this host. It's unfortunate what you had to do, but at least he can rest now.",
