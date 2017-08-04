@@ -291,9 +291,10 @@ class Link(object):
         
     def enemyTravel(self, enemy):
         if self.isAccessible == False:
-            return
+            return False
         enemy.currentLocation.removeEnemy(enemy)
         self.destination.addEnemy(enemy)
+        return True
 
 
     def makeSibling(self, sibling):

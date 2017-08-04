@@ -95,6 +95,7 @@ class Enemy(object):
         self.advanceDialogue = ["The " + self.name + " moves towards you.\n"]
         self.retreatDialogue = ["The " + self.name + " moves away from you.\n"]
         self.travelDesc = "The " + self.name + " has caught up with you. It moves to attack."
+        self.travelBlockedDesc = "You hear something pounding on the door."
 
         #populate optional stats
         if kwargs is not None:
@@ -138,11 +139,14 @@ class Enemy(object):
             if not link.destination == destination:
                 continue
 
-            link.enemyTravel(self)
-            if self.currentLocation == player.currentLocation:
-                if self.distanceToPlayer > self.currentLocation.size:
-                    self.distanceToPlayer = self.currentLocation.size
-                return self.travelDesc
+            if link.enemyTravel(self):
+                if self.currentLocation == player.currentLocation:
+                    if self.distanceToPlayer > self.currentLocation.size:
+                        self.distanceToPlayer = self.currentLocation.size
+                    return self.travelDesc
+            else:
+                return self.travelBlockedDesc
+
         return ""
         
     def takeAction(self, player):
