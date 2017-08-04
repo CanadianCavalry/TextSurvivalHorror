@@ -79,9 +79,11 @@ def buildCombatSimulator(gameState):
         "\"Combat Tips\". There is a large steel door to the south, with some sort of complex locking mechanism on it. On the "
         "far end of the west wall is another, smaller metal door. To the east is a set of concrete stairs leading downwards."],
         **{"size":4})
-    arenaDoorB = StandardFeatures.StandardLockedDoor(
+    arenaDoorB = StandardFeatures.StandardLockingDoor(
         "A heavy steel door. It has no handle or lock that you can see.",
         "south,south door,door,metal door,steel door",
+        False,
+        True,
         None)
     arenaDoorB.makeSibling(arenaDoorA)
     arena002.connect(armory001, arenaDoorB)
@@ -302,11 +304,14 @@ def buildCombatSimulator(gameState):
             "notTakenDesc":"There is a small key in the dead man's pocket."
         }
     )
-    door006B = StandardFeatures.StandardLockedDoor(
-        "It's covered in rust, mold, and several other unidentifiable stains. It appears to have a working lock as well. That "
-        "could come in handy.\nSomeone has scratched a message into the metal: \"DON'T LET THEM OUT\"\n",
+    door006B = StandardFeatures.StandardLockingDoor(
+        "It's covered in rust, mold, and several other unidentifiable stains. There is a heavy duty steel bolt handle on this side of the door.\nSomeone has scratched a message into the metal: \"DON'T LET THEM OUT\"\n",
         "east,east door,door,metal door,steel door,rusty door,dirty door",
-        key006B
+        False,
+        False,
+        None,
+        **{"unlockDesc":"With some effort, you pull the bolt back. For a moment, you think you can hear something rustling on the other side of the door.",
+        "lockDesc":"You quickly slide the bolt into place, locking it again."}
     )
 
     door006C = StandardFeatures.StandardOpenDoor(
@@ -370,6 +375,7 @@ def buildCombatSimulator(gameState):
     bentHost007A.description = ["Though human, the twisted facial features and sadistic grin mark him as the puppet of an demonic creature. "
             "Long, deep slashes cover his exposed forearms and wrists, and his clothes are smeared in blood both dried and fresh. "
             "He carries a pair of scissors in one hand."]
+    bentHost007A.seenDescription = "A wounded, blood soaked man carrying a pair of scissors is here with you."
     bentHost007A.protectThing(crossbow007)
     bentHost007A.corpse.addItem(key006B)
     generatorRoom007.spawnEnemy(bentHost007A, 1)
@@ -385,9 +391,11 @@ def buildCombatSimulator(gameState):
     )
 
     #Links
-    door008A = StandardFeatures.StandardOpenDoor(
+    door008A = StandardFeatures.StandardKeylessDoor(
         "A sturdy metal door that leads back to the basement entrance.",
-        "west,west door,door,metal door,steel door")
+        "west,west door,door,metal door,steel door",
+        False
+    )
     door008A.makeSibling(door006B)
     utilitiesRoom008.connect(basementEntrance006, door008A)
     basementEntrance006.connect(utilitiesRoom008, door006B)

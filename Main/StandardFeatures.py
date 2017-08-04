@@ -16,21 +16,77 @@ class StandardOpenMetalDoor(AreasFeatures.Door):
         super(StandardOpenMetalDoor, self).__init__(description, keywords, True, "", "You open the door and step through.", "Sounds/Misc/HeavyDoor.mp3")
 
         
-class StandardLockedDoor(AreasFeatures.Door):
+class StandardLockingDoor(AreasFeatures.Door):
     
-    def __init__(self, description, keywords, itemToOpen):
+    def __init__(self, description, keywords, isAccessible, keyRequired, itemToOpen, **kwargs):
         self.itemToOpen = itemToOpen
-        super(StandardLockedDoor, self).__init__(description, keywords, False, "The door is locked. It won't budge.", "You open the door and step through.")
+        self.keyRequired = keyRequired
+
+        if not ("unlockDesc" in kwargs):
+            self.unlockDesc = "You unlock the door."
+        if not ("lockDesc" in kwargs):
+            self.lockDesc = "You lock the door."
+        #populate optional stats
+        if kwargs is not None:
+            for key, value in kwargs.iteritems():
+                setattr(self, key, value)
+
+        super(StandardLockingDoor, self).__init__(description, keywords, isAccessible, "It's locked. It won't budge.", "You open the door and step through.")
         
-    def unlock(self, usedItem, player):
+    def tryUnlock(self, usedItem, player):
         for key, enemy in player.currentLocation.enemies.iteritems():
             if self in enemy.protectedThings:
                 return enemy.protectedThings[self]
-        if usedItem == self.itemToOpen:
-            self.isAccessible = True
-            return usedItem.useDescription,True
-        else:    
-            return "The key does not appear to work for this door."
+        if self.keyRequired:
+            if not usedItem:
+                return "This door requires a key of some kind."
+            if usedItem == self.itemToOpen:
+                self.unlock()
+            else:    
+                return "The key does not appear to work for this door."
+        else:
+            self.unlock()
+        return self.unlockDesc, True
+
+    def unlock(self):
+        self.isAccessible = True
+        self.siblingLink.isAccessible = True
+
+    def tryLock(self, usedItem, player):
+        for key, enemy in player.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
+        if self.keyRequired:
+            if not usedItem:
+                return "This door requires a key of some kind."
+            if usedItem == self.itemToOpen:
+                self.lock()
+            else:    
+                return "The key does not appear to work for this door."
+        else:
+            self.lock()
+        return self.lockDesc,True
+
+    def lock(self):
+        self.isAccessible = False
+        self.siblingLink.isAccessible = False
+
+class StandardKeylessDoor(AreasFeatures.Door):
+    
+    def __init__(self, description, keywords, isAccessible, **kwargs):
+        #populate optional stats
+        if kwargs is not None:
+            for key, value in kwargs.iteritems():
+                setattr(self, key, value)
+
+        super(StandardKeylessDoor, self).__init__(description, keywords, isAccessible, "It's locked. It won't budge.", "You open the door and step through.")
+        
+    def tryUnlock(self, usedItem, player):
+        return "The door has no visible means of unlocking it from this side."
+
+    def tryLock(self, usedItem, player):
+        return "The door has no visible means of locking it from this side."
+
         
 class StandardUpwardStairs(AreasFeatures.Link):
     
@@ -59,7 +115,7 @@ class UnlockedContainer(AreasFeatures.Container):
     def __init__(self, description, keywords, openDesc, closeDesc):
         super(UnlockedContainer, self).__init__(description, keywords, False, True, None, openDesc, closeDesc)
         
-    def unlock(self, usedItem, player):
+    def tryUnlock(self, usedItem, player):
         for key, enemy in player.currentLocation.enemies.iteritems():
             if self in enemy.protectedThings:
                 return enemy.protectedThings[self]
@@ -81,7 +137,7 @@ class LockedContainer(AreasFeatures.Container):
         self.itemToOpen = itemToOpen
         super(LockedContainer, self).__init__(description, keywords, False, False, blockedDesc, openDesc, closeDesc)
         
-    def unlock(self, usedItem, player):
+    def tryUnlock(self, usedItem, player):
         for key, enemy in player.currentLocation.enemies.iteritems():
             if self in enemy.protectedThings:
                 return enemy.protectedThings[self]

@@ -69,9 +69,9 @@ class BentHost(Enemies.Enemy):
         description = (["A twisted, tortured human posessed by a demonic entity. Though incapable of controlling their bodies, "
             "these \'bent hosts\' are fully aware and forced to spectate while their captor does what it wishes. They tend to be "
             "clumsy and have little regard for their own safety, but should not be underestimated."])
-        seenDesc = "A wounded, blood soaked man carrying a pair of scissors is here with you."
+        seenDesc = "A demonically posessed host is in here. "
         keywords = "enemy,host,man,bent host,possessed,possessed man,lunatic,maniac,demon"
-        maxHealth = 40
+        maxHealth = 55
         minDamage = 10
         maxDamage = 14
         accuracy = 70
@@ -79,7 +79,7 @@ class BentHost(Enemies.Enemy):
             "Human Corpse", 
             "The demon has left this host. It's unfortunate what you had to do, but at least he can rest now.",
             "The bloody remains of a demonic host is lying on the floor.", 
-            "body,corpse,human,human body,dead human,human corpse,dead host,host,host corpse,dead demon,demon,demon corpse")
+            "body,corpse,human body,dead human,human corpse,dead host,host corpse,dead demon,demon corpse")
         
         kwargs.update({
             "speed":1,

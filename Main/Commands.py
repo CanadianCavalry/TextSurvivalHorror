@@ -351,6 +351,34 @@ def closeThing(player, keyword):
         except AttributeError:
             return "You can't close that."
 
+def unlock(player, keyword):
+    matching = findMatching(player, keyword, list())
+    matching = findMatchingInventory(player, keyword, matching)
+        
+    if len(matching) == 0:
+        return "You do not see anything like that here."
+    elif len(matching) > 1:
+        return "You need to be more specific."
+    elif len(matching) == 1:
+        #try:
+        return matching[0].tryUnlock(None, player)
+        #except AttributeError:
+            #return "That doesn't have a lock."
+
+def lock(player, keyword):
+    matching = findMatching(player, keyword, list())
+    matching = findMatchingInventory(player, keyword, matching)
+        
+    if len(matching) == 0:
+        return "You do not see anything like that here."
+    elif len(matching) > 1:
+        return "You need to be more specific."
+    elif len(matching) == 1:
+        try:
+            return matching[0].tryLock(None, player)
+        except AttributeError:
+            return "That doesn't have a lock."
+
 def search(player, keyword):
     matching = findMatching(player, keyword, list())
     matching = findMatchingInventory(player, keyword, matching)

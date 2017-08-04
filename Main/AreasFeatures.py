@@ -60,6 +60,7 @@ class Area(object):
                 else:
                     desc += enemy.seenDescription
                     desc += " " + enemy.getDistance()
+                desc += "\n"
         return desc
         
     def connect(self, area, link):
@@ -216,7 +217,7 @@ class Container(Feature):
 
         return desc
     
-    def unlock(self, usedItem):
+    def tryUnlock(self, usedItem, player):
         return "It does not have a lock."
     
     def open(self, player):
@@ -319,7 +320,7 @@ class Door(Link):
             desc += "locked."
         return desc
         
-    def unlock(self, usedItem):
+    def tryUnlock(self, usedItem, player):
         return "That door does not have a lock."
     
     def open(self, player):

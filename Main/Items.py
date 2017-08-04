@@ -435,9 +435,9 @@ class Key(Usable):
                 return enemy.protectedThings[self]
             elif self.currentLocation in enemy.protectedThings:
                 return enemy.protectedThings[self.currentLocation]
-
+                
         try:
-            return recipient.unlock(self, player)
+            return recipient.tryUnlock(self, player)
         except AttributeError:
             return "It doesn't have a lock to put the key in..."
 

@@ -110,6 +110,10 @@ class Parser(object):
             resultString = Commands.openThing(self.state.player, self.target)
         elif (self.command == "close"):
             resultString = Commands.closeThing(self.state.player, self.target)
+        elif (self.command == "unlock"):
+            resultString = Commands.unlock(self.state.player, self.target)
+        elif (self.command == "lock"):
+            resultString = Commands.lock(self.state.player, self.target)
         elif (self.command == "search"):
             resultString = Commands.search(self.state.player, self.target)
         elif (self.command == "drink"):
