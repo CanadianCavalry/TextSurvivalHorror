@@ -417,14 +417,14 @@ class Note(Readable):
 
         return self.contents,True
 
-class Key(Usable):
-    def __init__(self, name, description, seenDescription, keywords, useDescription, **kwargs):
+class Key(Item):
+    def __init__(self, name, description, seenDescription, keywords, **kwargs):
 
         kwargs.update({
             "pickupSound":"Sounds/Misc/KeyGet.mp3"
         })
 
-        super(Key, self).__init__(name, description, seenDescription, keywords, useDescription, **kwargs)
+        super(Key, self).__init__(name, description, seenDescription, keywords, **kwargs)
     
     def use(self, player):
         return "Use the key on what?"

@@ -37,6 +37,7 @@ class Hellhound(Enemies.Enemy):
             "attackDesc": ["The hellhound leaps towards you, trying to tear into you with it's jaws.", "The hellhound snarls and snaps at you."],
             "firstSeenDesc":"As you walk forward you hear a loud crunching noise from up ahead. You round a shelf to find a massive canine creature at least 2 meters tall at the shoulders, covered in open wounds and bits of protruding bone. It's standing over a mangled corpse, it's head buried in the bloody entrails, as wet crunching and tearing noises fill the room.\nThe creature pauses, sniffing the air for a moment, before turning towards you with a deep, unnatural growl.",
             "firstSeenSound":"Sounds/Monsters/HellhoundGrowl.mp3",
+            "exorciseFailDesc":["It completely ignores you. You're going to have to find another way of dealing with it..."],
             "deathSound":"Sounds/Monsters/HellhoundDeath.mp3",
             "advanceDialogue":["The massive canine tears towards you, barking.", "The hellhound bolts straight at you with a deep growl."],
             "retreatDialogue":["The beast dashes away, yelping."],

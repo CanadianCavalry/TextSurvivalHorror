@@ -23,6 +23,26 @@ def buildCombatSimulator(gameState):
     gameState.introText = introText
 
     #Combat Test Environment
+    #AREA KEYS
+    key005A = Items.Key(
+        name="Ornate Key",
+        description="It's covered in strange markings and is topped with an ornate engraving of a demonic face. It looks like it's made from copper or brass.",
+        seenDescription="An ornate metal key is on the ground.",
+        keywords="key,ornate key,copper key,bronze key,demon key",
+        **{
+        "notTakenDesc":"There is a large, ornate metal key clutched in what's left of the mans hand."
+        }
+    )
+    key009A = Items.Key(
+        name="Library Key",
+        description="A ordinary looking key. It has a small tag attached which says \"library - maint use only!\"",
+        seenDescription="The key to the library is on the floor.",
+        keywords="key,library key,metal key,small key",
+        **{
+            "notTakenDesc":"A lone key is hanging from a keyrack on the wall."
+        }
+    )
+
     #001 - ARMORY
     armory001 = AreasFeatures.Area(
         "Armory", 
@@ -79,25 +99,25 @@ def buildCombatSimulator(gameState):
         "\"Combat Tips\". There is a large steel door to the south, with some sort of complex locking mechanism on it. On the "
         "far end of the west wall is another, smaller metal door. To the east is a set of concrete stairs leading downwards."],
         **{"size":4})
-    arenaDoorB = StandardFeatures.StandardLockingDoor(
+    arenaDoorB = StandardFeatures.StandardKeylessDoor(
         "A heavy steel door. It has no handle or lock that you can see.",
         "south,south door,door,metal door,steel door",
-        False,
-        True,
-        None)
+        False)
     arenaDoorB.makeSibling(arenaDoorA)
     arena002.connect(armory001, arenaDoorB)
     armory001.connect(arena002, arenaDoorA)
 
-    door002B = StandardFeatures.StandardOpenMetalDoor(
+    door002B = StandardFeatures.StandardLockingDoor(
         "A steel door. It's battered and dented, and has a large, rust colored stain near the handle.",
-        "west,west door,door,metal door,steel door")
+        "west,west door,door,metal door,steel door",
+        False,
+        True,
+        key009A)
 
     door002C = StandardFeatures.StandardDownwardStairs(
         "The concrete steps lead downward into the darkness, though you can see light further down. It must be a basement of some sort.",
         "east,east stairs,stairs,stone stairs,concrete stairs,dirty stairs,east steps,steps,staircase,stone steps")
     
-
     arena002.addFeature(StandardFeatures.Sign(
         "The large metal sign takes up a large portion of the east wall. It reads \"Please ensure you are prepared before continuing "
         "to the test arena. Good luck\"",
@@ -109,10 +129,7 @@ def buildCombatSimulator(gameState):
         "combat commands:\nATTACK - Attack with an equipped weapon\nHEAVY ATTACK - Slower, stronger attack\nEXORCISE - Invoke your "
         "faith to weaken an enemy\nRELOAD - Reload your equipped gun(requires ammo)\nDEFEND - Give up your chance to strike to "
         "increase your chances of dodging the next attack."))
-    
-    testDemon = Enemies.TestDemon()
-    #arena002.spawnEnemy(testDemon, 3)
-    #testDemon.protectThing(door002B)
+
 
     #003 - LIBRARY FOYER
     libraryFoyer003 = AreasFeatures.Area(
@@ -200,8 +217,6 @@ def buildCombatSimulator(gameState):
         "book,books"
     ))
 
-    #Containers
-
     #Items
 
     #Enemies
@@ -252,21 +267,13 @@ def buildCombatSimulator(gameState):
         "and from the tooth marks it looks like his head and limbs have been chewed on. His clothing indicates he was an employee, "
         "possibly an orderly.",
         seenDescription="A badly mauled corpse is splayed out on the floor.",
-        keywords="corpse,dead body,body,dead man,dead human,dead person,victim"
-    )
-    libraryCorpse005.addItem(Items.Key(
-        name="Ornate Key",
-        description="It's covered in strange markings and is topped with an ornate engraving of a demonic face. It looks like it's made from copper or brass.",
-        seenDescription="An ornate metal key is on the ground.",
-        keywords="key,ornate key,copper key,bronze key,demon key",
-        useDescription="You slide the key into the lock and it turns with little effort. A loud click echoes through the hall.",
+        keywords="corpse,dead body,body,dead man,dead human,dead person,victim",
         **{
-        "notTakenDesc":"There is a large, ornate metal key clutched in what's left of the mans hand."
+            "initSeenDesc":" "
         }
-    ))
+    )
+    libraryCorpse005.addItem(key005A)
     libraryWest005.addItem(libraryCorpse005)
-
-    #Containers
 
     #Items
 
@@ -294,16 +301,6 @@ def buildCombatSimulator(gameState):
     basementEntrance006.connect(arena002, door006A)
     arena002.connect(basementEntrance006, door002C)
 
-    key006B = Items.Key(
-        name="Small Rusty Key",
-        description="It's the size of a typical house key, and partially covered in rust.",
-        seenDescription="A small rusty key is on the ground.",
-        keywords="key,rusty key,small key,metal key,basement key",
-        useDescription="After some wiggling, you manage to turn the key and the door unlocks. For a moment, you think you can hear something rustling on the other side of the door.",
-        **{
-            "notTakenDesc":"There is a small key in the dead man's pocket."
-        }
-    )
     door006B = StandardFeatures.StandardLockingDoor(
         "It's covered in rust, mold, and several other unidentifiable stains. There is a heavy duty steel bolt handle on this side of the door.\nSomeone has scratched a message into the metal: \"DON'T LET THEM OUT\"\n",
         "east,east door,door,metal door,steel door,rusty door,dirty door",
@@ -320,8 +317,6 @@ def buildCombatSimulator(gameState):
         "south,south door,door,metal door,steel door")
 
     #Features
-
-    #Containers
 
     #Items
 
@@ -356,8 +351,6 @@ def buildCombatSimulator(gameState):
         "floor,trash,garbage,mess,wrappers,rags,toiletries"
     ))
 
-    #Containers
-
     #Items
     crossbow007 = StandardItems.Crossbow(**{
         "notTakenDesc":"Lying on the floor next to the makeshift bed is a loaded crossbow."
@@ -377,7 +370,6 @@ def buildCombatSimulator(gameState):
             "He carries a pair of scissors in one hand."]
     bentHost007A.seenDescription = "A wounded, blood soaked man carrying a pair of scissors is here with you."
     bentHost007A.protectThing(crossbow007)
-    bentHost007A.corpse.addItem(key006B)
     generatorRoom007.spawnEnemy(bentHost007A, 1)
 
 
@@ -385,8 +377,8 @@ def buildCombatSimulator(gameState):
     utilitiesRoom008 = AreasFeatures.Area(
         "Utilities Room", 
         ["This room is quite large, and filled with all kinds of pipes, electrical conduits, and ventilation ducts. It seems "
-        "to be a central utility room. Most of the equiptment is in a state of disrepair, and several inches of water cover the floor. "
-        "There is a narrow door on the far wall to the east, and another one leading back the basement entrance to the west."],
+        "to be a central utility room. Most of the equipment is in a state of disrepair, and several inches of water cover the floor. "
+        "There is a narrow door on the wall to the south, and another one leading back the basement entrance to the west."],
         **{"size":3}
     )
 
@@ -402,7 +394,7 @@ def buildCombatSimulator(gameState):
 
     door008B = StandardFeatures.StandardOpenDoor(
         "A narrow metal door. It looks like a storage room or closet.",
-        "east,east door,door,metal door,steel door,storage door,closet door")
+        "south,south door,door,metal door,steel door,storage door,closet door")
     #Features
     utilitiesRoom008.addFeature(AreasFeatures.Feature(
         ["The machinery is all ancient, rusted and on the verge of falling apart. You doubt very much if any of it still functions."],
@@ -412,8 +404,6 @@ def buildCombatSimulator(gameState):
         ["It's murky and stagnant. If must have come from a burst pipe or leaking pump, but that had to have been some time ago."],
         "water,floor,flooding"
     ))
-
-    #Containers
 
     #Items
 
@@ -438,6 +428,45 @@ def buildCombatSimulator(gameState):
     })
     bentHost008C.protectThing(door008B, "There's no way you can reach the door with the hosts in the way.")
     utilitiesRoom008.spawnEnemy(bentHost008C, 3)
+
+
+    #009 - Maintenance CLOSET
+    maintenanceCloset009 = AreasFeatures.Area(
+        "Maintenance Closet", 
+        ["You find yourself in a tiny maintenance closet used to store tools, cleaning supplies and the like."],
+        **{"size":1}
+    )
+
+    #Links
+    door009A = StandardFeatures.StandardOpenDoor(
+        "A sturdy metal door that leads back to the basement entrance.",
+        "north,north door,door,metal door,steel door"
+    )
+    door009A.makeSibling(door008B)
+    maintenanceCloset009.connect(utilitiesRoom008, door009A)
+    utilitiesRoom008.connect(maintenanceCloset009, door008B)
+
+    #Features
+    utilitiesRoom008.addFeature(AreasFeatures.Feature(
+        ["There are a variety of small hand tools, tape, screws, gloves and more stored in a large red toolbox. Nothing "
+        "that looks particularly useful at the moment unfortunately."],
+        "tools,tape,screws,toolbox"
+    ))
+    utilitiesRoom008.addFeature(AreasFeatures.Feature(
+        ["A decent collection of cleaning supplies, all with numerous warnings about toxicity, corrosivness, and flamability. "
+        "You have the sudden urge to leave this closet as soon as possible."],
+        "cleaning,cleaning supplies,supplies,chemicals,bleach,ammonia"
+    ))
+    utilitiesRoom008.addFeature(AreasFeatures.Feature(
+        ["A small wooden key rack that looks more like it belongs in a suburban home than a maintenance room."],
+        "keyrack,keyring,key holder,key rack"
+    ))
+
+    #Items
+    maintenanceCloset009.addItem(key009A)
+
+    #Enemies
+
 
     #Debug Config:
     spawnLocation = armory001
