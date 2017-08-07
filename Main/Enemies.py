@@ -145,7 +145,8 @@ class Enemy(object):
                         self.distanceToPlayer = self.currentLocation.size
                     return self.travelDesc
             else:
-                return self.travelBlockedDesc
+                if self.trackPlayer(player):
+                    return self.travelBlockedDesc
 
         return ""
         
@@ -227,13 +228,13 @@ class Enemy(object):
     def advance(self):
         if self.distanceToPlayer > 1:
             self.distanceToPlayer -= 1
-            return self.advanceDialogue[randint(0, len(self.advanceDialogue) - 1)] + " " + self.getDistance()
+            return self.advanceDialogue[randint(0, len(self.advanceDialogue) - 1)] + "\n" + self.getDistance()
         return "The " + self.name + " does nothing."
     
     def retreat(self):
         if self.distanceToPlayer < self.currentLocation.size:
             self.distanceToPlayer += 1
-            return self.retreatDialogue[randint(0, len(self.retreatDialogue) - 1)] + " " + self.getDistance()
+            return self.retreatDialogue[randint(0, len(self.retreatDialogue) - 1)] + "\n" + self.getDistance()
         return "The " + self.name + " tries to flee, but is backed into a corner."
     
     def playerAdvances(self):

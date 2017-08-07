@@ -437,7 +437,10 @@ class Key(Item):
                 return enemy.protectedThings[self.currentLocation]
                 
         try:
-            return recipient.tryUnlock(self, player)
+            if recipient.isAccessible:
+                return recipient.tryLock(self, player)
+            else:
+                return recipient.tryUnlock(self, player)
         except AttributeError:
             return "It doesn't have a lock to put the key in..."
 

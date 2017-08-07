@@ -24,6 +24,15 @@ def buildCombatSimulator(gameState):
 
     #Combat Test Environment
     #AREA KEYS
+    key004A = Items.Key(
+        name="Bent Key",
+        description="An old, bent key. It looks like it's been around a while.",
+        seenDescription="A bent key is lying on the floor.",
+        keywords="key,bent key,archives key,old key",
+        **{
+            "notTakenDesc":"You notice an old, beat up key under the desk."
+        }
+    )
     key005A = Items.Key(
         name="Ornate Key",
         description="It's covered in strange markings and is topped with an ornate engraving of a demonic face. It looks like it's made from copper or brass.",
@@ -179,11 +188,14 @@ def buildCombatSimulator(gameState):
     libraryEast004 = AreasFeatures.Area(
         "Library - East Wing", 
         ["This part of the library is a mess, books scattered across the floor, shelves knocked over or slanted precariously over "
-        "the aisle. One massive shelf in particular is leaning so far over you're amazed it's still upright. Most of the aisles are blocked or"
-        "otherwise inaccessible, but it looks like you could work your way further to the west.",
+        "the aisle. One massive shelf in particular is leaning so far over you're amazed it's still upright. There is what looks like"
+        "a reception desk by the east wall near the door. Most of the aisles are blocked or "
+        "otherwise inaccessible, but it looks like you could work your way further to the west. You also see a heavy duty looking security "
+        "door leading to the south, with a sign above it which reads \"Archives\", and an oak door leading east.",
         "This part of the library is a mess, books scattered across the floor, shelves knocked over or slanted precariously over "
         "the aisle. In the center of the main aisle is the shattered remains of a huge bookshelf. Most of the aisles are blocked or"
-        "otherwise inaccessible, but it looks like you could work your way further to the west."],
+        "otherwise inaccessible, but it looks like you could work your way further to the west. You see a heavy duty looking security "
+        "door leading to the south, with a sign above it which reads \"Archives\".There is also an oak door leading east."],
         **{"size":3})
 
     #Links
@@ -205,6 +217,14 @@ def buildCombatSimulator(gameState):
         None
     )
 
+    door004C = StandardFeatures.StandardLockingDoor(
+        "This is a steel fire-door with a heavy lock built in to it. It's an unusual amount of security for a library, they must "
+        "keep more valuable or rare texts in the archives.",
+        "south,south door,door,steel door,security door,metal door.archives door,archives",
+        False,
+        True,
+        key004A)
+
     #Features
     libraryEast004.addFeature(UniqueHazards.LeaningBookshelf())
     libraryEast004.addFeature(AreasFeatures.Feature(
@@ -216,10 +236,56 @@ def buildCombatSimulator(gameState):
         "interesting, and you doubt you have the time to go searching through the stacks for a certain volume."],
         "book,books"
     ))
+    libraryEast004.addFeature(AreasFeatures.Feature(
+        ["The desk has a series of long slashes across the top, similar to the eastern door. The drawers have all been ripped out and "
+        "tossed aside, the contents spilling onto the floor and under the desk. You don't see anything interesting from where you are "
+        "standing."],
+        "desk,reception desk,library desk"
+    ))
+    libraryUnderDesk004 = StandardFeatures.AlwaysOpenContainer(
+        ["Getting down on your hands and knees, you peer under the desk. Pens, loose paper and random office supplies greets you."],
+        "under desk,beneath desk"
+    )
+    libraryUnderDesk004.addItem(key004A)
+    libraryEast004.addFeature(libraryUnderDesk004)
 
     #Items
 
     #Enemies
+
+
+    #010 - LIBRARY ARCHIVES
+    libraryArchives010 = AreasFeatures.Area(
+        "Archives", 
+        ["This is a massive room filled with aisle upon aisle of bookshelves. The huge shelves run the entire length of the room, and stretch "
+        "upwards toward the high, vaulted ceiling. Stacks of books and loose papers fill much of the room and make the otherwise large "
+        "area feel cramped. There is a single heavy duty security door to the north."],
+        **{"size":3})
+    
+    #Links
+    door010A = StandardFeatures.StandardKeylessDoor(
+        "A steel fire-door which locks from the other side.",
+        "north,north door,door,steel door,security door,metal door",
+        False)
+    door010A.makeSibling(door004C)
+    libraryArchives010.connect(libraryEast004, door010A)
+    libraryEast004.connect(libraryArchives010, door004C)
+
+    #Features
+    libraryArchives010.addFeature(AreasFeatures.Feature(
+        ["The volumes in this area are much older from what you can see. Though they seem to be predominantly religious tets, you don't "
+        "recognize most of the titles. Many seem to be written in different languages."],
+        "book,books"
+    ))
+    libraryArchives010.addFeature(AreasFeatures.Feature(
+        ["The room is divided up into long aisles of bookshelves, with very little space between them."],
+        "shelf,shelves,bookshelf,bookshelves,bookcase,bookcases"
+    ))
+
+    #Items
+
+    #Enemies
+
 
     #005 - LIBRARY WEST WING
     libraryWest005 = AreasFeatures.Area(
@@ -433,7 +499,7 @@ def buildCombatSimulator(gameState):
     #009 - Maintenance CLOSET
     maintenanceCloset009 = AreasFeatures.Area(
         "Maintenance Closet", 
-        ["You find yourself in a tiny maintenance closet used to store tools, cleaning supplies and the like."],
+        ["You find yourself in a tiny maintenance closet used to store tools, cleaning supplies and the like. The door is to the north."],
         **{"size":1}
     )
 
@@ -447,17 +513,17 @@ def buildCombatSimulator(gameState):
     utilitiesRoom008.connect(maintenanceCloset009, door008B)
 
     #Features
-    utilitiesRoom008.addFeature(AreasFeatures.Feature(
+    maintenanceCloset009.addFeature(AreasFeatures.Feature(
         ["There are a variety of small hand tools, tape, screws, gloves and more stored in a large red toolbox. Nothing "
         "that looks particularly useful at the moment unfortunately."],
         "tools,tape,screws,toolbox"
     ))
-    utilitiesRoom008.addFeature(AreasFeatures.Feature(
+    maintenanceCloset009.addFeature(AreasFeatures.Feature(
         ["A decent collection of cleaning supplies, all with numerous warnings about toxicity, corrosivness, and flamability. "
         "You have the sudden urge to leave this closet as soon as possible."],
         "cleaning,cleaning supplies,supplies,chemicals,bleach,ammonia"
     ))
-    utilitiesRoom008.addFeature(AreasFeatures.Feature(
+    maintenanceCloset009.addFeature(AreasFeatures.Feature(
         ["A small wooden key rack that looks more like it belongs in a suburban home than a maintenance room."],
         "keyrack,keyring,key holder,key rack"
     ))
@@ -469,7 +535,7 @@ def buildCombatSimulator(gameState):
 
 
     #Debug Config:
-    spawnLocation = armory001
+    spawnLocation = basementEntrance006
 
     gameState.addArea(spawnLocation)
 
