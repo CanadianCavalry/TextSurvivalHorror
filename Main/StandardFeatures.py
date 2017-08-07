@@ -8,12 +8,22 @@ import AreasFeatures
 class StandardOpenDoor(AreasFeatures.Door):
     
     def __init__(self, description, keywords):
-        super(StandardOpenDoor, self).__init__(description, keywords, True, "", "You open the door and step through.")
+        kwargs = {
+            "travelDesc":"You open the door and step through.", 
+            "travelSound":"Sounds/Misc/GenericDoor1.mp3"
+        }
+
+        super(StandardOpenDoor, self).__init__(description, keywords, True, **kwargs)
 
 class StandardOpenMetalDoor(AreasFeatures.Door):
     
     def __init__(self, description, keywords):
-        super(StandardOpenMetalDoor, self).__init__(description, keywords, True, "", "You open the door and step through.", "Sounds/Misc/HeavyDoor.mp3")
+        kwargs = {
+            "travelDesc":"You open the door and step through.", 
+            "travelSound":"Sounds/Misc/HeavyDoor.mp3"
+        }
+
+        super(StandardOpenMetalDoor, self).__init__(description, keywords, True, **kwargs)
 
         
 class StandardLockingDoor(AreasFeatures.Door):
@@ -26,12 +36,16 @@ class StandardLockingDoor(AreasFeatures.Door):
             self.unlockDesc = "You unlock the door."
         if not ("lockDesc" in kwargs):
             self.lockDesc = "You lock the door."
-        #populate optional stats
-        if kwargs is not None:
-            for key, value in kwargs.iteritems():
-                setattr(self, key, value)
+        if not ("blockedDesc" in kwargs):
+            kwargs.update({
+                "blockedDesc":"It's locked. It won't budge."
+            })
+        if not ("travelDesc" in kwargs):
+            kwargs.update({
+                "travelDesc":"You open the door and step through."
+            })
 
-        super(StandardLockingDoor, self).__init__(description, keywords, isAccessible, "It's locked. It won't budge.", "You open the door and step through.")
+        super(StandardLockingDoor, self).__init__(description, keywords, isAccessible, **kwargs)
         
     def tryUnlock(self, usedItem, player):
         for key, enemy in player.currentLocation.enemies.iteritems():
@@ -74,12 +88,12 @@ class StandardLockingDoor(AreasFeatures.Door):
 class StandardKeylessDoor(AreasFeatures.Door):
     
     def __init__(self, description, keywords, isAccessible, **kwargs):
-        #populate optional stats
-        if kwargs is not None:
-            for key, value in kwargs.iteritems():
-                setattr(self, key, value)
 
-        super(StandardKeylessDoor, self).__init__(description, keywords, isAccessible, "It's locked. It won't budge.", "You open the door and step through.")
+        kwargs.update({
+            "blockedDesc":"It's locked. It won't budge."
+        })
+
+        super(StandardKeylessDoor, self).__init__(description, keywords, isAccessible, **kwargs)
         
     def tryUnlock(self, usedItem, player):
         return "The door has no visible means of unlocking it from this side."
@@ -90,8 +104,12 @@ class StandardKeylessDoor(AreasFeatures.Door):
         
 class StandardUpwardStairs(AreasFeatures.Link):
     
-    def __init__(self, description, keywords):
-        super(StandardUpwardStairs, self).__init__(description, keywords, True, "", "You climb the stairs.")
+    def __init__(self, description, keywords, **kwargs):
+        kwargs = {
+            "travelDesc":"You climb the stairs."
+        }
+
+        super(StandardUpwardStairs, self).__init__(description, keywords, True, **kwargs)
     
     def open(self, player):
         return "I can't open that"
@@ -102,7 +120,10 @@ class StandardUpwardStairs(AreasFeatures.Link):
 class StandardDownwardStairs(AreasFeatures.Link):
     
     def __init__(self, description, keywords):
-        super(StandardDownwardStairs, self).__init__(description, keywords, True, "", "You descend the stairs.")
+        kwargs = {
+            "travelDesc":"You descend the stairs."
+        }
+        super(StandardDownwardStairs, self).__init__(description, keywords, True, **kwargs)
     
     def open(self, player):
         return "I can't open that"

@@ -12,6 +12,13 @@ import UniqueEnemies
 from __builtin__ import True
 import UniqueFeatures
 
+class TutorialExit011(AreasFeatures.Area):
+     def __init__(self):
+        name = " "
+        description = ["Congratulations, you have completed the tutorial!\nPlease send feedback, questions and bug reports to CanadianCavalry@gmail.com\n\nPress enter to return to the menu."]
+
+        super(TutorialExit011, self).__init__(name, description)
+
 class interrogationRoom201(AreasFeatures.Area):
     
     def __init__(self):

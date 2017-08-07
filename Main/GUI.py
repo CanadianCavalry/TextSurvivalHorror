@@ -414,9 +414,14 @@ class Window(pyglet.window.Window):
         StateControl.quit()
 
     def enterPressed(self):
+        if self.state.returnOnEnter:
+            self.startMainMenu()
+
+        if self.state.player.returnToMenu:
+            self.startMainMenu()
+
         if self.state.player.health < 1:
             self.startMainMenu()
-            return
             
         userInput = self.widgets[0].document.text
         self.parsePlayerInput(userInput)

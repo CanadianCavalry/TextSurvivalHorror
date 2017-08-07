@@ -106,7 +106,8 @@ def buildCombatSimulator(gameState):
         "Arena", 
         ["You are standing in a large, empty colosseum. Against the east wall is a massive sign carved from stone titled "
         "\"Combat Tips\". There is a large steel door to the south, with some sort of complex locking mechanism on it. On the "
-        "far end of the west wall is another, smaller metal door. To the east is a set of concrete stairs leading downwards."],
+        "far end of the west wall is another, smaller metal door. To the east is a set of concrete stairs leading downwards. To "
+        "the north, there is a enormous, arched gate covered in demonic symbols and glowing runes."],
         **{"size":4})
     arenaDoorB = StandardFeatures.StandardKeylessDoor(
         "A heavy steel door. It has no handle or lock that you can see.",
@@ -127,6 +128,8 @@ def buildCombatSimulator(gameState):
         "The concrete steps lead downward into the darkness, though you can see light further down. It must be a basement of some sort.",
         "east,east stairs,stairs,stone stairs,concrete stairs,dirty stairs,east steps,steps,staircase,stone steps")
     
+    door002D = UniqueFeatures.TutorialExitGate(key005A)
+
     arena002.addFeature(StandardFeatures.Sign(
         "The large metal sign takes up a large portion of the east wall. It reads \"Please ensure you are prepared before continuing "
         "to the test arena. Good luck\"",
@@ -139,6 +142,18 @@ def buildCombatSimulator(gameState):
         "faith to weaken an enemy\nRELOAD - Reload your equipped gun(requires ammo)\nDEFEND - Give up your chance to strike to "
         "increase your chances of dodging the next attack."))
 
+
+    #011 - Tutorial Exit
+    tutorialExit011 = UniqueAreas.TutorialExit011()
+        
+    door011A =  StandardFeatures.StandardKeylessDoor(
+        "A door that no longer exists. Oops.",
+        "non-existant",
+        False)
+
+    door002D.makeSibling(door011A)
+    arena002.connect(tutorialExit011, door002D)
+    tutorialExit011.connect(arena002, door011A)
 
     #003 - LIBRARY FOYER
     libraryFoyer003 = AreasFeatures.Area(
@@ -212,9 +227,7 @@ def buildCombatSimulator(gameState):
         "of the library", 
         "west,west wing,path",
         True,
-        None, 
-        "You pick your way carefully between the shelves and emerge in the west wing.",
-        None
+        **{"travelDesc":"You pick your way carefully between the shelves and emerge in the west wing."}
     )
 
     door004C = StandardFeatures.StandardLockingDoor(
@@ -302,9 +315,7 @@ def buildCombatSimulator(gameState):
         "of the library", 
         "east,east wing,path",
         True,
-        None, 
-        "Following your previous path through the debris, you return to the east wing.",
-        None
+        **{"travelDesc":"Following your previous path through the debris, you return to the east wing."}
     )
     door005A.makeSibling(door004B)
     libraryWest005.connect(libraryEast004, door005A)
@@ -496,7 +507,7 @@ def buildCombatSimulator(gameState):
     utilitiesRoom008.spawnEnemy(bentHost008C, 3)
 
 
-    #009 - Maintenance CLOSET
+    #009 - MAINTENANCE CLOSET
     maintenanceCloset009 = AreasFeatures.Area(
         "Maintenance Closet", 
         ["You find yourself in a tiny maintenance closet used to store tools, cleaning supplies and the like. The door is to the north."],
@@ -535,7 +546,8 @@ def buildCombatSimulator(gameState):
 
 
     #Debug Config:
-    spawnLocation = basementEntrance006
+    spawnLocation = armory001
+    arena002.addItem(key005A)
 
     gameState.addArea(spawnLocation)
 

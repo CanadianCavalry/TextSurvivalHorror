@@ -252,15 +252,19 @@ class Container(Feature):
             return self.closeDesc,True
             
 class Link(object):
-    def __init__(self, description, keywords, isAccessible, blockedDesc, travelDesc, travelSound=None):
+    def __init__(self, description, keywords, isAccessible, **kwargs):
         self.description = description
         self.keywords = keywords
         self.isAccessible = isAccessible
-        self.blockedDesc = blockedDesc
-        self.travelDesc = travelDesc
-        self.travelSound = travelSound
+
+        self.travelDesc = "You move on."
         self.destination = None
         self.siblingLink = None
+
+        #populate optional stats
+        if kwargs is not None:
+            for key, value in kwargs.iteritems():
+                setattr(self, key, value)
         
     def lookAt(self):
         return self.description
@@ -308,9 +312,14 @@ class Link(object):
         self.idNum = number
     
 class Door(Link):
-    def __init__(self, description, keywords, isAccessible, blockedDesc, travelDesc, travelSound="Sounds/Misc/GenericDoor1.mp3"):
+    def __init__(self, description, keywords, isAccessible, **kwargs):
  
-        super(Door, self).__init__(description, keywords, isAccessible, blockedDesc, travelDesc, travelSound)
+        if not ("travelSound" in kwargs):
+            kwargs.update({
+                "travelSound":"Sounds/Misc/GenericDoor1.mp3"
+            })
+
+        super(Door, self).__init__(description, keywords, isAccessible, **kwargs)
         
     def lookAt(self):
         desc = self.description

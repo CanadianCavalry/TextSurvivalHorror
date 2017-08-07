@@ -6,6 +6,38 @@ Created on Jul 5, 2014
 import AreasFeatures
 import StandardFeatures
 
+class TutorialExitGate(StandardFeatures.StandardLockingDoor):
+    def __init__(self, itemToOpen):
+        description = ("A massive gate carved from some unknown metal, or maybe stone? It's hard to be sure, as looking at it for too long makes your "
+        "head hurt. It's covered with intricate carvings of demonic creatures and symbols, which you swear move around when you look "
+        "away. There is no visible handle, only a single keyhole in the center. You can faintly hear it whispering your name.")
+        keywords = "gate,exit,north,north gate,north door,door,demon gate,demon door,portal,south portal"
+        isAccessible = False
+        keyRequired = True
+
+        kwargs = {
+            "unlockDesc":"As you turn the key in the lock, the gate silents swings open of it's own accord. You are greeted by a sheet "
+            "of inky blackness, darkness given physical form. It's the only way out of here...",
+            "blockedDesc":"You aren't even certain how you would open it if it were unlocked. Touching it makes your skin crawl.",
+            "travelDesc":"You slowly, tentatively step across the threshold, through the inky substance.\nAt first everything is black. "
+            "Slowly, shapes begin to form around you, and you recognize the shabby furnishings of your apartment. Glancing around, you "
+            "see you are sitting up in your bed, sheets damp from your sweat.\nNightmare. Again. They never seem to leave you in peace.\nYou "
+            "slowly lower yourself back into bed, trying to calm your shaken nerves. As you roll over and start to close your eyes, you "
+            "notice something."
+            "\n\nA long handled axe, head covered in fresh blood, rests "
+            "against your nightstand.\n\nWith a sigh, you lift yourself out of bed and reach for the weapon.\nTime to get to work."
+        }
+
+        super(TutorialExitGate, self).__init__(description, keywords, isAccessible, keyRequired, itemToOpen, **kwargs)
+
+    def lookAt(self):
+        desc = self.description
+        return desc
+
+    def travel(self, player):
+        player.returnToMenu = True
+        return super(TutorialExitGate, self).travel(player)
+
 #Jacobs Room
 
 class JacobRoomWindow101(AreasFeatures.Feature):

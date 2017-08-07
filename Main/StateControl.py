@@ -18,6 +18,7 @@ class GameState(object):
         self.areaList = list()
         self.turnCount = 0
         self.introText = ""
+        self.returnOnEnter = False
         
     def addArea(self, area):
         self.areaList.append(area)
@@ -33,6 +34,7 @@ def newGameState():
     state = GameState()
     Builder.buildWorld(state)
     state.addPlayer(Player.Player())
+    state.returnOnEnter = False
     return state
 
 def newSimulationState():
@@ -40,6 +42,7 @@ def newSimulationState():
     #Builder.buildAreaOne200(state) #Debug for encounter 1
     Builder.buildCombatSimulator(state)
     state.addPlayer(Player.Player())
+    state.returnOnEnter = False
     return state
 
 def save(state):

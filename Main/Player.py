@@ -15,6 +15,7 @@ class Player(object):
         self.isRestricted = False
         self.restrictedDesc = ""
         self.lastAction = None
+        self.returnToMenu = False
         
     def increaseSpirit(self, amount):
         self.spirit += amount
