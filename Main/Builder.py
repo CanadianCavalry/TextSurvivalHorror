@@ -547,7 +547,6 @@ def buildCombatSimulator(gameState):
 
     #Debug Config:
     spawnLocation = armory001
-    arena002.addItem(key005A)
 
     gameState.addArea(spawnLocation)
 

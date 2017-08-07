@@ -47,7 +47,11 @@ class StandardLockingDoor(AreasFeatures.Door):
                 return enemy.protectedThings[self]
         if self.keyRequired:
             if not usedItem:
-                return "This door requires a key of some kind."
+                for key, item in player.inventory.iteritems():
+                    if item == self.itemToOpen:
+                        self.unlock()
+                        return self.unlockDesc, True
+                return "You aren't carrying a key that fits this lock."
             if usedItem == self.itemToOpen:
                 self.unlock()
             else:    
