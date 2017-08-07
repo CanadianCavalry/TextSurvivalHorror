@@ -356,7 +356,7 @@ def buildCombatSimulator(gameState):
 
     #Enemies
     libraryHellhound = UniqueEnemies.Hellhound()
-    libraryWest005.spawnEnemy(libraryHellhound, 2)
+    libraryWest005.spawnEnemy(libraryHellhound, 3)
     libraryHellhound.protectThing(libraryCorpse005, "The hellhound is directly between you and the corpse.")
 
     #006 - BASEMENT ENTRANCE

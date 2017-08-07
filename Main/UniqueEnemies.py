@@ -28,7 +28,8 @@ class Hellhound(Enemies.Enemy):
             "body,corpse,hellhound,hellhound body,dead hellhound,hellhound corpse,dead hound,hound,dead dog,dog")
         
         kwargs.update({
-            "speed":1, 
+            "actionSpeed":1,
+            "moveSpeed":2
             "meleeDodge":0,
             "rangedDodge": 5,
             "baseExorciseChance":-100,
@@ -84,7 +85,7 @@ class BentHost(Enemies.Enemy):
             "body,corpse,human body,dead human,human corpse,dead host,host corpse,dead demon,demon corpse")
         
         kwargs.update({
-            "speed":1,
+            "actionSpeed":1,
             "meleeDodge":0,
             "rangedDodge": 0,
             "baseExorciseChance":25,

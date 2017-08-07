@@ -53,7 +53,8 @@ class Enemy(object):
         #set default values for case when no values are given
         self.protectedThings = {}
         self.currentLocation = None
-        self.speed = 1
+        self.actionSpeed = 1
+        self.movementSpeed = 1
         self.meleeDodge = 0
         self.rangedDodge = 0
         self.armor = 0
@@ -173,10 +174,10 @@ class Enemy(object):
         if self.actionTimer == 1:
             if self.distanceToPlayer == 1:
                 resultString += self.attack(player)
-                self.actionTimer = self.speed
+                self.actionTimer = self.actionSpeed
             else:
                 resultString += self.advance()
-                self.actionTimer = self.speed
+                self.actionTimer = self.actionSpeed
         else:
             self.actionTimer -= 1
             resultString += ""
@@ -230,13 +231,17 @@ class Enemy(object):
         
     def advance(self):
         if self.distanceToPlayer > 1:
-            self.distanceToPlayer -= 1
+            self.distanceToPlayer -= moveSpeed
+            if self.distanceToPlayer < 1:
+                self.distanceToPlayer = 1
             return self.advanceDialogue[randint(0, len(self.advanceDialogue) - 1)] + "\n" + self.getDistance()
         return "The " + self.name + " does nothing."
     
     def retreat(self):
         if self.distanceToPlayer < self.currentLocation.size:
-            self.distanceToPlayer += 1
+            self.distanceToPlayer += moveSpeed
+            if self.distanceToPlayer > currentLocation.size:
+                self.distanceToPlayer = currentLocation.size
             return self.retreatDialogue[randint(0, len(self.retreatDialogue) - 1)] + "\n" + self.getDistance()
         return "The " + self.name + " tries to flee, but is backed into a corner."
     
@@ -422,7 +427,7 @@ class TestDemon(Enemy):
         corpse = Corpse("Demon Corpse", "The body is covered in wounds and blood is slowly pooling on the floor under it. The air around it stinks of sulphur.", "The freshly butchered body of a large, red-skinned demon is lying on the floor.", "body,demon body,dead demon,demon corpse,corpse,demon")
         
         kwargs = {
-            "speed":1, 
+            "actionSpeed":1, 
             "meleeDodge":5,
             "rangedDodge": 5,
             "baseExorciseChance":50,
