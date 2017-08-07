@@ -42,7 +42,8 @@ class Hellhound(Enemies.Enemy):
             "advanceDialogue":["The massive canine tears towards you, barking.", "The hellhound bolts straight at you with a deep growl."],
             "retreatDialogue":["The beast dashes away, yelping."],
             "deathText":"The hellhound crashes to the floor and lies still.",
-            "travelDesc":"The hellhound tears into the room after you, right on your heels."
+            "travelDesc":"The hellhound tears into the room after you, right on your heels.",
+            "chaseDesc":"You hear nearby barks and growls as the hound hunts you."
         })
 
         super(Hellhound, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, corpse, **kwargs)
@@ -95,7 +96,8 @@ class BentHost(Enemies.Enemy):
             "advanceDialogue":["The demonic host stumbles towards you, giggling to itself.", "The host suddenly let's loose a scream and breaks into a wild sprint towards you.", "The possessed human walks towards you silently.", "The possessed has trouble keeping it's balance and stumbles forward."],
             "retreatDialogue":["The host stumbles backwards, trying to get away from you.", "The demonic host scrabbles away from you."],
             "deathText":"The demonic host falls to the ground dead.",
-            "travelDesc":"The possessed human bursts into the room."
+            "travelDesc":"The possessed human bursts into the room.",
+            "chaseDesc":"You can hear the taunts and maniacal laughter of a bent host approaching."
         })
 
         super(BentHost, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, corpse, **kwargs)

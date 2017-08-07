@@ -280,6 +280,12 @@ class Link(object):
         if player.isRestricted:
             return player.restrictedDesc
         
+        #Track chasing enemies and save their chase descriptions for later
+        chaseDesc = ""
+        for key, enemy in player.currentLocation.enemies.iteritems():
+            if enemy.willChase:
+                chaseDesc += "\n" + enemy.chaseDesc
+
         desc = self.travelDesc + "\n\n"
         player.currentLocation = self.destination
         if self.travelSound:
@@ -289,8 +295,8 @@ class Link(object):
         if player.currentLocation.visited == False:
             player.currentLocation.visited = True
         desc += player.currentLocation.lookAt()
-        #else:
-        #    desc += player.currentLocation.name + "\n"
+        desc += chaseDesc
+
         return desc,True
         
     def enemyTravel(self, enemy):
@@ -317,6 +323,10 @@ class Door(Link):
         if not ("travelSound" in kwargs):
             kwargs.update({
                 "travelSound":"Sounds/Misc/GenericDoor1.mp3"
+            })
+        if not ("travelDesc" in kwargs):
+            kwargs.update({
+                "travelDesc":"You open the door and step through."
             })
 
         super(Door, self).__init__(description, keywords, isAccessible, **kwargs)

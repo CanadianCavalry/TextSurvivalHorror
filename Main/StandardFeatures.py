@@ -9,8 +9,7 @@ class StandardOpenDoor(AreasFeatures.Door):
     
     def __init__(self, description, keywords):
         kwargs = {
-            "travelDesc":"You open the door and step through.", 
-            "travelSound":"Sounds/Misc/GenericDoor1.mp3"
+            "travelDesc":"You open the door and step through."
         }
 
         super(StandardOpenDoor, self).__init__(description, keywords, True, **kwargs)
@@ -19,8 +18,7 @@ class StandardOpenMetalDoor(AreasFeatures.Door):
     
     def __init__(self, description, keywords):
         kwargs = {
-            "travelDesc":"You open the door and step through.", 
-            "travelSound":"Sounds/Misc/HeavyDoor.mp3"
+            "travelDesc":"You open the door and step through."
         }
 
         super(StandardOpenMetalDoor, self).__init__(description, keywords, True, **kwargs)
@@ -39,10 +37,6 @@ class StandardLockingDoor(AreasFeatures.Door):
         if not ("blockedDesc" in kwargs):
             kwargs.update({
                 "blockedDesc":"It's locked. It won't budge."
-            })
-        if not ("travelDesc" in kwargs):
-            kwargs.update({
-                "travelDesc":"You open the door and step through."
             })
 
         super(StandardLockingDoor, self).__init__(description, keywords, isAccessible, **kwargs)
