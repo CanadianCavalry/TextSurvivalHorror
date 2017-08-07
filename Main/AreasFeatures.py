@@ -350,3 +350,14 @@ class Door(Link):
 
     def exorciseAttempt(self, player):
         return "You call upon all the powers of your god to free the door from the clutches of the demon that is undoubtedly possessing it, but nothing happens. The fiend must be truly powerful."
+
+class Path(Link):
+    def __init__(self, description, keywords, isAccessible, **kwargs):
+ 
+        if not ("travelSound" in kwargs):
+            kwargs.update({
+                "travelSound":"Sounds/Misc/FootstepsHall.mp3"
+            })
+
+        super(Path, self).__init__(description, keywords, isAccessible, **kwargs)
+        

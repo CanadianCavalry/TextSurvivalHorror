@@ -222,7 +222,7 @@ def buildCombatSimulator(gameState):
     libraryEast004.connect(libraryFoyer003, door004A)
     libraryFoyer003.connect(libraryEast004, door003B)
 
-    door004B = AreasFeatures.Link(
+    door004B = AreasFeatures.Path(
         "Though numerous tipped over shelves and piles of debris are in the way, you can see a clear path through to the west end "
         "of the library", 
         "west,west wing,path",

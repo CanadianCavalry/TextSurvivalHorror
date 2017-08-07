@@ -106,7 +106,8 @@ class StandardUpwardStairs(AreasFeatures.Link):
     
     def __init__(self, description, keywords, **kwargs):
         kwargs = {
-            "travelDesc":"You climb the stairs."
+            "travelDesc":"You climb the stairs.",
+            "travelSound":None
         }
 
         super(StandardUpwardStairs, self).__init__(description, keywords, True, **kwargs)
@@ -121,7 +122,8 @@ class StandardDownwardStairs(AreasFeatures.Link):
     
     def __init__(self, description, keywords):
         kwargs = {
-            "travelDesc":"You descend the stairs."
+            "travelDesc":"You descend the stairs.",
+            "travelSound":None
         }
         super(StandardDownwardStairs, self).__init__(description, keywords, True, **kwargs)
     
