@@ -27,10 +27,38 @@ def enemyAction(player, actingEnemies):
     return resultString
 
 def enemyMovement(movingEnemies, enemyDestination, player):
-    resultString = ""
+    enemyActions = {}
+    groupEnemyActions = {}
     for enemy in movingEnemies:
-        resultString += enemy.calcMovement(enemyDestination, player) + "\n"
+        resultString, actionType, stackable = enemy.calcMovement(enemyDestination, player)
+
+        dictKey = str(type(enemy)) + actionType + str(stackable)
+        if dictKey in groupEnemyActions:
+            continue
+        elif dictKey in enemyActions:
+            if actionType == "travel":
+                groupEnemyActions[dictKey] = enemy.groupTravelDesc
+                del enemyActions[dictKey]
+            elif actionType == "blocked":
+                groupEnemyActions[dictKey] = enemy.groupTravelBlockedDesc
+                del enemyActions[dictKey]
+            else:
+                oldResult, quantity = enemyActions[dictKey]
+                enemyActions[dictKey] = (oldResult, quantity + 1)
+        else:
+            enemyActions[dictKey] = (resultString, 1)
+
+    resultString = ""
+    for key,item in groupEnemyActions.iteritems():
+        resultString += item + "\n"
+    for key, item in enemyActions.iteritems():
+        resultString += item[0]
+        if item[1] > 1:
+            resultString += "(" + str(item[1]) + ")"
+        resultString += "\n"
+
     return resultString
+
 
 class Enemy(object):
     def __init__(self, name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, corpse, **kwargs):
@@ -54,7 +82,7 @@ class Enemy(object):
         self.protectedThings = {}
         self.currentLocation = None
         self.actionSpeed = 1
-        self.movementSpeed = 1
+        self.moveSpeed = 1
         self.meleeDodge = 0
         self.rangedDodge = 0
         self.armor = 0
@@ -96,8 +124,10 @@ class Enemy(object):
         self.advanceDialogue = ["The " + self.name + " moves towards you.\n"]
         self.retreatDialogue = ["The " + self.name + " moves away from you.\n"]
         self.travelDesc = "The " + self.name + " has caught up with you. It moves to attack."
+        self.groupTravelDesc = "The " + self.name + "\'s have caught up with you. They move to attack."
         self.chaseDesc = "You can hear something chasing after you."
         self.travelBlockedDesc = "You hear something pounding on the door."
+        self.groupTravelBlockedDesc = "You hear several somethings pounding on the door."
 
         #populate optional stats
         if kwargs is not None:
@@ -110,13 +140,13 @@ class Enemy(object):
             if self.stunnedTimer == 0:
                 resultString += "You run straight into the " + self.name + " chasing you!\n"
             resultString += self.takeAction(player)
-            return resultString
+            return resultString, "action", False
         
         if self.stunnedTimer != 0:
             self.stunnedTimer -= 1
             if self.stunnedTimer == 0:
                 self.recovering = True
-            return ""
+            return "", "stun", False
 
         resultString = self.travel(destination, player)
 
@@ -145,14 +175,14 @@ class Enemy(object):
                 if self.currentLocation == player.currentLocation:
                     if self.distanceToPlayer > self.currentLocation.size:
                         self.distanceToPlayer = self.currentLocation.size
-                    return self.travelDesc
+                    return self.travelDesc, "travel", True
                 else:
-                    return self.chaseDesc
+                    return self.chaseDesc, "chase", True
             else:
                 if self.trackPlayer(player):
-                    return self.travelBlockedDesc
+                    return self.travelBlockedDesc, "blocked", True
 
-        return ""
+        return "", "none", False
         
     def takeAction(self, player):
         resultString = ""
@@ -231,7 +261,7 @@ class Enemy(object):
         
     def advance(self):
         if self.distanceToPlayer > 1:
-            self.distanceToPlayer -= moveSpeed
+            self.distanceToPlayer -= self.moveSpeed
             if self.distanceToPlayer < 1:
                 self.distanceToPlayer = 1
             return self.advanceDialogue[randint(0, len(self.advanceDialogue) - 1)] + "\n" + self.getDistance()
@@ -239,7 +269,7 @@ class Enemy(object):
     
     def retreat(self):
         if self.distanceToPlayer < self.currentLocation.size:
-            self.distanceToPlayer += moveSpeed
+            self.distanceToPlayer += self.moveSpeed
             if self.distanceToPlayer > currentLocation.size:
                 self.distanceToPlayer = currentLocation.size
             return self.retreatDialogue[randint(0, len(self.retreatDialogue) - 1)] + "\n" + self.getDistance()

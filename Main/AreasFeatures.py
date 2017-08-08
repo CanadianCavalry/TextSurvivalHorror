@@ -283,10 +283,11 @@ class Link(object):
             return player.restrictedDesc
         
         #Track chasing enemies and save their chase descriptions for later
-        chaseDesc = ""
+        chaseDescriptions = list()
         for key, enemy in player.currentLocation.enemies.iteritems():
             if enemy.willChase:
-                chaseDesc += "\n" + enemy.chaseDesc
+                chaseDescriptions.append(enemy.chaseDesc)
+        chaseDescriptions = set(chaseDescriptions)
 
         desc = self.travelDesc + "\n\n"
         player.currentLocation = self.destination
@@ -297,7 +298,8 @@ class Link(object):
         if player.currentLocation.visited == False:
             player.currentLocation.visited = True
         desc += player.currentLocation.lookAt()
-        desc += chaseDesc
+        for description in chaseDescriptions:
+            desc += "\n" + description
 
         return desc,True
         
