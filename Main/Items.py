@@ -3,7 +3,7 @@ Created on Aug 22, 2014
 
 @author: Thomas
 '''
-import random
+from random import randint
 import pyglet
 import copy
 import Enemies
@@ -27,7 +27,7 @@ class Item(object):
         self.initPickupDesc = None
         self.initSeenDesc = None
         self.notTakenDesc = None
-        self.pickupSound = "Sounds/Misc/ItemGet.mp3"
+        self.pickupSound = ["Sounds/Misc/ItemGet.mp3"]
         self.inAccessibleDesc = "You can't reach it."
         self.pickupDesc = "You pick up the " + self.name + "."
         
@@ -65,7 +65,7 @@ class Item(object):
             self.firstSeen = False
             self.firstTaken = False
 
-        source = pyglet.media.load(self.pickupSound, streaming=False)
+        source = pyglet.media.load(self.pickupSound[randint(0, len(self.pickupSound) - 1)], streaming=False)
         source.play()
 
         player.addItem(itemToGet)
@@ -401,7 +401,7 @@ class Note(Readable):
         self.contents = contents
 
         kwargs.update({
-            "pickupSound":"Sounds/Misc/PaperGet" + str(random.randint(1,3)) + ".mp3"
+            "pickupSound":["Sounds/Misc/PaperGet1.mp3","Sounds/Misc/PaperGet2.mp3","Sounds/Misc/PaperGet3.mp3"]
         })
         super(Note, self).__init__(name, description, seenDescription, keywords, **kwargs)
     
@@ -412,7 +412,7 @@ class Note(Readable):
             elif self.currentLocation in enemy.protectedThings:
                 return enemy.protectedThings[self.currentLocation]
         
-        source = pyglet.media.load(self.pickupSound, streaming=False)
+        source = pyglet.media.load(self.pickupSound[randint(0, len(self.pickupSound) - 1)], streaming=False)
         source.play()
 
         return self.contents,True
@@ -421,7 +421,7 @@ class Key(Item):
     def __init__(self, name, description, seenDescription, keywords, **kwargs):
 
         kwargs.update({
-            "pickupSound":"Sounds/Misc/KeyGet.mp3"
+            "pickupSound":["Sounds/Misc/KeyGet.mp3"]
         })
 
         super(Key, self).__init__(name, description, seenDescription, keywords, **kwargs)
