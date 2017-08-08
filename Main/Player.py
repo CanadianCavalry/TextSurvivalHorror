@@ -15,6 +15,7 @@ class Player(object):
         self.isRestricted = False
         self.restrictedDesc = ""
         self.lastAction = None
+        self.tookHit = False
         self.returnToMenu = False
         
     def increaseSpirit(self, amount):
@@ -36,6 +37,7 @@ class Player(object):
         self.health -= damageNumber
         if self.health < 0:
             self.health = 0
+        self.tookHit = True
         return "You are " + self.getCondition() + "."
         
     def increaseIntox(self, amount):
@@ -228,6 +230,7 @@ class Player(object):
         
     def beginTurn(self):
         self.isDefending = False
+        self.tookHit = False
         self.armorRating = self.calcArmorRating()
         
     def getActingEnemies(self):

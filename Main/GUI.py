@@ -7,8 +7,8 @@ import time
 
 class Rectangle(object):
     '''Draws a rectangle into a batch.'''
-    def __init__(self, x1, y1, x2, y2, color, batch):
-        self.vertex_list = batch.add(4, pyglet.gl.GL_QUADS, None,
+    def __init__(self, x1, y1, x2, y2, color, batch, group=None):
+        self.vertex_list = batch.add(4, pyglet.gl.GL_QUADS, group,
             ('v2i', [x1, y1, x2, y1, x2, y2, x1, y2]),
             ('c4B', color * 4)
         )
@@ -59,6 +59,10 @@ class TextWidget(object):
     def hit_test(self, x, y):
         return (0 < x - self.layout.x < self.layout.width and
                 0 < y - self.layout.y < self.layout.height)
+
+class DamageFlash(object):
+     def __init__(self, x, y, width, height, batch, group):
+        self.rectangle = Rectangle(x, y, x + width, y + height, [255, 32, 32, 0], batch, group)
 
 class MenuButton(object):
     def __init__(self, buttonFunction, text, x, y, batch, labelBatch):
@@ -272,6 +276,9 @@ class Window(pyglet.window.Window):
         self.inMenu = False
         self.batch = pyglet.graphics.Batch()
         self.batch2 = pyglet.graphics.Batch()
+        self.group1 = pyglet.graphics.OrderedGroup(0)
+        self.group2 = pyglet.graphics.OrderedGroup(1)
+        self.group3 = pyglet.graphics.OrderedGroup(2)
         self.state = state
         self.parser.loadState(state)
         
@@ -297,6 +304,8 @@ class Window(pyglet.window.Window):
         
         self.statsDisplay = StatsPanel(self.batch, self.batch2)
         self.equipDisplay = EquipPanel(self.batch, self.batch2)
+
+        #self.damageFlash = DamageFlash(0, 0, self.width, self.height, self.batch2, self.group3)
 
     def on_draw(self):
         self.clear()
@@ -458,8 +467,10 @@ class Window(pyglet.window.Window):
                 resultString = "You run for the exit...\n" + Enemies.enemyAction(self.state.player, actingEnemies) + "\n" + resultString
             else:
                 resultString += "\n" + Enemies.enemyAction(self.state.player, actingEnemies)
-            self.state.player.beginTurn()
             
+            if state.player.tookHit:
+                guiTakeHit()
+
             gameOver = self.checkGameOver()
             if gameOver:
                 resultString += gameOver
@@ -474,13 +485,18 @@ class Window(pyglet.window.Window):
                 resultString += gameOver
                 self.updateTextBox(resultString)
                 return
-            
+
+            self.state.player.beginTurn()
+
         self.updateTextBox(resultString)
 
     def updateTextBox(self, text):
         self.disp.document.delete_text(0, len(self.disp.document.text))
         self.writingText = True
         self.textToWrite = text
+
+    def guiTakeHit(self):
+        pass
 
     def checkGameOver(self):
         if self.state.player.health < 1:
