@@ -8,9 +8,11 @@ import StandardFeatures
 
 class TutorialExitGate(StandardFeatures.StandardLockingDoor):
     def __init__(self, itemToOpen):
-        description = ("A massive gate carved from some unknown metal, or maybe stone? It's hard to be sure, as looking at it for too long makes your "
+        description = [("A massive gate carved from some unknown metal, or maybe stone? It's hard to be sure, as looking at it for too long makes your "
         "head hurt. It's covered with intricate carvings of demonic creatures and symbols, which you swear move around when you look "
-        "away. There is no visible handle, only a single keyhole in the center. You can faintly hear it whispering your name.")
+        "away. There is no visible handle, only a single keyhole in the center. You can faintly hear it whispering your name."),
+        ("The gate has opened, leaving a black curtain of liquid darkness. You can make out absolutely nothing through the veil, which "
+        "seems to twist and writhe.")]
         keywords = "gate,exit,north,north gate,north door,door,demon gate,demon door,portal,south portal"
         isAccessible = False
         keyRequired = True
@@ -31,12 +33,58 @@ class TutorialExitGate(StandardFeatures.StandardLockingDoor):
         super(TutorialExitGate, self).__init__(description, keywords, isAccessible, keyRequired, itemToOpen, **kwargs)
 
     def lookAt(self):
-        desc = self.description
+        desc = self.description[self.state]
         return desc
 
+    def tryUnlock(self, usedItem, player):
+        for key, enemy in player.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
+
+        if self.isAccessible:
+            return "The gate is open."
+
+        if self.keyRequired:
+            if not usedItem:
+                for key, item in player.inventory.iteritems():
+                    if item == self.itemToOpen:
+                        self.unlock(player)
+                        return self.unlockDesc, True
+                return "You aren't carrying a key that fits this lock."
+            if usedItem == self.itemToOpen:
+                self.unlock(player)
+            else:    
+                return "The key does not appear to work for this door."
+        else:
+            self.unlock(player)
+        return self.unlockDesc, True
+
+    def unlock(self, player):
+        self.isAccessible = True
+        player.removeItem(self.itemToOpen)
+        self.state = 1
+
+    def tryLock(self, usedItem, player):
+        return "The gate is wide open and you can't reach the keyhole. Trying to pull the gate shut proves useless."
+
     def travel(self, player):
-        player.returnToMenu = True
+        if self.isAccessible:
+            player.returnToMenu = True
         return super(TutorialExitGate, self).travel(player)
+
+    def close(self, player):
+        if self.isAccessible:
+            resultString = "Despite your best efforts, the huge gate refuses to budge even an inch."
+        else:
+            resultString = "The gate is already closed. Opening it is the hard part."
+        return resultString
+
+    def open(self, player):
+        if self.isAccessible:
+            resultString = "The gate is already wide open. You need only to walk through it."
+        else:
+            resultString = "You aren't even certain how you would open it if it were unlocked. Touching it makes your skin crawl."
+        return resultString
 
 #Jacobs Room
 

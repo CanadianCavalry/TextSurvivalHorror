@@ -88,10 +88,10 @@ def go(player, keyword):
     elif len(matching) > 1:
         return "You need to be more specific"
     elif len(matching) == 1:
-        #try:
-        return matching[0].travel(player)
-        #except AttributeError:
-        #    return "I can't do that."
+        try:
+            return matching[0].travel(player)
+        except AttributeError:
+            return "I can't do that."
 
 def use(player, keyword):
     matching = findMatching(player, keyword, list())
@@ -167,10 +167,10 @@ def get(player, keyword):
     elif len(matching) > 1:
         return "You need to be more specific"
     elif len(matching) == 1:
-        #try:
-        return matching[0].get(holder, player)
-        #except AttributeError:
-         #   return "You can't pick that up."
+        try:
+            return matching[0].get(holder, player)
+        except AttributeError:
+            return "You can't pick that up."
 
 def drop(player, keyword):
     matching = findMatchingInventory(player, keyword, list())
@@ -360,10 +360,10 @@ def unlock(player, keyword):
     elif len(matching) > 1:
         return "You need to be more specific."
     elif len(matching) == 1:
-        #try:
-        return matching[0].tryUnlock(None, player)
-        #except AttributeError:
-            #return "That doesn't have a lock."
+        try:
+            return matching[0].tryUnlock(None, player)
+        except AttributeError:
+            return "That doesn't have a lock."
 
 def lock(player, keyword):
     matching = findMatching(player, keyword, list())
@@ -461,10 +461,10 @@ def push(player, keyword):
     elif len(matching) > 1:
         return "You need to be more specific"
     elif len(matching) == 1:
-        #try:
-        return matching[0].push(player)
-        #except AttributeError:
-            #return "Why would you want to push on that?"
+        try:
+            return matching[0].push(player)
+        except AttributeError:
+            return "Why would you want to push on that?"
 
 def pull(player, keyword):
     matching = findMatching(player, keyword, list())

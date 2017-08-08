@@ -60,8 +60,8 @@ def buildCombatSimulator(gameState):
         "the east wall titled \"Tips for newbies\". There is a door to the north."],
          **{"size":2})
     arenaDoorA = StandardFeatures.StandardOpenMetalDoor(
-        "A heavy steel door. It appears to have some sort of mechanism built into it that locks it once you pass through.",
-         "north,north door,door,metal door,steel door")
+        ["A heavy steel door. It appears to have some sort of mechanism built into it that locks it once you pass through."],
+        "north,north door,door,metal door,steel door")
 
     armory001.addFeature(StandardFeatures.AlwaysOpenContainer(
         "The table is littered with all manner of useless junk, as well as a number of weapons, bottles and items of clothing.",
@@ -76,15 +76,14 @@ def buildCombatSimulator(gameState):
         "increasing accurracy. Don't go overboard though or you'll go downhill fast.\n\nTyping HELP will list all "
         "commands(not implemented yet), but a few you should get familiar with to start are:\nGET - Pick up things\nI - View your "
         "inventory\nEQUIP - Equip weapons or armor\nGO - Travel through doors or down halls\nOPEN - Open doors or containers"))
-    gunCages = StandardFeatures.LockedContainer(
+    gunCages = StandardFeatures.LockingContainer(
         ["Behind the thick bars you can see a huge array of weaponry, from handguns to rifles and even grenades. The cages are "
         "of a heavy duty steel constuction, and don't look like they'll be opening any time soon. With a sigh, you turn your "
         "attention back to the room."],
         "cages,cage,guns,weapons,weaponry,grenade,rifle,pistol,handgun,steel cage,steel cages,metal cage,metal cages",
-        "The doors are locked and won't budge. There's no way to get in without a key.",
-        "",
-        "",
-        False)
+        True,
+        None,
+        **{"blockedDesc":"The doors are locked and won't budge. There's no way to get in without a key."})
     armory001.addFeature(gunCages)
 
     armory001.addItem(StandardItems.Axe(**{
@@ -110,7 +109,7 @@ def buildCombatSimulator(gameState):
         "the north, there is a enormous, arched gate covered in demonic symbols and glowing runes."],
         **{"size":4})
     arenaDoorB = StandardFeatures.StandardKeylessDoor(
-        "A heavy steel door. It has no handle or lock that you can see.",
+        ["A heavy steel door. It has no handle or lock that you can see."],
         "south,south door,door,metal door,steel door",
         False)
     arenaDoorB.makeSibling(arenaDoorA)
@@ -118,14 +117,14 @@ def buildCombatSimulator(gameState):
     armory001.connect(arena002, arenaDoorA)
 
     door002B = StandardFeatures.StandardLockingDoor(
-        "A steel door. It's battered and dented, and has a large, rust colored stain near the handle.",
+        ["A steel door. It's battered and dented, and has a large, rust colored stain near the handle."],
         "west,west door,door,metal door,steel door",
         False,
         True,
         key009A)
 
     door002C = StandardFeatures.StandardDownwardStairs(
-        "The concrete steps lead downward into the darkness, though you can see light further down. It must be a basement of some sort.",
+        ["The concrete steps lead downward into the darkness, though you can see light further down. It must be a basement of some sort."],
         "east,east stairs,stairs,stone stairs,concrete stairs,dirty stairs,east steps,steps,staircase,stone steps")
     
     door002D = UniqueFeatures.TutorialExitGate(key005A)
@@ -147,7 +146,7 @@ def buildCombatSimulator(gameState):
     tutorialExit011 = UniqueAreas.TutorialExit011()
         
     door011A =  StandardFeatures.StandardKeylessDoor(
-        "A door that no longer exists. Oops.",
+        ["A door that no longer exists. Oops."],
         "non-existant",
         False)
 
@@ -165,15 +164,15 @@ def buildCombatSimulator(gameState):
     
     #Links
     door003A = StandardFeatures.StandardOpenMetalDoor(
-        "A steel door. It leads back out into the arena.",
+        ["A steel door. It leads back out into the arena."],
         "east,east door,door,metal door,steel door")
     door003A.makeSibling(door002B)
     libraryFoyer003.connect(arena002, door003A)
     arena002.connect(libraryFoyer003, door002B)
 
     door003B = StandardFeatures.StandardOpenDoor(
-        "A heavy wooden door, oak or some kind of hardwood. It been smashed, as though something too large to fit forced it's way "
-        "through into the library. It's hanging crooked on it's hinges and the frame has deep gouges in it.",
+        ["A heavy wooden door, oak or some kind of hardwood. It been smashed, as though something too large to fit forced it's way "
+        "through into the library. It's hanging crooked on it's hinges and the frame has deep gouges in it."],
         "west,west door,door,wood door,wooden door,oak door,hardwood door")
 
     #Features
@@ -187,11 +186,10 @@ def buildCombatSimulator(gameState):
         "desk,wood desk,wooden desk"
     ))
 
-    libraryDeskDrawer = StandardFeatures.UnlockedContainer(
+    libraryDeskDrawer = AreasFeatures.Container(
         ["Flimsy and creaky, just like the desk it's attached to."],
         "drawer,desk drawer",
-        "You half expect it to break, but it slides open with a loud squeak.",
-        "You slide the drawer closed."
+        **{"openDesc":"You half expect it to break, but it slides open with a loud squeak.", "closeDesc":"You slide the drawer closed."}
     )
     
     libraryDeskDrawer.addItem(StandardItems.FirstAidKit(**{
@@ -215,24 +213,24 @@ def buildCombatSimulator(gameState):
 
     #Links
     door004A = StandardFeatures.StandardOpenDoor(
-        "A heavy wooden door, oak or some kind of hardwood. It been smashed, as though something too large to fit forced it's way "
-        "through into the library. It's hanging crooked on it's hinges and the frame has deep gouges in it.",
+        ["A heavy wooden door, oak or some kind of hardwood. It been smashed, as though something too large to fit forced it's way "
+        "through into the library. It's hanging crooked on it's hinges and the frame has deep gouges in it."],
         "east,east door,door,wood door,wooden door,oak door,hardwood door")
     door004A.makeSibling(door003B)
     libraryEast004.connect(libraryFoyer003, door004A)
     libraryFoyer003.connect(libraryEast004, door003B)
 
     door004B = AreasFeatures.Path(
-        "Though numerous tipped over shelves and piles of debris are in the way, you can see a clear path through to the west end "
-        "of the library", 
+        ["Though numerous tipped over shelves and piles of debris are in the way, you can see a clear path through to the west end "
+        "of the library"], 
         "west,west wing,path",
         True,
         **{"travelDesc":"You pick your way carefully between the shelves and emerge in the west wing."}
     )
 
     door004C = StandardFeatures.StandardLockingDoor(
-        "This is a steel fire-door with a heavy lock built in to it. It's an unusual amount of security for a library, they must "
-        "keep more valuable or rare texts in the archives.",
+        ["This is a steel fire-door with a heavy lock built in to it. It's an unusual amount of security for a library, they must "
+        "keep more valuable or rare texts in the archives."],
         "south,south door,door,steel door,security door,metal door.archives door,archives",
         False,
         True,
@@ -277,7 +275,7 @@ def buildCombatSimulator(gameState):
     
     #Links
     door010A = StandardFeatures.StandardKeylessDoor(
-        "A steel fire-door which locks from the other side.",
+        ["A steel fire-door which locks from the other side."],
         "north,north door,door,steel door,security door,metal door",
         False)
     door010A.makeSibling(door004C)
@@ -311,8 +309,8 @@ def buildCombatSimulator(gameState):
 
     #Links
     door005A = AreasFeatures.Link(
-        "Though numerous tipped over shelves and piles of debris are in the way, you can see a clear path through to the east end "
-        "of the library", 
+        ["Though numerous tipped over shelves and piles of debris are in the way, you can see a clear path through to the east end "
+        "of the library"], 
         "east,east wing,path",
         True,
         **{"travelDesc":"Following your previous path through the debris, you return to the east wing."}
@@ -371,15 +369,15 @@ def buildCombatSimulator(gameState):
 
     #Links
     door006A = StandardFeatures.StandardUpwardStairs(
-        "Like everything else in this room, they're wet, dirty and covered in mildew. At least the concrete steps seem to be in "
-        "relatively good condition, so there's that.",
+        ["Like everything else in this room, they're wet, dirty and covered in mildew. At least the concrete steps seem to be in "
+        "relatively good condition, so there's that."],
         "west,west stairs,stairs,stone stairs,concrete stairs,dirty stairs,west steps,steps,staircase,stone steps")
     door006A.makeSibling(door002C)
     basementEntrance006.connect(arena002, door006A)
     arena002.connect(basementEntrance006, door002C)
 
     door006B = StandardFeatures.StandardLockingDoor(
-        "It's covered in rust, mold, and several other unidentifiable stains. There is a heavy duty steel bolt handle on this side of the door.\nSomeone has scratched a message into the metal: \"DON'T LET THEM OUT\"\n",
+        ["It's covered in rust, mold, and several other unidentifiable stains. There is a heavy duty steel bolt handle on this side of the door.\nSomeone has scratched a message into the metal: \"DON'T LET THEM OUT\"\n"],
         "east,east door,door,metal door,steel door,rusty door,dirty door",
         False,
         False,
@@ -389,8 +387,8 @@ def buildCombatSimulator(gameState):
     )
 
     door006C = StandardFeatures.StandardOpenDoor(
-        "It's cleaner than the other door, but that isn't saying much considering the condition of the room. You can hear a faint humming "
-        "noise from beyond the door.",
+        ["It's cleaner than the other door, but that isn't saying much considering the condition of the room. You can hear a faint humming "
+        "noise from beyond the door."],
         "south,south door,door,metal door,steel door")
 
     #Features
@@ -411,7 +409,7 @@ def buildCombatSimulator(gameState):
 
     #Links
     door007A = StandardFeatures.StandardOpenDoor(
-        "A sturdy metal door that leads back to the basement entrance.",
+        ["A sturdy metal door that leads back to the basement entrance."],
         "north,north door,door,metal door,steel door")
     door007A.makeSibling(door006C)
     generatorRoom007.connect(basementEntrance006, door007A)
@@ -461,7 +459,7 @@ def buildCombatSimulator(gameState):
 
     #Links
     door008A = StandardFeatures.StandardKeylessDoor(
-        "A sturdy metal door that leads back to the basement entrance.",
+        ["A sturdy metal door that leads back to the basement entrance."],
         "west,west door,door,metal door,steel door",
         False
     )
@@ -470,7 +468,7 @@ def buildCombatSimulator(gameState):
     basementEntrance006.connect(utilitiesRoom008, door006B)
 
     door008B = StandardFeatures.StandardOpenDoor(
-        "A narrow metal door. It looks like a storage room or closet.",
+        ["A narrow metal door. It looks like a storage room or closet."],
         "south,south door,door,metal door,steel door,storage door,closet door")
     #Features
     utilitiesRoom008.addFeature(AreasFeatures.Feature(
@@ -516,7 +514,7 @@ def buildCombatSimulator(gameState):
 
     #Links
     door009A = StandardFeatures.StandardOpenDoor(
-        "A sturdy metal door that leads back to the basement entrance.",
+        ["A sturdy metal door that leads back to the basement entrance."],
         "north,north door,door,metal door,steel door"
     )
     door009A.makeSibling(door008B)
@@ -547,6 +545,7 @@ def buildCombatSimulator(gameState):
 
     #Debug Config:
     spawnLocation = armory001
+    arena002.addItem(key005A)
 
     gameState.addArea(spawnLocation)
 
@@ -567,7 +566,10 @@ painting next to the single window. Next to these is my closet. There is a door 
 to the west leading to the residential wing."])
     
     #Links
-    door101A = StandardFeatures.StandardOpenDoor("A hefty blue wooden door.", "east,door,east door,blue door,wood door,hallway")
+    door101A = StandardFeatures.StandardOpenDoor(
+        ["A hefty blue wooden door."],
+        "east,door,east door,blue door,wood door,hallway"
+    )
     
     #NPCs
     
@@ -582,9 +584,16 @@ to the west leading to the residential wing."])
     jacobsRoom101.addFeature(AreasFeatures.Feature("This entertainment unit comes with a 42 inch LED, that includes cable and a PVR. On the bottom shelf are a variety of DVD's I've\n taken from The House library, as well as my personal collection of Dr. Who and Star Trek TNG box sets.","tv,entertinment stand,entertainment center"))              #Add ability to turn on)
     
     #Containers
-    coffeeTable101 = StandardFeatures.AlwaysOpenContainer("A heavy wood coffee table, about 2 feet high. Oak, if I had to guess. Looks brand new. There are a dozen or so papers and notes scattered across the top of it. ", "coffee table,table")
+    coffeeTable101 = StandardFeatures.AlwaysOpenContainer(
+        "A heavy wood coffee table, about 2 feet high. Oak, if I had to guess. Looks brand new. There are a dozen or so papers and notes scattered across the top of it. ",
+        "coffee table,table"
+    )
     jacobsRoom101.addFeature(coffeeTable101)
-    closet101 = StandardFeatures.UnlockedContainer("A fairly small closet, but big enough to hold a few sets of clothes. I haven't had much use for it since I've been here. Don't even remember what I put in it.", "closet", "The closet opens easily, though a little noisily.", "The door slides closed.")
+    closet101 = AreasFeatures.Container(
+        "A fairly small closet, but big enough to hold a few sets of clothes. I haven't had much use for it since I've been here. Don't even remember what I put in it.",
+        "closet",
+        **{"openDesc":"The closet opens easily, though a little noisily.", "closeDesc":"The door slides closed."}
+    )
     jacobsRoom101.addFeature(closet101)
     
     #Items
@@ -606,7 +615,7 @@ floor of the Residents wing can be accessed through this hallway. To the SOUTH i
 door to the NORTH leads into the Essential Services area of the Residents Wing."])
     
     #Links
-    door102A = StandardFeatures.StandardOpenDoor("A hefty blue wooden door. The room number is 106.", "west,door,west door,blue door,room 106,106,door 106,jacobs door,jacob door,my room")
+    door102A = StandardFeatures.StandardOpenDoor(["A hefty blue wooden door. The room number is 106."], "west,door,west door,blue door,room 106,106,door 106,jacobs door,jacob door,my room")
     door102A.makeSibling(door101A)
     jacobsRoom101.connect(firstFloorHallway102, door101A)
     firstFloorHallway102.connect(jacobsRoom101, door102A)

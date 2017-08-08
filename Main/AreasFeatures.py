@@ -166,13 +166,14 @@ class Hazard(Feature):
         pass
 
 class Container(Feature):
-    def __init__(self, description, keywords, isOpen, isAccessible, blockedDesc, openDesc, closeDesc, **kwargs):
+    def __init__(self, description, keywords, **kwargs):
         self.itemsContained = {}
-        self.isOpen = isOpen
-        self.isAccessible = isAccessible
-        self.blockedDesc = blockedDesc
-        self.openDesc = openDesc
-        self.closeDesc = closeDesc
+        self.isOpen = False
+        self.isAccessible = True
+        self.blockedDesc = "It's locked."
+        self.openDesc = "You open it."
+        self.closeDesc = "You close it."
+        self.isOpenDesc = "It's open."
         super(Container, self).__init__(description, keywords, **kwargs)
         
     def addItem(self, itemToAdd):
@@ -209,7 +210,7 @@ class Container(Feature):
     def lookAt(self):
         desc = self.description[self.state]
         if self.isOpen:
-            desc += " It is open."
+            desc += " " + self.isOpenDesc
             if self.itemsContained:
                 desc += self.displayContents()
         else:
@@ -260,6 +261,7 @@ class Link(object):
         self.travelDesc = "You move on."
         self.destination = None
         self.siblingLink = None
+        self.state = 0
 
         #populate optional stats
         if kwargs is not None:
@@ -267,7 +269,7 @@ class Link(object):
                 setattr(self, key, value)
         
     def lookAt(self):
-        return self.description
+        return self.description[self.state]
         
     def travel(self, player):
         for key, enemy in player.currentLocation.enemies.iteritems():
@@ -276,7 +278,7 @@ class Link(object):
 
         if self.isAccessible == False:
             return self.blockedDesc
-        
+
         if player.isRestricted:
             return player.restrictedDesc
         
@@ -332,7 +334,7 @@ class Door(Link):
         super(Door, self).__init__(description, keywords, isAccessible, **kwargs)
         
     def lookAt(self):
-        desc = self.description
+        desc = self.description[self.state]
         desc += " It seems to be "
         if self.isAccessible:
             desc += "unlocked."

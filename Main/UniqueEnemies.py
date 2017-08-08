@@ -29,7 +29,7 @@ class Hellhound(Enemies.Enemy):
         
         kwargs.update({
             "actionSpeed":1,
-            "moveSpeed":2
+            "moveSpeed":2,
             "meleeDodge":0,
             "rangedDodge": 5,
             "baseExorciseChance":-100,
