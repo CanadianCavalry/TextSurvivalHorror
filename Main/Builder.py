@@ -431,9 +431,6 @@ def buildCombatSimulator(gameState):
         "notTakenDesc":"Lying on the floor next to the makeshift bed is a loaded crossbow."
     })
     generatorRoom007.addItem(crossbow007)
-    generatorRoom007.addItem(StandardItems.CrossbowBolt(**{
-        "notTakenDesc":"Lying amongst the trash on the floor you can see a steel bolt, for a crossbow."
-    }))
 
     #Enemies
     bentHost007A = UniqueEnemies.BentHost(**{
@@ -444,6 +441,9 @@ def buildCombatSimulator(gameState):
             "Long, deep slashes cover his exposed forearms and wrists, and his clothes are smeared in blood both dried and fresh. "
             "He carries a pair of scissors in one hand."]
     bentHost007A.seenDescription = "A wounded, blood soaked man carrying a pair of scissors is here with you."
+    bentHost007A.corpse.addItem(StandardItems.CrossbowBolt(**{
+        "notTakenDesc":"You find a crossbow bolt tucked into his waistband."
+    }))
     bentHost007A.protectThing(crossbow007)
     generatorRoom007.spawnEnemy(bentHost007A, 1)
 
@@ -545,7 +545,7 @@ def buildCombatSimulator(gameState):
 
     #Debug Config:
     spawnLocation = armory001
-    arena002.addItem(key005A)
+    #arena002.addItem(key005A)
 
     gameState.addArea(spawnLocation)
 
@@ -619,195 +619,3 @@ door to the NORTH leads into the Essential Services area of the Residents Wing."
     door102A.makeSibling(door101A)
     jacobsRoom101.connect(firstFloorHallway102, door101A)
     firstFloorHallway102.connect(jacobsRoom101, door102A)
-    
-    door102B = StandardFeatures.StandardOpenDoor("A hefty blue wooden door. The room number is 104.", "east,door,east door,blue door,room 104,104,door 104")
-    
-    #mainLobby109
-    door102C = StandardFeatures.StandardOpenDoor("A set of thick metal double doors. The sign above them reads \"Main Lobby\".", "south,door,south door,metal door,double doors,lobby,main lobby")
-    
-    #essentialServices201
-    door102D = StandardFeatures.StandardOpenDoor("A fairly ordinary wooden door. The sign above it reads \"Essential Services\".", "north,door,north door,essential services door,essential services")
-    
-    
-    stairs102A = StandardFeatures.StandardUpwardStairs("A wide, well lit staircase which double back up to the second floor.", "up,upstairs,up stairs,up staircase,staircase,stairs,stairway")
-    
-    #NPCs
-    firstFloorHallway102.addNPC(UniqueNPCs.SecurityGuards102())
-    
-    #Features
-    firstFloorHallway102.addFeature(UniqueFeatures.ResidentsWingDoorsFirstFloor102())
-    
-    #MAIN LOBBY
-
-    
-    #ROOM 104
-    cicerosRoom103 = AreasFeatures.Area("Room 104",
-    ["This room belongs to a rather odd resident named Cicero, who I have developed something of a friendship  with recently. The books, \
-pages, and  trinkets scattered all over the room are a testimony to Cicero's tendency to place all his focus on his personal projects \
-and ignore everything else. It seems all the books are about mythology, and the pages are either notes of his or clips of papers \
-he wrote at Oxford long ago. The trinkets are various curiousities owned by Cicero, some which of he's told me are valuable historical \
-artifacts. The door to the hallway is to the west."])
-    
-    #Links
-    door103A = StandardFeatures.StandardOpenDoor("A hefty blue wooden door.", "west,door,west door,blue door,hallway")
-    door103A.makeSibling(door102B)
-    firstFloorHallway102.connect(cicerosRoom103, door102B)
-    cicerosRoom103.connect(firstFloorHallway102, door103A)
-    
-    #NPCs
-    cicerosRoom103.addNPC(UniqueNPCs.Cicero103())
-    
-    #Features
-    
-    #Containers
-    
-    #Items
-    
-    #SECOND FLOOR HALLWAY
-    secondFloorHallway104 = AreasFeatures.Area("Second Floor Hallway", 
-["This hall is nearly identical to the first floor. Rooms 201-205 are on the east side of the hallway and Rooms \
-206-210 are on the west. The door to Rooms 201 and 205 are ajar. Two sets of stairs that lead to the first and third \
-floor of the Residents wing can be accessed through this hallway."])
-    
-    #Links
-    door104A = StandardFeatures.StandardOpenDoor("A hefty blue wooden door. The room number is 201.", "east,door,east door,blue door,room 201,201,door 201")
-    door104B = StandardFeatures.StandardOpenDoor("A hefty blue wooden door. The room number is 205.", "east,door,east door,blue door,room 205,205,door 205")
-    
-    stairs104A = StandardFeatures.StandardDownwardStairs("A wide, well lit staircase which goes both up to the third floor and down to the first floor.", "down,downstairs,down stairs,down staircase,staircase,stairs,stairway")
-    stairs104A.makeSibling(stairs102A)
-    firstFloorHallway102.connect(secondFloorHallway104, stairs102A)
-    secondFloorHallway104.connect(firstFloorHallway102, stairs104A)
-    
-    stairs104B = StandardFeatures.StandardUpwardStairs("A wide, well lit staircase which goes both up to the third floor and down to the first floor.", "up,upstairs,up stairs,up staircase,staircase,stairs,stairway")
-    
-    #NPCs
-    
-    #Features
-    secondFloorHallway104.addFeature(UniqueFeatures.ResidentsWingDoorsSecondFloor104())
-    
-    #Containers
-    
-    #Items
-    
-    #MICHEALS ROOM
-    michealsRoom105 = AreasFeatures.Area("Room 201",
-["This room is a mess. Bits of old food, dirty laundry, and other things whose origin you would rather not contemplate are scattered over\
-every surface. The place reeks of cigarette smoke. So many used cigarette butts are littered over it that you feel like it's a room-sized ashtray. \
-The door to the hallway is to the west."])
-    
-    #Links
-    door105A = StandardFeatures.StandardOpenDoor("A hefty blue wooden door.", "west,door,west door,blue door,hallway")
-    door105A.makeSibling(door104A)
-    secondFloorHallway104.connect(michealsRoom105, door104A)
-    michealsRoom105.connect(secondFloorHallway104, door105A)
-    
-    #NPCs
-    michealsRoom105.addNPC(UniqueNPCs.Micheal105())
-    
-    #Features
-    michealsRoom105.addFeature(AreasFeatures.Feature("Everything in this room is completely disgusting. I'd really rather not look to closely.", "mess,garbage,cigarettes,butts,cigarette butts,stuff,food,old food,room,things"))
-    
-    #Containers
-    
-    #Items
-    
-    #ASTRIDS ROOM
-    astridsRoom106 = AreasFeatures.Area("Room 205",
-["This room belongs to Astrid, a slender, middle aged woman. The place is as immaculate and tidy as ever. Unlike most \
-of the other residents in the House, Astrid has completely rearranged the furnishings in her room to suit her needs. \
-She even got permission from the management to move out one of the two armchairs that come with every room so she could \
-place a tall, gaudy mirror in its place. The centrepiece of the room is a large table upon which pictures of Astrid and \
-her various trophies and awards are arranged; I always think of this as Astrid's shrine to herself. The door to the hallway is to the west."])
-    
-    #Links
-    door106A = StandardFeatures.StandardOpenDoor("A hefty blue wooden door.", "west,door,west door,blue door,hallway")
-    door106A.makeSibling(door104B)
-    secondFloorHallway104.connect(astridsRoom106, door104B)
-    astridsRoom106.connect(secondFloorHallway104, door106A)
-    
-    #NPCs
-    astridsRoom106.addNPC(UniqueNPCs.Astrid106())
-    
-    #Features
-    
-    #Containers
-    
-    #Items
-    
-    #THIRD FLOOR HALLWAY
-    thirdFloorHallway107 = AreasFeatures.Area("Third Floor Hallway", 
-["This hall is nearly identical to the first floor. Rooms 301-305 are on the east side of the hallway and Rooms \
-206-210 are on the west. The door to Room 308 is ajar. A staircase leads down to the second floor from here."])
-    
-    #Links
-    door107A = StandardFeatures.StandardOpenDoor("A hefty blue wooden door. The room number is 308.", "west,door,west door,blue door,room 308,308,door 308")
-    
-    stairs107A = stairs104A = StandardFeatures.StandardDownwardStairs("A wide, well lit staircase which goes down to the second floor.", "down,downstairs,down stairs,down staircase,staircase,stairs,stairway")
-    stairs107A.makeSibling(stairs104B)
-    secondFloorHallway104.connect(thirdFloorHallway107, stairs104B)
-    thirdFloorHallway107.connect(secondFloorHallway104, stairs107A)
-    
-    #NPCs
-    
-    #Features
-    thirdFloorHallway107.addFeature(UniqueFeatures.ResidentsWingDoorsThirdFloor107())
-    
-    #Containers
-    
-    #Items
-    
-    #ROSES ROOM
-    rosesRoom108 = AreasFeatures.Area("Room 308",
-["Rose - a talented artist - has hung up at least a dozen of her works on the walls of this room. Most of them are either charcoal \
-sketches or oil paintings of individuals surrounded by fairylike creatures that evoke the individuals moods. \
-All of the pieces project a lot of raw emotion. There are also a few pictures of Rose's friends, her mother, and a few posters \
-of her favourite bands. The door to the hallway is to the east."])
-    
-    #Links
-    door108A = StandardFeatures.StandardOpenDoor("A hefty blue wooden door.", "east,door,east door,blue door,hallway")
-    door108A.makeSibling(door107A)
-    thirdFloorHallway107.connect(rosesRoom108, door107A)
-    rosesRoom108.connect(thirdFloorHallway107, door108A)
-    
-    #NPCs
-    rosesRoom108.addNPC(UniqueNPCs.Rose108())
-    
-    #Features
-    
-    #Containers
-    
-    #Items
-    
-    #MAIN LOBBY
-    mainLobby109 = AreasFeatures.Area("Main Lobby",
-["The lobby features an elegant water fountain near the entrance and a large reception desk in the middle of it. A woman standing \
-in front of the reception desk appears quite agitated, and is arguing with the two receptionists on duty. NORTH of you is the door to the Quarters area of the \
-Residential Wing. At the SOUTH end of the lobby is the exit that leads out to the rest of the city. Two security guards in front of it."])
-    
-    #Links
-    door109A = StandardFeatures.StandardOpenDoor("A set of thick metal double doors. The sign above them reads \"Residents Wing\".",
-"north,door,north door,metal door,double doors,residents wing,resident wing")
-    door109A.makeSibling(door102C)
-    mainLobby109.connect(firstFloorHallway102, door109A)
-    firstFloorHallway102.connect(mainLobby109, door102C)
-    
-    #Need to add door to outside
-    
-    #NPCs
-    mainLobby109.addNPC(UniqueNPCs.SecurityGuards109())
-    mainLobby109.addNPC(UniqueNPCs.Hayley109())
-    
-    #Features
-    mainLobby109.addFeature(AreasFeatures.Feature("The water fountain is beautifully crafted out of marble. In front of it is a pedestal that reads \"And be not drunk \
-with wine, wherein is excess, but be filled with the spirit. (Ephesians 5:18)\". You are dismayed to find that \"Not even God can save you!\" is carved in big, ugly letters next to the verse from Ephesians. How strange and disgusting! Strange that you've never noticed this \
-vandalism before. You can't imagine who would be stupid enough to do something like this in a room patrolled by security guards 24 7.", "fountain,water,water fountain,waterfountain"))
-    mainLobby109.addFeature(AreasFeatures.Feature("A large, sermicircular, oak table. The two receptionists working behind it appear to be trying to calm down a very upset young woman.","reception desk,desk"))
-    mainLobby109.addFeature(UniqueFeatures.MainLobbyExteriorDoor109())
-    
-    #Containers
-    
-    #Items
-    
-def buildAreaOne200(gameState):
-    jacobsRoom201 = UniqueAreas.interrogationRoom201()
-    gameState.addArea(jacobsRoom201)
