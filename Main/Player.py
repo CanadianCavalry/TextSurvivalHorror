@@ -84,10 +84,10 @@ class Player(object):
         if self.isRestricted:
             return self.restrictedDesc
         
-        #try:
-        return self.mainHand.attack(enemy, self, "light")
-        #except AttributeError:
-            #return "You are not holding a weapon."
+        try:
+            return self.mainHand.attack(enemy, self, "light")
+        except AttributeError:
+            return "You are not holding a weapon."
         
     def heavyAttack(self, enemy):
         if self.isRestricted:

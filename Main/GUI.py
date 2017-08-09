@@ -517,8 +517,11 @@ class Window(pyglet.window.Window):
         self.textToWrite = text
 
     def guiTakeHit(self):
-        self.damageFlash.rectangle.redrawRect()
+        pyglet.clock.schedule_once(self.guiStartFlash, 0)
         pyglet.clock.schedule_once(self.guiClearFlash, .1)
+
+    def guiStartFlash(self, dt):
+        self.damageFlash.rectangle.redrawRect()
 
     def guiClearFlash(self, dt):
         self.damageFlash.rectangle.deleteRect()

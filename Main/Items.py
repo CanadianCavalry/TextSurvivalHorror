@@ -233,7 +233,7 @@ class RangedWeapon(Weapon):
             if hitChance < 5:
                 hitChance = 5
                 
-            attackRoll = random.randint(0, 100)
+            attackRoll = randint(0, 100)
             if attackRoll <= hitChance:
                 resultString = enemy.takeHit(player, self, "ranged")
             else:
@@ -320,7 +320,7 @@ class MeleeWeapon(Weapon):
             
             if hitChance < 10:
                 hitChance = 10
-            attackRoll = random.randint(0, 100)
+            attackRoll = randint(0, 100)
             #print "Final hit chance: " + str(hitChance)
             #print "Attack roll: " + str(attackRoll)
             if attackRoll <= hitChance:
