@@ -46,6 +46,8 @@ class Item(object):
                 return enemy.protectedThings[self]
             elif self.currentLocation in enemy.protectedThings:
                 return enemy.protectedThings[self.currentLocation]
+
+        sources = list()
         
         #If there is more than 1, dup it and pass the dup. Quantity will be decremented later
         if (self.quantity > 1) and (not self.stackable):
@@ -65,15 +67,15 @@ class Item(object):
             self.firstSeen = False
             self.firstTaken = False
 
-        source = pyglet.media.load(self.pickupSound[randint(0, len(self.pickupSound) - 1)], streaming=False)
-        source.play()
+        sources.append(pyglet.media.load(self.pickupSound[randint(0, len(self.pickupSound) - 1)], streaming=False))
+        #source.play()
 
         player.addItem(itemToGet)
         holder.removeItem(self)
 
         if (player.mainHand == None) and (isinstance(itemToGet, Weapon)):
             itemToGet.equip(player)
-        return resultString, True
+        return resultString, True, sources
     
     def drop(self, player):
         if (self.quantity > 1) and (not self.stackable):
@@ -188,17 +190,18 @@ class RangedWeapon(Weapon):
                             #Me name es Wayne Purkle coz when I nommin' grapes day be PURKLE!!!
     def attack(self, enemy, player, attackType):
         if isinstance(enemy, Enemies.Enemy):
+            sources = list()
             if attackType == "heavy":
                 return "You are not holding a melee weapon."
             
             if self.ammoRemaining <= 0:
-                source = pyglet.media.load(self.emptySound, streaming=False)
-                source.play()
-                return "You pull the trigger but nothing happens. Shit, it's empty...", True
+                sources.append(pyglet.media.load(self.emptySound, streaming=False))
+                #source.play()
+                return "You pull the trigger but nothing happens. Shit, it's empty...", True, sources
             
             if self.fireSound:
-                source = pyglet.media.load(self.fireSound, streaming=False)
-                source.play()
+                sources.append(pyglet.media.load(self.fireSound, streaming=False))
+                #source.play()
             
             self.ammoRemaining -= 1
             hitChance = self.accuracy
@@ -235,11 +238,16 @@ class RangedWeapon(Weapon):
                 
             attackRoll = randint(0, 100)
             if attackRoll <= hitChance:
-                resultString = enemy.takeHit(player, self, "ranged")
+                attackResult = enemy.takeHit(player, self, "ranged")
+                try:
+                    resultString, enemySources = attackResult
+                    sources += enemySources
+                except ValueError:
+                    resultString = attackResult
             else:
                 resultString = self.attackDesc
                 resultString += "\nYou miss!"
-            return resultString, True
+            return resultString, True, sources
         else:
             return "That isn't worth wasting ammo on..."
 
@@ -247,6 +255,7 @@ class RangedWeapon(Weapon):
         return self.attack(enemy, player)
     
     def reload(self, player):
+        sources = list()
         for item in player.inventory.itervalues():
             try:
                 weaponType = item.weaponType
@@ -257,10 +266,10 @@ class RangedWeapon(Weapon):
                 self.ammoRemaining = self.capacity
                 item.destroy(player)
                 if self.reloadSound:
-                    source = pyglet.media.load(self.reloadSound, streaming=False)
-                    source.play()
+                    sources.append(pyglet.media.load(self.reloadSound, streaming=False))
+                    #source.play()
 
-                return "You reload the " + self.name + ".",True
+                return "You reload the " + self.name + ".",True, sources
             
         return "You don't have any ammo."
         
@@ -286,6 +295,7 @@ class MeleeWeapon(Weapon):
 
     def attack(self, enemy, player, attackType):
         if isinstance(enemy, Enemies.Enemy):
+            sources = list()
             if enemy.distanceToPlayer > 1:
                 return "You are not within striking distance."
 
@@ -324,17 +334,22 @@ class MeleeWeapon(Weapon):
             #print "Final hit chance: " + str(hitChance)
             #print "Attack roll: " + str(attackRoll)
             if attackRoll <= hitChance:
-                resultString = enemy.takeHit(player, self, attackType)
                 if self.hitSound:
-                    source = pyglet.media.load(self.hitSound, streaming=False)
-                    source.play()
+                    sources.append(pyglet.media.load(self.hitSound, streaming=False))
+                    #source.play()
+                attackResult = enemy.takeHit(player, self, "ranged")
+                try:
+                    resultString, enemySources = attackResult
+                    sources += enemySources
+                except ValueError:
+                    resultString = attackResult
             else:
                 resultString = self.attackDesc
                 resultString += "\nYou miss!"
                 if self.missSound:
-                    source = pyglet.media.load(self.missSound, streaming=False)
-                    source.play()
-            return resultString, True
+                    sources.append(pyglet.media.load(self.missSound, streaming=False))
+                    #source.play()
+            return resultString, True, sources
         else:
             return "That isn't an enemy..."
 
@@ -376,15 +391,18 @@ class Alchohol(Drinkable):
             elif self.currentLocation in enemy.protectedThings:
                 return enemy.protectedThings[self.currentLocation]
 
-        source = pyglet.media.load(self.useSound, streaming=False)
-        source.play()
+        sources = list()
+
+        sources.append(pyglet.media.load(self.useSound, streaming=False))
+        #source.play()
         player.increaseIntox(self.alcoholAmount)
         spiritDecrease = self.alcoholAmount / 2
         if spiritDecrease > 10:
             spiritDecrease = 10
         player.decreaseSpirit(spiritDecrease)
         self.currentLocation.removeItem(self)
-        return self.useDescription,True
+
+        return self.useDescription,True, sources
     
 
 class Readable(Item):
@@ -412,10 +430,10 @@ class Note(Readable):
             elif self.currentLocation in enemy.protectedThings:
                 return enemy.protectedThings[self.currentLocation]
         
-        source = pyglet.media.load(self.pickupSound[randint(0, len(self.pickupSound) - 1)], streaming=False)
-        source.play()
+        sources.append(pyglet.media.load(self.pickupSound[randint(0, len(self.pickupSound) - 1)], streaming=False))
+        #source.play()
 
-        return self.contents,True
+        return self.contents,True, sources
 
 class Key(Item):
     def __init__(self, name, description, seenDescription, keywords, **kwargs):

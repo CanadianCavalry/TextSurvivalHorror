@@ -127,7 +127,15 @@ class Player(object):
         return "You take a defensive stance.", True
         
     def exorcise(self, enemy):
-        return enemy.exorciseAttempt(self), True
+        exorciseResult = enemy.exorciseAttempt(self)
+        try:
+            resultString, enemySources = exorciseResult
+            sources += enemySources
+        except ValueError:
+            resultString = attackResult
+            enemySources = list()
+
+        return resultString, True, enemySources
         
     def advance(self, enemy):
         if self.isRestricted:

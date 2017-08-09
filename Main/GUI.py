@@ -263,6 +263,7 @@ class Window(pyglet.window.Window):
         self.inMenu = False
         self.writingText = False
         self.textToWrite = ""
+        self.player = pyglet.media.Player()
         
         self.startMainMenu()
 
@@ -472,10 +473,15 @@ class Window(pyglet.window.Window):
         print "Player taking action"
         turnResult = self.parser.parse(userInput)
         try:
-            resultString,turnPassed = turnResult
+            resultString,turnPassed,sources = turnResult
         except ValueError:
-            resultString = turnResult
-            turnPassed = False
+            try:
+                resultString, turnPassed = turnResult
+                sources = list()
+            except ValueError:
+                resultString = turnResult
+                turnPassed = False
+                sources = list()
             
         gameOver = self.checkGameOver()
         if gameOver:
@@ -489,7 +495,9 @@ class Window(pyglet.window.Window):
             if (self.parser.command == "go") and (actingEnemies):
                 resultString = "You run for the exit...\n" + Enemies.enemyAction(self.state.player, actingEnemies) + "\n" + resultString
             else:
-                resultString += "\n" + Enemies.enemyAction(self.state.player, actingEnemies)
+                enemyResult, enemySources = Enemies.enemyAction(self.state.player, actingEnemies)
+                resultString += "\n" + enemyResult
+                sources += enemySources
             
             if self.state.player.tookHit:
                 self.guiTakeHit()
@@ -508,6 +516,10 @@ class Window(pyglet.window.Window):
                 resultString += gameOver
                 self.updateTextBox(resultString)
                 return
+
+        for source in sources:
+            self.player.queue(source)
+        self.player.play()
 
         self.updateTextBox(resultString)
 

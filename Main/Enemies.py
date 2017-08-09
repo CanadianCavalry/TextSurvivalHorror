@@ -22,9 +22,18 @@ def getActingEnemies(player):
 
 def enemyAction(player, actingEnemies):
     resultString = ""
+    sources = list()
     for enemy in actingEnemies:
-        resultString += enemy.takeAction(player) + "\n"
-    return resultString
+        enemyResult = enemy.takeAction(player)
+        try:
+            enemyResultString, enemySources = enemyResult
+            sources += enemySources
+        except ValueError:
+            enemyResultString = enemyResult
+
+        resultString += enemyResultString + "\n"
+
+    return resultString, sources
 
 def enemyMovement(movingEnemies, enemyDestination, player):
     enemyActions = {}
@@ -186,6 +195,7 @@ class Enemy(object):
         
     def takeAction(self, player):
         resultString = ""
+        sources = list()
         if self.willChase and not self.isChasing:
             self.isChasing = True
         if self.health < 1:
@@ -203,7 +213,13 @@ class Enemy(object):
 
         if self.actionTimer == 1:
             if self.distanceToPlayer == 1:
-                resultString += self.attack(player)
+                attackResult = self.attack(player)
+                try:
+                    resultString, enemySources = attackResult
+                    sources += enemySources
+                except ValueError:
+                    resultString = attackResult
+                    enemySources = list()
                 self.actionTimer = self.actionSpeed
             else:
                 resultString += self.advance()
@@ -212,21 +228,22 @@ class Enemy(object):
             self.actionTimer -= 1
             resultString += ""
         
-        return resultString
+        return resultString, sources
 
     def attack(self, player):
         return self.basicAttack(player)
 
     def basicAttack(self, player):
         #print "Enemy attacking"
+        sources = list()
         attackType = "melee"
         resultString = self.attackDesc[randint(0, len(self.attackDesc) - 1)]
         hitChance = self.calcAttackAccuracy(player, attackType)
         #print "Enemy hit chance: " + str(hitChance)
             
         if self.basicAttackSound:
-            source = pyglet.media.load(self.basicAttackSound, streaming=False)
-            source.play()
+            sources.append(pyglet.media.load(self.basicAttackSound, streaming=False))
+            #source.play()
 
         attackRoll = randint(0,100)
         if attackRoll <= hitChance:
@@ -240,7 +257,7 @@ class Enemy(object):
         else:
             resultString += " It misses!"
             
-        return resultString
+        return resultString, sources
 
     def calcAttackAccuracy(self, player, attackType):
         hitChance = self.accuracy - player.dodgeChance
@@ -295,6 +312,7 @@ class Enemy(object):
         self.recoveryDesc = recoveryDesc
         
     def takeHit(self, player, weapon, attackType):
+        sources = list()
         resultString = weapon.attackDesc + "\n"
         resultString += "You hit the " + self.name + "! "
         damageAmount = (randint(weapon.minDamage, weapon.maxDamage))
@@ -315,7 +333,11 @@ class Enemy(object):
             resultString += self.takeDamage(damageAmount)
         if hitEffectDesc:
             resultString += hitEffectDesc
-        return resultString
+        if self.health < 1:
+            if self.deathSound:
+                sources.append(pyglet.media.load(self.deathSound, streaming=False))
+            #source.play()
+        return resultString, sources
 
     def hitEffect(self, player, weapon, attackType):
         pass
@@ -337,9 +359,10 @@ class Enemy(object):
         return self.critDialogue[randint(0, len(self.critDialogue) - 1)]
         
     def exorciseAttempt(self, player):
+        sources = list()
         if self.exorciseSound:
-            sourse = pyglet.media.load(self.exorciseSound, streaming=False)
-            source.play()
+            sources.append(pyglet.media.load(self.exorciseSound, streaming=False))
+            #source.play()
         resultString = self.exorciseDesc[randint(0, len(self.exorciseDesc) - 1)] + "\n"
         
         hitChance = self.baseExorciseChance
@@ -347,16 +370,16 @@ class Enemy(object):
         attackRoll = randint(0, 100)
         if attackRoll <= hitChance:
             if self.exorciseHitSound:
-                sourse = pyglet.media.load(self.exorciseHitSound, streaming=False)
-                source.play()
+                sources.append(pyglet.media.load(self.exorciseHitSound, streaming=False))
+                #source.play()
             resultString += self.takeExorcise()
-            return resultString
+            return resultString, sources
         else:
             if self.exorciseFailSound:
-                sourse = pyglet.media.load(self.exorciseFailSound, streaming=False)
-                source.play()
+                sources.append(pyglet.media.load(self.exorciseFailSound, streaming=False))
+                #source.play()
             resultString += self.exorciseFailDesc[randint(0, len(self.exorciseFailDesc) - 1)]
-            return resultString
+            return resultString, sources
         
     def takeExorcise(self):
         stunDesc = self.exorciseStunDesc[randint(0, len(self.exorciseStunDesc) - 1)]
@@ -368,9 +391,6 @@ class Enemy(object):
         return resultString
 
     def kill(self):
-        if self.deathSound:
-            source = pyglet.media.load(self.deathSound, streaming=False)
-            source.play()
         self.currentLocation.killEnemy(self)
         self.currentLocation.addItem(self.corpse)
         return self.deathText
