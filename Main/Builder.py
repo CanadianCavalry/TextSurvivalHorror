@@ -308,7 +308,7 @@ def buildCombatSimulator(gameState):
     )
 
     #Links
-    door005A = AreasFeatures.Link(
+    door005A = AreasFeatures.Path(
         ["Though numerous tipped over shelves and piles of debris are in the way, you can see a clear path through to the east end "
         "of the library"], 
         "east,east wing,path",
@@ -544,7 +544,7 @@ def buildCombatSimulator(gameState):
 
 
     #Debug Config:
-    spawnLocation = armory001
+    spawnLocation = libraryEast004
     arena002.addItem(key005A)
 
     gameState.addArea(spawnLocation)

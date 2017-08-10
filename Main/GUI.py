@@ -492,10 +492,10 @@ class Window(pyglet.window.Window):
         if turnPassed:
             print "Turn has passed. Enemies acting"
             #Perform enemy actions
+            enemyResult, enemySources = Enemies.enemyAction(self.state.player, actingEnemies)
             if (self.parser.command == "go") and (actingEnemies):
-                resultString = "You run for the exit...\n" + Enemies.enemyAction(self.state.player, actingEnemies) + "\n" + resultString
+                resultString = "You run for the exit...\n" + enemyResult + "\n" + resultString
             else:
-                enemyResult, enemySources = Enemies.enemyAction(self.state.player, actingEnemies)
                 resultString += "\n" + enemyResult
                 sources += enemySources
             

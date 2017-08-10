@@ -88,10 +88,10 @@ def go(player, keyword):
     elif len(matching) > 1:
         return "You need to be more specific"
     elif len(matching) == 1:
-        try:
-            return matching[0].travel(player)
-        except AttributeError:
-            return "I can't do that."
+        #try:
+        return matching[0].travel(player)
+        #except AttributeError:
+        #    return "I can't do that."
 
 def use(player, keyword):
     matching = findMatching(player, keyword, list())
