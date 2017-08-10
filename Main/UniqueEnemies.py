@@ -111,8 +111,16 @@ class BentHost(Enemies.Enemy):
         self.health = 0
         self.kill()
         if weapon.name == "Axe":
-            return "You stand oven the prone host and whisper an apology. You bring the axe down hard with a solid thunk, and they cease to move."
+            resultString = "You stand oven the prone host and whisper an apology. You bring the axe down hard with a solid thunk, and they cease to move."
         elif weapon.name == "Kitchen Knife":
-            return "With a whispered prayer, you seize the host by the hair and lift their head. In a single motion you draw the knife across their throat, leaving them to cough and sputter on the floor. After a few seconds, they lie still."
+            resultString = "With a whispered prayer, you seize the host by the hair and lift their head. In a single motion you draw the knife across their throat, leaving them to cough and sputter on the floor. After a few seconds, they lie still."
         else:
-            return "You kick the stunned creature hard in the chest, knocking it to the ground. You fall upon it with your weapon, striking over and over until it lies still."
+            resultString = "You kick the stunned creature hard in the chest, knocking it to the ground. You fall upon it with your weapon, striking over and over until it lies still."
+        return resultString
+
+    def killEffect(self, player, attackType):
+        player.decreaseSpirit(4)
+        super(BentHost, self).killEffect(player, attackType)
+
+        resultString = ""
+        return resultString

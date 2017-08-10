@@ -337,7 +337,7 @@ class MeleeWeapon(Weapon):
                 if self.hitSound:
                     sources.append(pyglet.media.load(self.hitSound, streaming=False))
                     #source.play()
-                attackResult = enemy.takeHit(player, self, "ranged")
+                attackResult = enemy.takeHit(player, self, attackType)
                 try:
                     resultString, enemySources = attackResult
                     sources += enemySources

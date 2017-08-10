@@ -312,6 +312,8 @@ class Enemy(object):
         self.recoveryDesc = recoveryDesc
         
     def takeHit(self, player, weapon, attackType):
+        print attackType
+        print str(self.helpless)
         sources = list()
         resultString = weapon.attackDesc + "\n"
         resultString += "You hit the " + self.name + "! "
@@ -336,7 +338,8 @@ class Enemy(object):
         if self.health < 1:
             if self.deathSound:
                 sources.append(pyglet.media.load(self.deathSound, streaming=False))
-            #source.play()
+            resultString += "\n" + self.killEffect(player, attackType)
+
         return resultString, sources
 
     def hitEffect(self, player, weapon, attackType):
@@ -345,6 +348,9 @@ class Enemy(object):
     def missEffect(self, player, weapon, attackType):
         pass
         
+    def killEffect(self, player, attackType):
+        player.decreaseIntox(4)
+
     def takeDamage(self, damageAmount):
         modDamageAmount = int(damageAmount - (damageAmount * (float(self.armor) / 100)))
         self.health -= modDamageAmount
@@ -356,7 +362,9 @@ class Enemy(object):
     def takeCrit(self, weapon):
         self.health = 0
         self.kill()
-        return self.critDialogue[randint(0, len(self.critDialogue) - 1)]
+        resultString = self.critDialogue[randint(0, len(self.critDialogue) - 1)]
+        resultString += self.killEffect(player, attackType)
+        return resultString
         
     def exorciseAttempt(self, player):
         sources = list()

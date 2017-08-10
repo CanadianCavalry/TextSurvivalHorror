@@ -130,7 +130,6 @@ class Player(object):
         exorciseResult = enemy.exorciseAttempt(self)
         try:
             resultString, enemySources = exorciseResult
-            sources += enemySources
         except ValueError:
             resultString = attackResult
             enemySources = list()
