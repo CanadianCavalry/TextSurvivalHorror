@@ -496,7 +496,7 @@ class Window(pyglet.window.Window):
             if (self.parser.command == "go") and (actingEnemies):
                 resultString = "You run for the exit...\n" + enemyResult + "\n" + resultString
             else:
-                resultString += "\n" + enemyResult
+                resultString += "\n\n" + enemyResult
                 sources += enemySources
             
             if self.state.player.tookHit:

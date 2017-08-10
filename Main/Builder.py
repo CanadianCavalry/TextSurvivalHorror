@@ -97,7 +97,7 @@ def buildCombatSimulator(gameState):
         description="A hastily written note scrawled on a napkin.",
         seenDescription="There is a scrunched up note pinned to the table.",
         keywords="note,paper,napkin,page",
-        contents="FOR TESTER USE ONLY\nDev commands are executed with \"/dev\":\n\ndylanwantsagun: Get some firepower.\n\n       -dev"
+        contents="FOR TESTER USE ONLY\nDev commands are executed with \"/dev\":\n\ndylanwantsagun: Get some firepower."
     ))
     
     #002 - ARENA

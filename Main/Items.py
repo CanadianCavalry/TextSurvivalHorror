@@ -424,6 +424,7 @@ class Note(Readable):
         super(Note, self).__init__(name, description, seenDescription, keywords, **kwargs)
     
     def read(self, player):
+        sources = list()
         for key, enemy in player.currentLocation.enemies.iteritems():
             if self in enemy.protectedThings:
                 return enemy.protectedThings[self]

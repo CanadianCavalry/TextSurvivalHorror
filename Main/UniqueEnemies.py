@@ -140,9 +140,10 @@ class BentHost(Enemies.Enemy):
             return resultString
 
     def saveHost(self):
+        self.health = 0
         self.currentLocation.killEnemy(self)
         self.currentLocation.addNPC(self.host)
-        resultString = self.exorcismFinish
+        resultString = "\n" + self.exorcismFinish
 
         return resultString
 
