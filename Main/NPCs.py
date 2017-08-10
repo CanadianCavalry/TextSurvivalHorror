@@ -11,16 +11,17 @@ class Dialogue(object):
 
 class NPC(object):
     
-    def __init__(self, name, description, seenDesc, talkResponse, keywords, idNum=0):
+    def __init__(self, name, description, seenDesc, talkResponse, keywords):
         self.name = name
         self.description = description
-        idNum = idNum
         self.seenDescription = seenDesc
+        self.inventory = {}
         self.talkResponse = talkResponse
         self.keywords = keywords
         self.dialogueTree = {}
         self.talkedTo = False
         self.location = None
+        self.state = 0
         
     def setTalkResponse(self, response):
         self.talkResponse = response
@@ -40,13 +41,37 @@ class NPC(object):
         
     def removeFromLocation(self):
         self.location = None
+
+    def addItem(self, itemToAdd):
+        if itemToAdd.keywords in self.inventory:
+            if itemToAdd.stackable:
+                self.inventory[itemToAdd.keywords].quantity += itemToAdd.quantity
+            else:
+                self.inventory[itemToAdd.keywords].quantity += 1
+        else:
+            self.inventory[itemToAdd.keywords] = itemToAdd
+            itemToAdd.currentLocation = self
+
+    def removeItem(self, itemToRemove):
+        if (self.inventory[itemToRemove.keywords].quantity > 1) and (not itemToRemove.stackable):
+            self.inventory[itemToRemove.keywords].quantity -= 1
+        else:
+            del self.inventory[itemToRemove.keywords]
+            itemToRemove.currentLocation = None
+
+    def dropAllItems(self):
+        for key, item in self.inventory.iteritems():
+            item.firstTaken = False
+            self.location.addItem(item)
+        
+        self.inventory = {}
             
     def talk(self, player):
         return self.talkResponse
     
     def ask(self, keyword):
         matching = list()
-        for key,item in self.dialogueTree.iteritems():          #now we find the recipient, which will be a feature or link
+        for key,item in self.dialogueTree.iteritems():
             keyList = key.split(",")
             if keyword in keyList:
                 matching.append(item)
@@ -62,4 +87,4 @@ class NPC(object):
         self.idNum = number
                     
     def lookAt(self):
-        return self.description
+        return self.description[self.state]

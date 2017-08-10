@@ -441,8 +441,8 @@ def buildCombatSimulator(gameState):
             "Long, deep slashes cover his exposed forearms and wrists, and his clothes are smeared in blood both dried and fresh. "
             "He carries a pair of scissors in one hand."]
     bentHost007A.seenDescription = "A wounded, blood soaked man carrying a pair of scissors is here with you."
-    bentHost007A.corpse.addItem(StandardItems.CrossbowBolt(**{
-        "notTakenDesc":"You find a crossbow bolt tucked into his waistband."
+    bentHost007A.addItem(StandardItems.CrossbowBolt(**{
+        "notTakenDesc":"There is a crossbow bolt tucked into his waistband."
     }))
     bentHost007A.protectThing(crossbow007)
     generatorRoom007.spawnEnemy(bentHost007A, 1)

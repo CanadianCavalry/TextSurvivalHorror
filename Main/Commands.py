@@ -433,10 +433,10 @@ def talk(player, keyword):
     elif len(matching) == 0:
         return "You do not see anyone like that here."
     elif len(matching) == 1:
-        try:
-            return matching[0].talk(player)
-        except AttributeError:
-            return "I don't think it's very likely to respond."
+        #try:
+        return matching[0].talk(player)
+        #except AttributeError:
+        #    return "I don't think it's very likely to respond."
     
 def ask(player, keyword, dialogueKeyword):
     matching = findMatching(player, keyword, list())

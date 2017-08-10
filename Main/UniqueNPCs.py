@@ -5,6 +5,37 @@ Created on Aug 23, 2014
 '''
 import NPCs
 
+class BentHostSurvivor(NPCs.NPC):
+
+    def talk(self, player):
+        resultString = self.talkResponse
+        if self.inventory:
+            self.dropAllItems()
+            resultString += "\n" + self.dropDesc
+        return resultString
+
+class BentHostSurvivorMale(BentHostSurvivor):
+    def __init__(self):
+        self.dropDesc = "Unable to speak properly, he wordlessly pulls something from his clothes and holds it out with a shaking hand. It tumbles to the floor."
+        name = "Young Man"
+        description = ["He looks injured, haggered and exhausted, not suprising considering he was recently freed from demonic possession. "
+                    "He's curled up on the floor, and doesn't look like he'll be moving anytime soon."]
+        seenDescription = "A young man is curled up on the floor here."
+        talkResponse = "He mumbles something quietly under his breath that sounds like 'thank you'."
+        keywords = "human,man,young man,survivor,victim"
+        super(BentHostSurvivorMale, self).__init__(name, description, seenDescription, talkResponse, keywords)
+
+class BentHostSurvivorFemale(BentHostSurvivor):
+    def __init__(self):
+        self.dropDesc = "With a look of gratitude, she silently holds out something clutched her hands and places it on the floor in front of you."
+        name = "Young Woman"
+        description = ["She looks injured, haggered and exhausted, not suprising considering she was recently freed from demonic possession. "
+                "She's curled up on the floor, and it doesn't look like she'll be moving anytime soon."]
+        seenDescription = "A young woman is curled up on the floor here."
+        talkResponse = "She mumbles something quietly under her breath that sounds like 'thank you'."
+        keywords = "human,woman,young woman,survivor,victim"
+        super(BentHostSurvivorFemale, self).__init__(name, description, seenDescription, talkResponse, keywords)
+
 #PROLOGUE NPCs
 
 class SecurityGuards102(NPCs.NPC):

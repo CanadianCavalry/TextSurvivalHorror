@@ -4,6 +4,7 @@ Created on Jan 23, 2015
 @author: CanadianCavalry
 '''
 import Enemies
+import UniqueNPCs
 import Items
 from random import randint
 
@@ -83,7 +84,14 @@ class BentHost(Enemies.Enemy):
             "Human Corpse", 
             "The demon has left this host. It's unfortunate what you had to do, but at least he can rest now.",
             "The bloody remains of a demonic host is lying on the floor.", 
-            "body,corpse,human body,dead human,human corpse,dead host,host corpse,dead demon,demon corpse")
+            "body,corpse,human body,dead human,human corpse,dead host,host corpse,dead demon,demon corpse"
+        )
+
+        survivor = None
+        if randint(0,1) == 0:
+            survivor = UniqueNPCs.BentHostSurvivorMale()
+        else:
+            survivor = UniqueNPCs.BentHostSurvivorFemale()
         
         kwargs.update({
             "actionSpeed":1,
@@ -106,7 +114,8 @@ class BentHost(Enemies.Enemy):
             "travelBlockedDesc":"You can hear the crazed screaming and pounding of a bent host trying to get in.",
             "groupTravelBlockedDesc":"You can hear the screaming, arguing and pounding of a group of bent hosts trying to get in.",
             "exorcismCount":0,
-            "exorcismFinish":"The host twists and writhes, and with a final scream the demon is ripped from their body. They remain curled up on the floor, bruised and hurt, but still breathing at least."
+            "exorcismFinish":"The host twists and writhes, and with a final scream the demon is ripped from their body. They remain curled up on the floor, bruised and hurt, but still breathing at least.",
+            "host":survivor
         })
 
         super(BentHost, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, corpse, **kwargs)
@@ -131,8 +140,8 @@ class BentHost(Enemies.Enemy):
             return resultString
 
     def saveHost(self):
-        self.health = 0
-        self.kill()
+        self.currentLocation.killEnemy(self)
+        self.currentLocation.addNPC(self.host)
         resultString = self.exorcismFinish
 
         return resultString
@@ -162,3 +171,7 @@ class BentHost(Enemies.Enemy):
 
         resultString = ""
         return resultString
+
+    def addItem(self, itemToAdd):
+        self.corpse.addItem(itemToAdd)
+        self.host.addItem(itemToAdd)

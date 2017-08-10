@@ -404,6 +404,9 @@ class Enemy(object):
         self.currentLocation.addItem(self.corpse)
         return self.deathText
     
+    def addItem(self, itemToAdd):
+        self.corpse.addItem(itemToAdd)
+
     def talk(self):
         resultString = self.talkDialogue[self.talkCount]
         if self.talkCount < len(self.talkDialogue) - 1:
