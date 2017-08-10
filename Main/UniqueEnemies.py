@@ -94,18 +94,56 @@ class BentHost(Enemies.Enemy):
             "defaultStunDesc":"The demonic host is stumbling around, dazed.",
             "defaultRecoveryDesc":"The bent host snaps back to it's senses.",
             "attackDesc": ["The host swings it's weapon at you.", "The host lunges towards you with it's blade."],
+            "altExorciseDesc":["You continue reciting the prayer to yourself under your breath, hand outstretched. The host screams and thrashes, clearly in immense pain."],
             "takeExorciseDesc":["It works! The hosts eyes roll back in it's head and it collapses to the ground. You'll need to complete the exorcism to free the host from it's demonic captor."],
-            "advanceDialogue":["The demonic host stumbles towards you, giggling to itself.", "The host suddenly let's loose a scream and breaks into a wild sprint towards you.", "The possessed human walks towards you silently.", "The possessed has trouble keeping it's balance and stumbles forward."],
+            "exorciseRecoveryDesc":"The host scrambles back to it's feet, and charges at you with a scream.",
+            "advanceDialogue":["The demonic host stumbles towards you, giggling to itself.", "The bent host suddenly let's loose a scream and breaks into a wild sprint towards you.", "The possessed human walks towards you silently.", "The possessed has trouble keeping it's balance and stumbles forward."],
             "retreatDialogue":["The host stumbles backwards, trying to get away from you.", "The demonic host scrabbles away from you."],
             "deathText":"The demonic host falls to the ground dead.",
             "travelDesc":"The possessed human bursts into the room.",
             "groupTravelDesc":"A group of bent host's burst into the room, screaming and ranting.",
             "chaseDesc":"You can hear the taunts and maniacal laughter of a bent host approaching.",
             "travelBlockedDesc":"You can hear the crazed screaming and pounding of a bent host trying to get in.",
-            "groupTravelBlockedDesc":"You can hear the screaming, arguing and pounding of a group of bent hosts trying to get in."
+            "groupTravelBlockedDesc":"You can hear the screaming, arguing and pounding of a group of bent hosts trying to get in.",
+            "exorcismCount":0,
+            "exorcismFinish":"The host twists and writhes, and with a final scream the demon is ripped from their body. They remain curled up on the floor, bruised and hurt, but still breathing at least."
         })
 
         super(BentHost, self).__init__(name, description, seenDesc, keywords, maxHealth, minDamage, maxDamage, accuracy, corpse, **kwargs)
+
+    def takeExorcise(self):
+        if self.exorcismCount == 2:
+            return self.saveHost()
+        else:
+            resultString = ""
+            if self.exorcismCount == 0:
+                tempExDesc = self.exorciseDesc
+                self.exorciseDesc = self.altExorciseDesc
+                self.altExorciseDesc = tempExDesc
+                resultString += self.takeExorciseDesc[randint(0, len(self.takeExorciseDesc) - 1)]
+
+            stunDesc = self.exorciseStunDesc[randint(0, len(self.exorciseStunDesc) - 1)]
+            recoveryDesc = self.exorciseRecoveryDesc[randint(0, len(self.exorciseRecoveryDesc) - 1)]
+            self.makeStunned(2, stunDesc, recoveryDesc)
+            self.helpless = True
+            self.exorcismCount += 1
+            self.baseExorciseChance = 50
+            return resultString
+
+    def saveHost(self):
+        self.health = 0
+        self.kill()
+        resultString = self.exorcismFinish
+
+        return resultString
+
+    def recoverFromStun(self):
+        self.baseExorciseChance = 25
+        self.exorcismCount = 0
+        tempExDesc = self.exorciseDesc
+        self.exorciseDesc = self.altExorciseDesc
+        self.altExorciseDesc = tempExDesc
+        return super(BentHost, self).recoverFromStun()
 
     def takeCrit(self, weapon):
         self.health = 0

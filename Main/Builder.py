@@ -453,7 +453,7 @@ def buildCombatSimulator(gameState):
         "Utilities Room", 
         ["This room is quite large, and filled with all kinds of pipes, electrical conduits, and ventilation ducts. It seems "
         "to be a central utility room. Most of the equipment is in a state of disrepair, and several inches of water cover the floor. "
-        "There is a narrow door on the wall to the south, and another one leading back the basement entrance to the west."],
+        "There is a sign bolted to the wall titled \"Possession\"There is a narrow door on the wall to the south, and another one leading back the basement entrance to the west."],
         **{"size":3}
     )
 
@@ -479,6 +479,14 @@ def buildCombatSimulator(gameState):
         ["It's murky and stagnant. If must have come from a burst pipe or leaking pump, but that had to have been some time ago."],
         "water,floor,flooding"
     ))
+    utilitiesRoom008.addFeature(StandardFeatures.Sign(
+        ["The large metal sign looks very worn and rusted, and has been riveted straight into the metal wall. It appears that "
+        "it has been here for a long time, and is not coming down any time soon."],
+        "sign,metal sign,possession sign",
+        "Possession\n\nHumans who are possessed by demons can be freed by continuing the exorcism once they have been rendered "
+        "helpless. This can take some time and is quite difficult when facing multiple foes. Killing a host on the other hand "
+        "is quick, but has it's own cost."))
+
 
     #Items
 
@@ -544,8 +552,7 @@ def buildCombatSimulator(gameState):
 
 
     #Debug Config:
-    spawnLocation = libraryEast004
-    arena002.addItem(key005A)
+    spawnLocation = armory001
 
     gameState.addArea(spawnLocation)
 

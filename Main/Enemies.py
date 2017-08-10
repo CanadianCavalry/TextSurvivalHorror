@@ -207,9 +207,7 @@ class Enemy(object):
             return self.stunDesc
         
         if self.recovering:
-            resultString += self.recoveryDesc + "\n"
-            self.recovering = False
-            self.helpless = False
+            resultString += self.recoverFromStun()
 
         if self.actionTimer == 1:
             if self.distanceToPlayer == 1:
@@ -310,6 +308,12 @@ class Enemy(object):
         self.stunnedTimer = stunTime
         self.stunDesc = stunDesc
         self.recoveryDesc = recoveryDesc
+
+    def recoverFromStun(self):
+        resultString = self.recoveryDesc + "\n"
+        self.recovering = False
+        self.helpless = False
+        return resultString
         
     def takeHit(self, player, weapon, attackType):
         print attackType
@@ -370,7 +374,6 @@ class Enemy(object):
         sources = list()
         if self.exorciseSound:
             sources.append(pyglet.media.load(self.exorciseSound, streaming=False))
-            #source.play()
         resultString = self.exorciseDesc[randint(0, len(self.exorciseDesc) - 1)] + "\n"
         
         hitChance = self.baseExorciseChance
@@ -379,13 +382,11 @@ class Enemy(object):
         if attackRoll <= hitChance:
             if self.exorciseHitSound:
                 sources.append(pyglet.media.load(self.exorciseHitSound, streaming=False))
-                #source.play()
             resultString += self.takeExorcise()
             return resultString, sources
         else:
             if self.exorciseFailSound:
                 sources.append(pyglet.media.load(self.exorciseFailSound, streaming=False))
-                #source.play()
             resultString += self.exorciseFailDesc[randint(0, len(self.exorciseFailDesc) - 1)]
             return resultString, sources
         
