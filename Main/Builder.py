@@ -74,7 +74,7 @@ def buildCombatSimulator(gameState):
         "weapon has different damage and accuracy. Bigger is not always better.\n-As a functioning alchoholic, you perform "
         "better with a bit of liquor in your system. It numbs your body, reducing incoming damage, and calms shaking hands, "
         "increasing accurracy. Don't go overboard though or you'll go downhill fast.\n\nTyping HELP will list all "
-        "commands(not implemented yet), but a few you should get familiar with to start are:\nGET - Pick up things\nI - View your "
+        "common commands, but a few you should get familiar with to start are:\nGET - Pick up things\nI - View your "
         "inventory\nEQUIP - Equip weapons or armor\nGO - Travel through doors or down halls\nOPEN - Open doors or containers"))
     gunCages = StandardFeatures.LockingContainer(
         ["Behind the thick bars you can see a huge array of weaponry, from handguns to rifles and even grenades. The cages are "

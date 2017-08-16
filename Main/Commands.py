@@ -557,6 +557,32 @@ def look(player, keyword):
         matching[0] = autoTarget
     return matching[0].lookAt()
 
+def displayHelp():
+    helpText = ("List of common commands. Words in parenthesis () are optional\n\n"
+    "look: Describe the room you are in (used by default when entering an area.\n"
+    "look (at) something: Take a closer look at something.\n"
+    "get/drop something: Pick something up or drop something in your inventory.\n"
+    "go direction: Travel in a direction, or through a door/path.\n"
+    "use something: Use an item or object.\n"
+    "use item on something: Use an item or object on something in the room.\n"
+    "unlock/lock something: Locks or unlocks a door or container. You may need a key.\n"
+    "drink/eat something: Consume an item.\n"
+    "equip item: Equip a weapon or piece of armor.\n"
+    "attack (something): Uses your currently held weapon.\n"
+    "heavy attack (something): Stronger, but less accurrate. Chance to stun.\n"
+    "shoot: Attack with a ranged weapon.\n"
+    "reload: Reload the currently equipped weapon (requires ammo).\n"
+    "exorcise (something): Effect varies depending on the target.\n"
+    "defend: spend your turn dodging.\n"
+    "advance/retreat (on/from) (something): move towards or away from something.\n"
+    "open/close something: open or close a door or container.\n"
+    "read something: read a sign, note or book.\n\n"
+    "There are many other circumstantial commands to discover. Use the environment to your advantage. Try different approaches!")
+
+    return helpText
+
+
+#Dev commands
 def devCommand(player, command):
     if command == "dylanwantsagun":
         player.addItem(StandardItems.WeskersRevolver())
