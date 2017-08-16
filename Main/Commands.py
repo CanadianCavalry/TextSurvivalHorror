@@ -587,3 +587,18 @@ def devCommand(player, command):
     if command == "dylanwantsagun":
         player.addItem(StandardItems.WeskersRevolver())
         return "Now I just feel sorry for the demons."
+    elif command == "goodtogo":
+        player.heal(500)
+        return "Pumped up"
+    elif command == "cleanasawhistle":
+        player.decreaseIntox(100)
+        return "Sober"
+    elif command == "barneyismyhero":
+        player.increaseIntox(100)
+        return "Hammered"
+    elif command == "heyzeus":
+        player.increaseSpirit(100)
+        return "Saintly"
+    elif command == "walkindude":
+        player.decreaseSpirit(100)
+        return "The Antichrist"

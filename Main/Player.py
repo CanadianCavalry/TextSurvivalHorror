@@ -211,7 +211,7 @@ class Player(object):
             intoxicationString += "Hammered"
         elif self.intoxication < 90:
             intoxicationString += "Blacked Out"
-        elif self.intoxication < 100:
+        elif self.intoxication <= 100:
             intoxicationString += "Near Lethal"
             
         return intoxicationString
