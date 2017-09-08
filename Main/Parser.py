@@ -137,6 +137,7 @@ class Parser(object):
             resultString = Commands.look(self.state.player, self.target)
         elif (self.command == "inventory") or (self.command == "inv") or (self.command == "i") or (self.command == "items") or (self.command == "stuff"):
             self.command == "inventory"
+            resultString = Commands.inventory(self.state.player)
         elif (self.command == "help") or (self.command == "?") or (self.command == "commands") or (self.command == "controls"):
             self.command == "help"
             resultString = Commands.displayHelp()
