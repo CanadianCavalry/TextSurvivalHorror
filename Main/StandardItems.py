@@ -207,6 +207,17 @@ class Flask(Items.Alchohol):
 
         super(Flask, self).__init__(name, description, seenDescription, keywords, useDescription, alcoholAmount, **kwargs)
 
+class Whiskey(Items.Alchohol):
+    def __init__(self, **kwargs):
+        name="Bottle of Whiskey"
+        description="It's a half-full bottle of O'Malley's whiskey. Dirt cheap and tastes insipid, but unusually potent for whiskey."
+        seenDescription="There is a bottle of whiskey on the floor."
+        keywords="whiskey,whiskey bottle,alchohol,booze,bottle,half-full whiskey,half-empty whiskey,half-full whiskey bottle,half-empty whiskey bottle"
+        useDescription="You drink it. You can't say it does justice to Ireland's proud liquor tradition, but it's effective."
+        alcoholAmount=15
+
+        super(Whiskey, self).__init__(name, description, seenDescription, keywords, useDescription, alcoholAmount, **kwargs)
+
 class FirstAidKit(Items.Usable):
     def __init__(self, **kwargs):
         name="First Aid Kit"

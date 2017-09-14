@@ -581,10 +581,10 @@ def buildPrologue100(gameState):
     bedroom101 = AreasFeatures.Area(
         "Bedroom", 
         ["You are in your bedroom. It's furnished with a bed, chest of drawers, a large shelf, an armchair and a desk. "
-        "Atop the desk there is a bottle of whiskey and a computer. Dirty laundry, miscellaneous papers and empty alcohol "
+        "Atop the desk there is a computer. Dirty laundry, miscellaneous papers and empty alcohol "
         "bottles are strewn about the floor. On the walls there are a few decorations and a window looking out to the south. "
         "To your west is a door leading to your bathroom. To the north is another door your kitchen/living room area."
-        "\n\nYou're drunk and just want to hit the hay..."],
+        "\n\nIt's been a long day, you're drunk, and you just want to hit the hay..."],
         **{"size":2})
 
     #Links
@@ -599,9 +599,39 @@ def buildPrologue100(gameState):
     )
 
     #Features
-
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["It's your bed. It's time to jump in and surrender to sweet, sweet sleep..."],
+        "bed,bunk,sack,mattress,cot,your bed,your bunk,your cot,your sack,your mattress,your cot,my bed,my bunk,my sack,my mattress,my cot"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["It's the newest Macintosh model - a uMac. You're lucky you haven't had to pawn it for cash given how poor you are "
+        "these days.\nIf you claimed you used it for mostly productive purposes you'd be lying. These days you mainly use "
+        "it to download and play hundreds of Steam games, and for other forms of entertainment not mentioned in polite society."],
+        "computer,compy,comp,your comp,computer,your computer,beep-boop,your beep-boop"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["They're painted white. You've never liked your bedroom walls very much. The paint job is cracked and faded in various "
+        "spots, most of which you've tried to cover with photos, paintings and posters."],
+        "wall,walls,bedroom wall,bedroom walls"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["A beige recliner. You try not to think about how many hours you've spent sitting here getting wasted."],
+        "armchair,chair,bedroom chair,your armchair,your chair,your bedroom chair,my armchair,my chair,my bedroom chair"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["The desk's faded blue paint is marred by several moisture stains. It primarily exists to hold the computer, and extra bottles."],
+        "desk, computer desk, your desk, your computer desk"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["The dirty laundry covers seemingly a third of your bedroom floor. You'd at least push into a orderly heap if you weren't so drunk and tired. Time to get to bed..."],
+        "laundry,dirty laundry,clothes,clothing,dirty clothing,dirty clothes,your laundry,your dirty laundry,your clothes,your dirty clothes,my laundry,my dirty laundry,my clothes,my dirty clothes"
+    ))
 
     #Items
+    bedroom101.addItem(StandardItems.Whiskey(**{
+        "notTakenDesc":"A half-full bottle of whiskey is sitting on your desk.",
+        "initPickupDesc":"You pick up the half-full bottle. It's dirt cheap and tastes insipid, but more potent than most whiskey. A personal favorite."
+    }))
 
 
     #102 - BATHROOM
