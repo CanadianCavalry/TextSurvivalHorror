@@ -77,6 +77,18 @@ class Parser(object):
         elif (self.command == "north") or (self.command == "south") or (self.command == "east") or (self.command == "west"):
             resultString = Commands.go(self.state.player, self.command)
             self.command = "go"
+        elif (self.command == "n"):
+            resultString = Commands.go(self.state.player, "north")
+            self.command = "go"
+        elif (self.command == "s"):
+            resultString = Commands.go(self.state.player, "south")
+            self.command = "go"
+        elif (self.command == "e"):
+            resultString = Commands.go(self.state.player, "east")
+            self.command = "go"
+        elif (self.command == "w"):
+            resultString = Commands.go(self.state.player, "west")
+            self.command = "go"
         elif (self.command == "use") or (self.command == "activate"):
             self.command == "use"
             resultString = Commands.use(self.state.player, self.target)
@@ -114,7 +126,7 @@ class Parser(object):
             resultString = Commands.unlock(self.state.player, self.target)
         elif (self.command == "lock"):
             resultString = Commands.lock(self.state.player, self.target)
-        elif (self.command == "search"):
+        elif (self.command == "search") or (self.command == "check") or (self.command == "scrutinize") or (self.command == "analyze") or (self.command == "inspect"):
             resultString = Commands.search(self.state.player, self.target)
         elif (self.command == "drink"):
             resultString = Commands.drink(self.state.player, self.target)
@@ -132,7 +144,7 @@ class Parser(object):
             resultString = Commands.pull(self.state.player, self.target)
         elif (self.command == "cut"):
             resultString = Commands.cut(self.state.player, self.target)
-        elif (self.command == "look") or (self.command == "examine") or (self.command == "check") or (self.command == "scrutinize") or (self.command == "analyze") or (self.command == "inspect"):
+        elif (self.command == "look") or (self.command == "examine"):
             self.command == "look"
             resultString = Commands.look(self.state.player, self.target)
         elif (self.command == "inventory") or (self.command == "inv") or (self.command == "i") or (self.command == "items") or (self.command == "stuff"):
