@@ -28,12 +28,16 @@ class GameState(object):
         
     def addPlayer(self, player):
         self.player = player
+    
+    def spawnPlayer(self, player):
         self.player.currentLocation = self.areaList[0]
 
 def newGameState():
     state = GameState()
+    player = Player.Player()
+    state.addPlayer(player)
     Builder.buildWorld(state)
-    state.addPlayer(Player.Player())
+    state.spawnPlayer(player)
     state.returnOnEnter = False
     return state
 

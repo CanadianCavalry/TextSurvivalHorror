@@ -19,7 +19,11 @@ import UniqueNPCs
 #Tutorial section
 def buildCombatSimulator(gameState):
     #INTRO
-    introText = "Welcome to the tutorial! This area is intended to allow you to learn the basic game commands and practice fighting with various weapons. That said, it is still quite easy to die, so don't get complacent. To get started head through the north door, but before you head out, take a look at the table and make sure you are suitibly equipped. There's no coming back here once you leave.\n\n To get your bearings, type \"look\". To get a closer look at anything, type \"look\" followed by the object."
+    introText = ("Welcome to the tutorial! This area is intended to allow you to learn the basic game commands and practice "
+    "fighting with various weapons. That said, it is still quite easy to die, so don't get complacent. To get started head "
+    "through the north door, but before you head out, take a look at the table and make sure you are suitibly equipped. "
+    "There's no coming back here once you leave.\n\nTo get your bearings, type \"look\". To get a closer look at anything, "
+    "type \"look\" followed by the object.")
     gameState.introText = introText
 
     #Combat Test Environment
@@ -562,67 +566,98 @@ def buildWorld(gameState):
     
 def buildPrologue100(gameState):
     #INTRO
-    introText = "Intro text still goes here."
+    introText = ("Your life is in shambles. Once a respected priest, alcoholism put an end to your career years ago. Every "
+    "aspect of your life hurts. As you stare at your flask of cheap whiskey, you wonder what it would take to redeem one "
+    "such as yourself. They say God is all powerful and loving, yet can even God save those who refuse to help themselves? "
+    "You take another shot of whiskey. Oblivion - it seems - tastes very sweet indeed.\n\nLike too many nights in the past, "
+    "you find yourself sitting down in your bedroom armchair with a bottle of whiskey in hand. Drowsy from too much alcohol, "
+    "you long to bury yourself under your bedsheets and blissfully fall asleep. Escape reality even further.")
     gameState.introText = introText
 
-    #JACOBS ROOM
-    jacobsRoom101 = AreasFeatures.Area("Jacob's Room", ["This small room is well furnished with all of the comforts \
-you could ask for, including a bed, bookshelf, coffee table, dresser, tv and \
-chairs.\nIt even contains a personal bathroom. On the far wall hangs a small \
-painting next to the single window. Next to these is my closet. There is a door \
-to the west leading to the residential wing."])
-    
+    #Set starting stats for the player
+    gameState.player.intoxication = 30
+
+    #101 - BEDROOM
+    bedroom101 = AreasFeatures.Area(
+        "Bedroom", 
+        ["You are in your bedroom. It's furnished with a bed, chest of drawers, a large shelf, an armchair and a desk. "
+        "Atop the desk there is a bottle of whiskey and a computer. Dirty laundry, miscellaneous papers and empty alcohol "
+        "bottles are strewn about the floor. On the walls there are a few decorations and a window looking out to the south. "
+        "To your west is a door leading to your bathroom. To the north is another door your kitchen/living room area."
+        "\n\nYou're drunk and just want to hit the hay..."],
+        **{"size":2})
+
     #Links
     door101A = StandardFeatures.StandardOpenDoor(
-        ["A hefty blue wooden door."],
-        "east,door,east door,blue door,wood door,hallway"
+        ["A wooden door. It leads to your apartment's bathroom."],
+        "door,west,wooden door,west door,bathroom door"
     )
-    
-    #NPCs
-    
+
+    door101B = StandardFeatures.StandardOpenDoor(
+        ["A wooden door. It leads to your apartment's kitchen/living room."],
+        "door,north,wooden door,north door,living room door,livingroom door,kitchen door,kitchen/living room door"
+    )
+
     #Features
-    jacobsRoom101.addFeature(AreasFeatures.Feature("This tall, wooden bookshelf is filled with books on a variety of my favorite subjects - notably theology, history and literature. It also includes \na large red bible (NIV version)", "bookshelf,shelf"))
-    jacobsRoom101.addFeature(AreasFeatures.Feature("A beautiful painting by my brother, Fernando. It's of Jesus curing a blind man. The caption underneath reads 'Once I was blind, and now I see'. \nThe look of childlike surprise and utter gratitude on the mans face always fills me with hope.", "painting"))
-    jacobsRoom101.addFeature(AreasFeatures.Feature("A very comfortable queen sized bed. I've been in the habit of making it immediately after waking since I was a very small child.", "bed,queen bed"))
-    jacobsRoom101.addFeature(AreasFeatures.Feature("Contains my clothes","dresser"))
-    jacobsRoom101.addFeature(AreasFeatures.Feature("Two very comfortable armchairs. I often sit here while praying.","chair,chairs,armchair,armchairs"))
-    jacobsRoom101.addFeature(AreasFeatures.Feature("A small, personal bathroom complete with a sink, shower and toilet. Lately I've gotten into the habit of cleaning it on a weekly basis. \nIt often takes my mind off of my cravings.","bathroom,sink,toilet,shower"))
-    jacobsRoom101.addFeature(UniqueFeatures.JacobRoomWindow101())
-    jacobsRoom101.addFeature(AreasFeatures.Feature("This entertainment unit comes with a 42 inch LED, that includes cable and a PVR. On the bottom shelf are a variety of DVD's I've\n taken from The House library, as well as my personal collection of Dr. Who and Star Trek TNG box sets.","tv,entertinment stand,entertainment center"))              #Add ability to turn on)
-    
-    #Containers
-    coffeeTable101 = StandardFeatures.AlwaysOpenContainer(
-        "A heavy wood coffee table, about 2 feet high. Oak, if I had to guess. Looks brand new. There are a dozen or so papers and notes scattered across the top of it. ",
-        "coffee table,table"
-    )
-    jacobsRoom101.addFeature(coffeeTable101)
-    closet101 = AreasFeatures.Container(
-        "A fairly small closet, but big enough to hold a few sets of clothes. I haven't had much use for it since I've been here. Don't even remember what I put in it.",
-        "closet",
-        **{"openDesc":"The closet opens easily, though a little noisily.", "closeDesc":"The door slides closed."}
-    )
-    jacobsRoom101.addFeature(closet101)
-    
+
+
     #Items
-    coffeeTable101.addItem(StandardItems.Note("Notice on New Policies", "A note given to the residents about changes to the facilities policies since Father Malachi took over.", "A notice on house policy changes is on the table.", 1, "note,policy note,notice,policy notice,changes notice,policy changes notice", "There be changes to the policy, bitches."))
-    coffeeTable101.addItem(Items.Item("Guide to House Services", "To be filled", "A guide to house services is on the table.", 1, "guide,house guide,services guide,house services guide"))
-    coffeeTable101.addItem(Items.Item("Rejuvinax Note", "To be filled", "A note about Rejuvinax is on the table.", 1, "note,rejuvinax note,drug note"))
-    closet101.addItem(Items.Alchohol("Flask of Scotch", "A small silver flask which holds about 4 oz. I received this as a gift from a friend form church before they realized I had a problem. I'm sure they regretted giving it to me once they found out.", "There is a small silver flask on the floor.", 1, "flask,whiskey,scotch,silver flask,flask of scotch,alcohol,booze", "You unscrew the cap and drain the remaining liquid from the flask. Delicious.",10))
-    closet101.addItem(StandardItems.LeatherJacket())
-    
-    gameState.addArea(jacobsRoom101)
-    
-    #FIRST FLOOR HALLWAY
-    firstFloorHallway102 = AreasFeatures.Area("First Floor Hallway", 
-["The Residents wing contains all of the private living spaces for House residents. It includes 3 \
-floors with ten rooms each. Featuring a  gingerbread-coloured carpet and vermillion walls with fancy, five-bulbed lamps set \
-into them, the hallway is large and airy with an upper-class feel. Rooms 101-105 are on the east side of the hallway and Rooms \
-106-110 are on the west. Room 106 is my room, and the door to Room 104 is ajar. A set of stairs that leads up to the second \
-floor of the Residents wing can be accessed through this hallway. To the SOUTH is a door that leads into the Main Lobby, and another \
-door to the NORTH leads into the Essential Services area of the Residents Wing."])
-    
+
+
+    #102 - BATHROOM
+    bathroom102 = AreasFeatures.Area("Bathroom",
+        ["You are in your bathroom. It's tiny and hasn't been cleaned in months. In here there is a toilet, shower, "
+        "wastebasket, sink, sink mirror and a sink cabinet. To your east is a door leading to your bedroom."
+        "\n\nYou're drunk and just want to go to sleep..."],
+        **{"size":1})
+
     #Links
-    door102A = StandardFeatures.StandardOpenDoor(["A hefty blue wooden door. The room number is 106."], "west,door,west door,blue door,room 106,106,door 106,jacobs door,jacob door,my room")
-    door102A.makeSibling(door101A)
-    jacobsRoom101.connect(firstFloorHallway102, door101A)
-    firstFloorHallway102.connect(jacobsRoom101, door102A)
+    door102A = StandardFeatures.StandardOpenDoor(
+        ["A wooden door. It leads to your apartment's bedroom."],
+        "door,east,wooden door,east door,bedroom door"
+    )
+    door101A.makeSibling(door102A)
+    bathroom102.connect(bedroom101, door102A)
+    bedroom101.connect(bathroom102, door101A)
+
+
+    #Features
+
+
+    #Items
+
+
+    #Enemies
+
+    #103 - LIVING AREA
+    livingArea103 = AreasFeatures.Area("Living Area",
+        ["You are in your living area. It's divided between a living room and a tiny kitchen. Like the rest of your apartment "
+        "it's in a state of neglect. Several garbage bags are strewn across the floor and even on your couch. In the living "
+        "room there is a couch, a large painting, a chandelier, a few windows, a large bookshelf and a small closet. In the "
+        "kitchen there is a fridge, a sink and several drawers."
+        "To the south is a door leading back to your bedroom. To the north is a door that exits your apartment suite."
+        "\n\nYou're exhausted and drunk, and your body longs for sleep..."],
+        **{"size":3})
+
+    #Links
+    door103A = StandardFeatures.StandardOpenDoor(
+        ["A wooden door. It leads to your apartment's bedroom."],
+        "door,south,wooden door,south door,bedroom door"
+    )
+    door103A.makeSibling(door101B)
+    livingArea103.connect(bedroom101, door103A)
+    bedroom101.connect(livingArea103, door101B)
+
+
+    #Features
+
+
+    #Items
+
+
+    #Enemies
+
+
+    spawnLocation = bedroom101
+
+    gameState.addArea(spawnLocation)

@@ -14,6 +14,20 @@ class BentHostSurvivor(NPCs.NPC):
             resultString += "\n" + self.dropDesc
         return resultString
 
+    def ask(self, keyword):
+        matching = list()
+        for key,item in self.dialogueTree.iteritems():
+            keyList = key.split(",")
+            if keyword in keyList:
+                matching.append(item)
+                
+        if len(matching) == 0:
+            return "They don't have the strength to answer you.", True
+        elif len(matching) > 1:
+            return "You'll need to be more specific.", True
+        else:
+            return matching[0].response, True
+
 class BentHostSurvivorMale(BentHostSurvivor):
     def __init__(self):
         self.dropDesc = "Unable to speak properly, he wordlessly pulls something from his clothes and holds it out with a shaking hand. It tumbles to the floor."
