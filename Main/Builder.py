@@ -628,8 +628,62 @@ def buildPrologue100(gameState):
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
         ["The dirty laundry covers seemingly a third of your bedroom floor. You'd at least push into a orderly heap if you weren't so drunk and tired. Time to get to bed..."],
-        "laundry,dirty laundry,clothes,clothing,dirty clothing,dirty clothes,your laundry,your dirty laundry,your clothes,your dirty clothes,my laundry,my dirty laundry,my clothes,my dirty clothes"
+        "laundry,dirty laundry,clothes,clothing,dirty clothing,dirty clothes"
     ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["An assortment of photos, paintings and posters you've put up on the wall."],
+        "decorations,decoration"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["They show a series of dreamlike scenes. All are captioned by quotes from famous philosophers and theologians. The most prominant shows a person "
+        "staring at their reflection in a mirror. A quote from Immanuel Kant at the bottom reads \"God is a necessary postulate for moral reason, for "
+        "only he can garuntee that happiness will be proportioned to virtue.\""],
+        "posters,poster"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["Some of these are reproductions of works by famous impressionists. Others are scenes from the Bible. The largest painting shows an artist's "
+        "rendition of Jesus bending down to comfort a leper. You notice with surprise that the leper's face is turned defiantly away, "
+        "something you don't remember seeing before."],
+        "paintings,painting,artwork,art"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["Little windows to better days. They're photos of you, your friends and your family and a few places you've visited. Your walls were once "
+        "covered with photos of church experiences. After a while they became too painful to look at."],
+        "photo,photos,pictures,photographs,photograp,family photos,family photo"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["They're a mix of pizza delivery menus, receipts, written notes and long-overdue bills. You're far too tired to sort through "
+        "these right now. Like usual."],
+        "papers,scraps,scrap papers,scrap paper,miscellaneous papers,miscellaneous paper"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["A few dozen empty bottles of beer lay scattered next to your armchair. Staring at these just depresses you."],
+        "bottles,bottle,empty bottles,empty bottle,alcohol bottles,alcohol bottle,booze bottle,booze bottles"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["Where you keep all your clothing apart from your shoes and coat(which are in the small closet in the your living room). The top is dusty "
+        "and covered with stains."],
+        "drawers,chest,chest of drawers,dresser"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["This sturdy oak shelf houses various books and some personal effects. On it's top level rests a few candles and some religious items."],
+        "shelf,wooden shelf,oak shelf,bedroom shelf"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["An assortment of about four dozen books. Among them are classic works about theology, philosophy and history as well as modern fantasy and "
+        "sci-fi novels. You've read every one of them from cover to cover. If you're so smart, how did your life go so wrong?"],
+        "book,books,tomes,tome,paperback,paperbacks"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["These white and red advent candles are arranged in a semicircle. You remember receiving these as a gift from a fellow priest."],
+        "candles,candle,advent candles"
+    ))
+    bedroom101.addFeature(AreasFeatures.Feature(
+        ["It looks south out to your apartment's parking lot. Beyond it, you can see a few buildings and streets beneath a overcast night sky. "
+        "If it was day, you could catch just a glimpse of the glimmering ocean out this window - an ocean you grew you up with and adore. But it's dark now."],
+        "window,windows"
+    ))
+
 
     #Items
     bedroom101.addItem(StandardItems.Whiskey(**{
