@@ -354,6 +354,7 @@ class Enemy(object):
         
     def killEffect(self, player, attackType):
         player.decreaseIntox(4)
+        return ""
 
     def takeDamage(self, damageAmount):
         modDamageAmount = int(damageAmount - (damageAmount * (float(self.armor) / 100)))

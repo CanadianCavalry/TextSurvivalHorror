@@ -43,9 +43,10 @@ def newGameState():
 
 def newSimulationState():
     state = GameState()
-    #Builder.buildAreaOne200(state) #Debug for encounter 1
+    player = Player.Player()
+    state.addPlayer(player)
     Builder.buildCombatSimulator(state)
-    state.addPlayer(Player.Player())
+    state.spawnPlayer(player)
     state.returnOnEnter = False
     return state
 
@@ -57,6 +58,7 @@ def save(state):
 def loadState():
     with open(SAVEGAME_FILENAME, 'r') as savegame:
         state = jsonpickle.decode(savegame.read())
+        state.introText = "Game Loaded"
         return state
     
 def quit():

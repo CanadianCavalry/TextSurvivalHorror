@@ -122,7 +122,7 @@ def buildCombatSimulator(gameState):
 
     door002B = StandardFeatures.StandardLockingDoor(
         ["A steel door. It's battered and dented, and has a large, rust colored stain near the handle."],
-        "west,west door,door,metal door,steel door",
+        "west,west door,door,metal door,steel door,library,library door",
         False,
         True,
         key009A)
@@ -181,6 +181,10 @@ def buildCombatSimulator(gameState):
 
     #Features
     libraryFoyer003.addFeature(AreasFeatures.Feature(
+        ["This filing cabinet is in a serious state of disrepair. It's covered in dents and scratches, and the drawers have actually rusted completely shut."],
+        "cabinets,cabinet,file cabinet,file cabinets,file drawers,filing cabinets,filing cabinet"
+    ))
+    libraryFoyer003.addFeature(AreasFeatures.Feature(
         ["A couple of cheap metal folding chairs. They look incredibly uncomfortable."],
         "chair,chairs,metal chair,metal chairs"
     ))
@@ -189,13 +193,13 @@ def buildCombatSimulator(gameState):
         "it used to be green. It has single drawer in it."],
         "desk,wood desk,wooden desk"
     ))
-
     libraryDeskDrawer = AreasFeatures.Container(
         ["Flimsy and creaky, just like the desk it's attached to."],
         "drawer,desk drawer",
         **{"openDesc":"You half expect it to break, but it slides open with a loud squeak.", "closeDesc":"You slide the drawer closed."}
     )
-    
+
+    #Items
     libraryDeskDrawer.addItem(StandardItems.FirstAidKit(**{
         "notTakenDesc":"A first aid kit is lying in the drawer amongst the pens and loose paper."
         }))
@@ -205,7 +209,7 @@ def buildCombatSimulator(gameState):
     libraryEast004 = AreasFeatures.Area(
         "Library - East Wing", 
         ["This part of the library is a mess, books scattered across the floor, shelves knocked over or slanted precariously over "
-        "the aisle. One massive shelf in particular is leaning so far over you're amazed it's still upright. There is what looks like"
+        "the aisle. One massive shelf in particular is leaning so far over you're amazed it's still upright. There is what looks like "
         "a reception desk by the east wall near the door. Most of the aisles are blocked or "
         "otherwise inaccessible, but it looks like you could work your way further to the west. You also see a heavy duty looking security "
         "door leading to the south, with a sign above it which reads \"Archives\", and an oak door leading east.",
