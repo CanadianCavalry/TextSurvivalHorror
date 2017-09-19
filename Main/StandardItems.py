@@ -41,9 +41,6 @@ class LongSword(Items.MeleeWeapon):
 
         kwargs.update({
             "stunChance":20,
-            #"initSeenDesc":"A large sword has been thrust into wooden floor here. It seems to glow faintly at first, then fades.",
-            #"notTakenDesc":"A large sword has been thrust into wooden floor here.",
-            #"initPickupDesc":"With considerable effort, you pull the blade free from the ground. It's lighter than you expected.",
             "stunlength": 2,
             "defenseBonus":15,
             "attackDesc":"You swing your blade."
@@ -51,12 +48,7 @@ class LongSword(Items.MeleeWeapon):
 
         super(LongSword, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)
         
-#class Scalpel(Items.MeleeWeapon):
-#    
-#    def __init__(self):
-#        super(Scalpel, self).__init__("Scalpel201", "A common surgical tool. Sharp and lightweight, but its small size and tiny reach make it a poor weapon.", 
-#                                      "A scalpal is lying on the ground.", 1, "scalpal", 5, 11, 1, 60, 15, 0)
-        
+
 class KitchenKnife(Items.MeleeWeapon):
     
     def __init__(self, **kwargs):

@@ -174,22 +174,14 @@ class Player(object):
         spiritString = ""
         if self.spirit >= 90:
             spiritString += "Saint Like"
-        elif self.spirit >= 75:
-            spiritString += "Pious"
-        elif self.spirit >= 68:
-            spiritString += "Faithful"
-        elif self.spirit >= 59:
+        elif self.spirit >= 70:
             spiritString += "Good"
         elif self.spirit >= 50:
             spiritString += "Lukewarm"
-        elif self.spirit >= 40:
-            spiritString += "Impure"
         elif self.spirit >= 30:
-            spiritString += "Sinful"
-        elif self.spirit >= 20:
-            spiritString += "Evil"
+            spiritString += "Corrupt"
         elif self.spirit >= 1:
-            spiritString += "Diabolical"
+            spiritString += "Evil"
         elif self.spirit == 0:
             spiritString += "Satanic"
             
@@ -199,18 +191,14 @@ class Player(object):
         intoxicationString = ""
         if self.intoxication == 0:
             intoxicationString += "Sober"
-        elif self.intoxication < 10:
-            intoxicationString += "Tipsy"
-        elif self.intoxication < 25:
+        elif self.intoxication < 20:
             intoxicationString += "Buzzed"
         elif self.intoxication < 40:
             intoxicationString += "Drunk"
-        elif self.intoxication < 60:
-            intoxicationString += "Very Drunk"
-        elif self.intoxication < 80:
+        elif self.intoxication < 65:
             intoxicationString += "Hammered"
         elif self.intoxication < 90:
-            intoxicationString += "Blacked Out"
+            intoxicationString += "Blacking Out"
         elif self.intoxication <= 100:
             intoxicationString += "Near Lethal"
             

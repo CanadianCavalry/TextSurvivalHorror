@@ -399,6 +399,11 @@ class Alchohol(Drinkable):
         spiritDecrease = self.alcoholAmount / 2
         if spiritDecrease > 10:
             spiritDecrease = 10
+        decreaseCap = player.spirit - 50
+        if decreaseCap <= 0:
+            decreaseCap = 0
+        if decreaseCap < spiritDecrease:
+            spiritDecrease = decreaseCap
         player.decreaseSpirit(spiritDecrease)
         self.currentLocation.removeItem(self)
 

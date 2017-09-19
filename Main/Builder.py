@@ -583,8 +583,8 @@ def buildPrologue100(gameState):
 
     #101 - BEDROOM
     bedroom101 = AreasFeatures.Area(
-        "Bedroom", 
-        ["You are in your bedroom. It's furnished with a bed, chest of drawers, a large shelf, an armchair and a desk. "
+        name="Bedroom", 
+        description=["You are in your bedroom. It's furnished with a bed, chest of drawers, a large shelf, an armchair and a desk. "
         "Atop the desk there is a computer. Dirty laundry, miscellaneous papers and empty alcohol "
         "bottles are strewn about the floor. On the walls there are a few decorations and a window looking out to the south. "
         "To your west is a door leading to your bathroom. To the north is another door your kitchen/living room area."
@@ -593,95 +593,95 @@ def buildPrologue100(gameState):
 
     #Links
     door101A = StandardFeatures.StandardOpenDoor(
-        ["A wooden door. It leads to your apartment's bathroom."],
-        "door,west,wooden door,west door,bathroom door"
+        description=["A wooden door. It leads to your apartment's bathroom."],
+        keywords="door,west,wooden door,west door,bathroom door"
     )
 
     door101B = StandardFeatures.StandardOpenDoor(
-        ["A wooden door. It leads to your apartment's kitchen/living room."],
-        "door,north,wooden door,north door,living room door,livingroom door,kitchen door,kitchen/living room door"
+        description=["A wooden door. It leads to your apartment's kitchen/living room."],
+        keywords="door,north,wooden door,north door,living room door,livingroom door,kitchen door,kitchen/living room door"
     )
 
     #Features
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["It's your bed. It's time to jump in and surrender to sweet, sweet sleep..."],
-        "bed,bunk,sack,mattress,cot,your bed,your bunk,your cot,your sack,your mattress,your cot,my bed,my bunk,my sack,my mattress,my cot"
+        description=["It's your bed. It's time to jump in and surrender to sweet, sweet sleep..."],
+        keywords="bed,bunk,sack,mattress,cot,your bed,your bunk,your cot,your sack,your mattress,your cot,my bed,my bunk,my sack,my mattress,my cot"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["It's the newest Macintosh model - a uMac. You're lucky you haven't had to pawn it for cash given how poor you are "
+        description=["It's the newest Macintosh model - a uMac. You're lucky you haven't had to pawn it for cash given how poor you are "
         "these days.\nIf you claimed you used it for mostly productive purposes you'd be lying. These days you mainly use "
         "it to download and play hundreds of Steam games, and for other forms of entertainment not mentioned in polite society."],
-        "computer,compy,comp,your comp,computer,your computer,beep-boop,your beep-boop"
+        keywords="computer,compy,comp,your comp,computer,your computer,beep-boop,your beep-boop"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["They're painted white. You've never liked your bedroom walls very much. The paint job is cracked and faded in various "
+        description=["They're painted white. You've never liked your bedroom walls very much. The paint job is cracked and faded in various "
         "spots, most of which you've tried to cover with photos, paintings and posters."],
-        "wall,walls,bedroom wall,bedroom walls"
+        keywords="wall,walls,bedroom wall,bedroom walls"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["A beige recliner. You try not to think about how many hours you've spent sitting here getting wasted."],
-        "armchair,chair,bedroom chair,your armchair,your chair,your bedroom chair,my armchair,my chair,my bedroom chair"
+        description=["A beige recliner. You try not to think about how many hours you've spent sitting here getting wasted."],
+        keywords="armchair,chair,bedroom chair,your armchair,your chair,your bedroom chair,my armchair,my chair,my bedroom chair"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["The desk's faded blue paint is marred by several moisture stains. It primarily exists to hold the computer, and extra bottles."],
-        "desk, computer desk, your desk, your computer desk"
+        description=["The desk's faded blue paint is marred by several moisture stains. It primarily exists to hold the computer, and extra bottles."],
+        keywords="desk, computer desk, your desk, your computer desk"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["The dirty laundry covers seemingly a third of your bedroom floor. You'd at least push into a orderly heap if you weren't so drunk and tired. Time to get to bed..."],
-        "laundry,dirty laundry,clothes,clothing,dirty clothing,dirty clothes"
+        description=["The dirty laundry covers seemingly a third of your bedroom floor. You'd at least push into a orderly heap if you weren't so drunk and tired. Time to get to bed..."],
+        keywords="laundry,dirty laundry,clothes,clothing,dirty clothing,dirty clothes"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["An assortment of photos, paintings and posters you've put up on the wall."],
-        "decorations,decoration"
+        description=["An assortment of photos, paintings and posters you've put up on the wall."],
+        keywords="decorations,decoration"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["They show a series of dreamlike scenes. All are captioned by quotes from famous philosophers and theologians. The most prominant shows a person "
+        description=["They show a series of dreamlike scenes. All are captioned by quotes from famous philosophers and theologians. The most prominant shows a person "
         "staring at their reflection in a mirror. A quote from Immanuel Kant at the bottom reads \"God is a necessary postulate for moral reason, for "
         "only he can garuntee that happiness will be proportioned to virtue.\""],
-        "posters,poster"
+        keywords="posters,poster"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["Some of these are reproductions of works by famous impressionists. Others are scenes from the Bible. The largest painting shows an artist's "
+        description=["Some of these are reproductions of works by famous impressionists. Others are scenes from the Bible. The largest painting shows an artist's "
         "rendition of Jesus bending down to comfort a leper. You notice with surprise that the leper's face is turned defiantly away, "
         "something you don't remember seeing before."],
-        "paintings,painting,artwork,art"
+        keywords="paintings,painting,artwork,art"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["Little windows to better days. They're photos of you, your friends and your family and a few places you've visited. Your walls were once "
+        description=["Little windows to better days. They're photos of you, your friends and your family and a few places you've visited. Your walls were once "
         "covered with photos of church experiences. After a while they became too painful to look at."],
-        "photo,photos,pictures,photographs,photograp,family photos,family photo"
+        keywords="photo,photos,pictures,photographs,photograp,family photos,family photo"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["They're a mix of pizza delivery menus, receipts, written notes and long-overdue bills. You're far too tired to sort through "
+        description=["They're a mix of pizza delivery menus, receipts, written notes and long-overdue bills. You're far too tired to sort through "
         "these right now. Like usual."],
-        "papers,scraps,scrap papers,scrap paper,miscellaneous papers,miscellaneous paper"
+        keywords="papers,scraps,scrap papers,scrap paper,miscellaneous papers,miscellaneous paper"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["A few dozen empty bottles of beer lay scattered next to your armchair. Staring at these just depresses you."],
-        "bottles,bottle,empty bottles,empty bottle,alcohol bottles,alcohol bottle,booze bottle,booze bottles"
+        description=["A few dozen empty bottles of beer lay scattered next to your armchair. Staring at these just depresses you."],
+        keywords="bottles,bottle,empty bottles,empty bottle,alcohol bottles,alcohol bottle,booze bottle,booze bottles"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["Where you keep all your clothing apart from your shoes and coat(which are in the small closet in the your living room). The top is dusty "
+        description=["Where you keep all your clothing apart from your shoes and coat(which are in the small closet in the your living room). The top is dusty "
         "and covered with stains."],
-        "drawers,chest,chest of drawers,dresser"
+        keywords="drawers,chest,chest of drawers,dresser"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["This sturdy oak shelf houses various books and some personal effects. On it's top level rests a few candles and some religious items."],
-        "shelf,wooden shelf,oak shelf,bedroom shelf"
+        description=["This sturdy oak shelf houses various books and some personal effects. On it's top level rests a few candles and some religious items."],
+        keywords="shelf,wooden shelf,oak shelf,bedroom shelf"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["An assortment of about four dozen books. Among them are classic works about theology, philosophy and history as well as modern fantasy and "
+        description=["An assortment of about four dozen books. Among them are classic works about theology, philosophy and history as well as modern fantasy and "
         "sci-fi novels. You've read every one of them from cover to cover. If you're so smart, how did your life go so wrong?"],
-        "book,books,tomes,tome,paperback,paperbacks"
+        keywords="book,books,tomes,tome,paperback,paperbacks"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["These white and red advent candles are arranged in a semicircle. You remember receiving these as a gift from a fellow priest."],
-        "candles,candle,advent candles"
+        description=["These white and red advent candles are arranged in a semicircle. You remember receiving these as a gift from a fellow priest."],
+        keywords="candles,candle,advent candles"
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
-        ["It looks south out to your apartment's parking lot. Beyond it, you can see a few buildings and streets beneath a overcast night sky. "
+        description=["It looks south out to your apartment's parking lot. Beyond it, you can see a few buildings and streets beneath a overcast night sky. "
         "If it was day, you could catch just a glimpse of the glimmering ocean out this window - an ocean you grew you up with and adore. But it's dark now."],
-        "window,windows"
+        keywords="window,windows"
     ))
 
 
@@ -690,7 +690,6 @@ def buildPrologue100(gameState):
         "notTakenDesc":"A half-full bottle of whiskey is sitting on your desk.",
         "initPickupDesc":"You pick up the half-full bottle. It's dirt cheap and tastes insipid, but more potent than most whiskey. A personal favorite."
     }))
-
 
     #102 - BATHROOM
     bathroom102 = AreasFeatures.Area("Bathroom",
