@@ -174,6 +174,7 @@ class Container(Feature):
         self.openDesc = "You open it."
         self.closeDesc = "You close it."
         self.isOpenDesc = "It's open."
+        self.insideDesc = ""
         super(Container, self).__init__(description, keywords, **kwargs)
         
     def addItem(self, itemToAdd):
@@ -210,7 +211,7 @@ class Container(Feature):
     def lookAt(self):
         desc = self.description[self.state]
         if self.isOpen:
-            desc += " " + self.isOpenDesc
+            desc += " " + self.isOpenDesc + " " + self.insideDesc
             if self.itemsContained:
                 desc += self.displayContents()
         else:
@@ -235,11 +236,13 @@ class Container(Feature):
             return "It is already open."
         else:
             self.isOpen = True
-            desc = self.openDesc + "\n"
+            desc = self.openDesc
+            if self.insideDesc:
+                desc += "\n" + self.insideDesc
             if self.itemsContained:
                 desc += self.displayContents()
             else:
-                desc += "It appears to be empty."
+                desc += "\nThere doesn't appear to be anything interesting inside."
         return desc,True
 
     def close(self, player):

@@ -181,7 +181,7 @@ def buildCombatSimulator(gameState):
 
     #Features
     libraryFoyer003.addFeature(AreasFeatures.Feature(
-        ["This filing cabinet is in a serious state of disrepair. It's covered in dents and scratches, and the drawers have actually rusted completely shut."],
+        ["These filing cabinets are in a serious state of disrepair. They are covered in dents and scratches, and the drawers have actually rusted completely shut."],
         "cabinets,cabinet,file cabinet,file cabinets,file drawers,filing cabinets,filing cabinet"
     ))
     libraryFoyer003.addFeature(AreasFeatures.Feature(
@@ -712,6 +712,57 @@ def buildPrologue100(gameState):
 
 
     #Features
+    bathroom102.addFeature(AreasFeatures.Feature(
+        description=["The white-tiled linoleum floor has several dirty footprint marks around it."],
+        keywords="floor,ground,down,bathroom floor"
+    ))
+    bathroom102.addFeature(AreasFeatures.Feature(
+        description=["You haven't cleaned it in ages, so much of it is covered in grime and mold."],
+        keywords="toilet,john"
+    ))
+    bathroom102.addFeature(AreasFeatures.Feature(
+        description=["They are painted a robin's egg blue. You've always liked the colour. Too bad so much of the paint is peeling off."],
+        keywords="walls,wall,bathroom walls,bathroom wall"
+    ))
+    bathroom102.addFeature(AreasFeatures.Feature(
+        description=["It's very dirty and covered with grease and grime. You'd give it a good wipe but you're not sure you'd be able to muster the energy or willpower."],
+        keywords="sink,bathroom sink,my sink"
+    ))
+    bathroom102.addFeature(AreasFeatures.Feature(
+        description=["This circular mirror is set into the wall just above your sink. It's dirty and needs a good dusting and wiping. You notice there are some small red marks in top left corner of the mirror."],
+        keywords="mirror,bathroom mirror,my mirror"
+    ))
+    bathroom102.addFeature(AreasFeatures.Container(
+        description=["A small, white cabinet set beneath your sink. Utterly fascinating."],
+        keywords="cabinet,sink cabinet,bathroom cabinet,medicine cabinet",
+        **{
+            "insideDesc":"Inside there are a few bars of soap, some toilet paper and some cleaning supplies."
+        }
+    ))
+    bathroom102.addFeature(AreasFeatures.Feature(
+        description=["It's very ordinary toilet paper. Value brand."],
+        keywords="toilet paper,tp"
+    ))
+    bathroom102.addFeature(AreasFeatures.Feature(
+        description=["There's a toilet plunger and some cleaning solution. You should probably use these to clean the place at some point, but not now. Sleep calls..."],
+        keywords="cleaning supplies,plunger,cleaner,supplies"
+    ))
+    bathroom102.addFeature(AreasFeatures.Feature(
+        description=["A few bars of soap.\n\n*YAWN*"],
+        keywords="soap,bar of soap,soap bar"
+    ))
+    bathroom102.addFeature(AreasFeatures.Feature(
+        description=["They look like bloodstains. You can't help but think they almost look a bit like a face grinning at you. They're probably from one one of the many times you've blacked out in here."],
+        keywords="red marks,red stains,marks,bloodstains,blood stains"
+    ))
+    bathroom102.addFeature(AreasFeatures.Feature(
+        description=["It's your shower. Nothing particularly interesting about it."],
+        keywords="shower,bathroom shower,my shower"
+    ))
+    bathroom102.addFeature(AreasFeatures.Feature(
+        description=["An orange wastebasket that's overflowing with garbage."],
+        keywords="wastebasket,waste basket,garbage,garbage can,garbage bin,rubbish bin"
+    ))
 
 
     #Items
