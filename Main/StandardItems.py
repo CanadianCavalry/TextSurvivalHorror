@@ -239,5 +239,3 @@ class FirstAidKit(Items.Usable):
         player.heal(40)
         self.currentLocation.removeItem(self)
         return self.useDescription, True
-
-#Misc

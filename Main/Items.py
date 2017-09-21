@@ -138,7 +138,24 @@ class Armor(Item):
 
     def wear(self, player):
         return self.equip(player)
-    
+  
+class OffHandItem(Item):
+    def __init__(self, name, description, seenDescription, keywords, **kwargs):
+        self.size = 1
+        super(OffHandItem, self).__init__(name, description, seenDescription, keywords, **kwargs)
+
+    def equip(self, player):
+        if not(self.keywords in player.inventory):
+            return "I need to pick it up first."
+
+        if player.offHand == self:
+            return "That is already equipped."
+        if self.size == 1:
+            if player.mainHand == player.offHand:
+                player.mainHand = None
+            player.offHand = self
+            return "You equip the " + self.name,True
+
 class Weapon(Item):
     
     def __init__(self, name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs):

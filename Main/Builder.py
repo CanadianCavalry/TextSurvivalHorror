@@ -691,6 +691,9 @@ def buildPrologue100(gameState):
         "initPickupDesc":"You pick up the half-full bottle. It's dirt cheap and tastes insipid, but more potent than most whiskey. A personal favorite."
     }))
 
+    bedroom101.addItem(UniqueItems.Bible())
+    bedroom101.addItem(UniqueItems.Crucifix())
+
     #102 - BATHROOM
     bathroom102 = AreasFeatures.Area("Bathroom",
         ["You are in your bathroom. It's tiny and hasn't been cleaned in months. In here there is a toilet, shower, "

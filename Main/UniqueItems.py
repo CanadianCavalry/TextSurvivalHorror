@@ -8,29 +8,31 @@ import UniqueFeatures
 import StandardItems
 
 
-class Scalpel201(Items.MeleeWeapon):
-    
-    def __init__(self):
-        super(Scalpel201, self).__init__("Scalpel", "I could almost reach it if I stretched...", 
-                                      "There is a scalpel almost within reach...", 1, "scalpal,scalpel", 5, 11, 1, 60, 15, 0)
+#Misc
+class Bible(Items.Readable):
+    def __init__(self, **kwargs):
+        name="Bible"
+        description="Bound in black, NIV translation. "
+        seenDescription="A small black bible is on the floor."
+        keywords="bible,black bible,black book,book,NIV bible,NIV version bible,my bible"
 
-        self.setInitPickupDesc("You strain against the rope as hard as you can, your fingers barely brushing the handle of the scalpel. The cords begin to cut into your wrist and sweat beads \
-down your face as you force your hand the last couple of inches, and are rewarded with the feel of cold metal in your palm.")
-        self.makeInAccessible("You suddenly jerk forward and try to grab the scalpel, but the man grabs your hand and stops you. \"No, no exorcist!\" he says. That's my toy, not yours!\"")
-        
-    def useOn(self, player, recipient):
-        if isinstance(recipient, UniqueFeatures.Bindings201):
-            return recipient.cutBindings(player)
-        else:
-            return "I don't need to use the scalpel on that."
-    
-class TortureTools201(Items.Item):
-    
-    def __init__(self):
-        name = "Tools"
-        description = "The tools are rusty and smeared with dark stains."
-        seenDescription = "Spread across the table is a collection of implements including pliers, fish hooks, a long serrated wire, and a trephine."
-        quantity = 1
-        keywords = "tools,tool,tray,pliers,hooks,fish hook,wire,serreted wire,trephine"
-        Items.Item.__init__(self, name, description, seenDescription, quantity, keywords)
-        self.makeInAccessible("They are just out of reach. I can probably reach the scalpel if I stretch...")
+        kwargs.update({
+            "initPickupDesc":"You remember dissecting its passages in detail when you were in seminary.",
+            "notTakenDesc":"Your bible is resting on the shelf."
+        })
+
+        super(Bible, self).__init__(name, description, seenDescription, keywords, **kwargs)
+
+class Crucifix(Items.OffHandItem):
+    def __init__(self, **kwargs):
+        name="Crucifix"
+        description="This exquisite silver crucifix was carved by a master sculptor. It was a gift from your parents to celebrate your priesthood."
+        seenDescription="An elegant silver crucifix is on the ground."
+        keywords="crucifix,cross,silver crucifix,silver cross,my cross,my crucifix"
+
+        kwargs.update({
+            "initPickupDesc":"Even now, looking at it gives you some hope. Maybe God will lift you out of your darkness yet...",
+            "notTakenDesc":"An engraved silver crucifix is on the shelf."
+        })
+
+        super(Crucifix, self).__init__(name, description, seenDescription, keywords, **kwargs)
