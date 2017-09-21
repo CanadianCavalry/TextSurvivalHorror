@@ -214,6 +214,8 @@ class Container(Feature):
             desc += " " + self.isOpenDesc + " " + self.insideDesc
             if self.itemsContained:
                 desc += self.displayContents()
+            else:
+                desc += "\nThere doesn't appear to be anything interesting inside."
         else:
             desc += " It is closed."
 

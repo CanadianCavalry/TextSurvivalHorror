@@ -725,11 +725,13 @@ def buildPrologue100(gameState):
         keywords="walls,wall,bathroom walls,bathroom wall"
     ))
     bathroom102.addFeature(AreasFeatures.Feature(
-        description=["It's very dirty and covered with grease and grime. You'd give it a good wipe but you're not sure you'd be able to muster the energy or willpower."],
+        description=["It's very dirty and covered with grease and grime. You'd give it a good wipe but you're not sure you'd be "
+        "able to muster the energy or willpower."],
         keywords="sink,bathroom sink,my sink"
     ))
     bathroom102.addFeature(AreasFeatures.Feature(
-        description=["This circular mirror is set into the wall just above your sink. It's dirty and needs a good dusting and wiping. You notice there are some small red marks in top left corner of the mirror."],
+        description=["This circular mirror is set into the wall just above your sink. It's dirty and needs a good dusting and "
+        "wiping. You notice there are some small red marks in top left corner of the mirror."],
         keywords="mirror,bathroom mirror,my mirror"
     ))
     bathroom102.addFeature(AreasFeatures.Container(
@@ -744,7 +746,8 @@ def buildPrologue100(gameState):
         keywords="toilet paper,tp"
     ))
     bathroom102.addFeature(AreasFeatures.Feature(
-        description=["There's a toilet plunger and some cleaning solution. You should probably use these to clean the place at some point, but not now. Sleep calls..."],
+        description=["There's a toilet plunger and some cleaning solution. You should probably use these to clean the place "
+        "at some point, but not now. Sleep calls..."],
         keywords="cleaning supplies,plunger,cleaner,supplies"
     ))
     bathroom102.addFeature(AreasFeatures.Feature(
@@ -752,7 +755,8 @@ def buildPrologue100(gameState):
         keywords="soap,bar of soap,soap bar"
     ))
     bathroom102.addFeature(AreasFeatures.Feature(
-        description=["They look like bloodstains. You can't help but think they almost look a bit like a face grinning at you. They're probably from one one of the many times you've blacked out in here."],
+        description=["They look like bloodstains. You can't help but think they almost look a bit like a face grinning at you. "
+        "They're probably from one one of the many times you've blacked out in here."],
         keywords="red marks,red stains,marks,bloodstains,blood stains"
     ))
     bathroom102.addFeature(AreasFeatures.Feature(
@@ -774,7 +778,7 @@ def buildPrologue100(gameState):
     livingArea103 = AreasFeatures.Area("Living Area",
         ["You are in your living area. It's divided between a living room and a tiny kitchen. Like the rest of your apartment "
         "it's in a state of neglect. Several garbage bags are strewn across the floor and even on your couch. In the living "
-        "room there is a couch, a large painting, a chandelier, a few windows, a large bookshelf and a small closet. In the "
+        "room there is a couch, a large painting, a few windows, a large bookshelf and a closet. In the "
         "kitchen there is a fridge, a sink and several drawers."
         "To the south is a door leading back to your bedroom. To the north is a door that exits your apartment suite."
         "\n\nYou're exhausted and drunk, and your body longs for sleep..."],
@@ -791,6 +795,90 @@ def buildPrologue100(gameState):
 
 
     #Features
+    livingArea103.addFeature(AreasFeatures.Feature(
+        description=["If you had to judge whether the kitchen or living room floor is less filthy you'd say the latter. After "
+        "all, smaller spaces can't fit as much mess as large ones. You can't believe you once had the willpower to clean your floors on a weekly basis."],
+        keywords="living room floor,kitchen floor,living area floor,floor,ground,down"
+    ))
+    livingArea103.addFeature(AreasFeatures.Feature(
+        description=["These dull white walls are covered with puncture marks from tacks and nails. Once upon a time, a decent "
+        "collection of paintings hung on the walls of your living room."],
+        keywords="living room walls,kitchen walls,living area walls,walls,wall,ground,living room wall,kitchen wall,living area wall"
+    ))
+    livingArea103.addFeature(AreasFeatures.Feature(
+        description=["It's a black, leather couch that seats three. A few full garbage bags are piled on top of it. You've never been one for chores."],
+        keywords="couch,my couch,sofa,my sofa"
+    ))
+    livingArea103.addFeature(AreasFeatures.Feature(
+        description=["This painting shows an Islamic mullah, a Jewish rabbi and a Christian priest enjoying a picnic together. "
+        "Guests used to comment that it seemed to make them feel welcome. Back when you had guests that is."],
+        keywords="painting,large painting,my painting,my large painting"
+    ))
+    livingArea103.addFeature(AreasFeatures.Feature(
+        description=["Some look east and another south of your apartment. Unfortunately, any good views they might offer of the city are are obstructed "
+        "by trees and buildings. Most of them don't even let in sunlight properly."],
+        keywords="windows,living room window,window,living room windows,living area window, living area windows"
+    ))
+    livingArea103.addFeature(AreasFeatures.Feature(
+        description=["This small library contains a wide assortment of old university texts, theological and philosophical treatises, books from your childhood "
+        "and a great many literary classics. You never did much traveling, you always seemed more interested in learning from ideas than from places."],
+        keywords="books,my books,book collection,library,small library"
+    ))
+    livingArea103.addFeature(AreasFeatures.Feature(
+        description=["It's a very sturdy and heavy shelf edged with marble engravings. It holds a small library of books, mementos, some collectables and a bust "
+        "of Saint Aeas."],
+        keywords="bookshelf,shelf,bookcase,shelves,my bookcase,my bookshelf"
+    ))
+    livingArea103.addFeature(AreasFeatures.Feature(
+        description=["There are so many relics of your past here. Photos, sketches of imaginary worlds, awards for academic excellence, letters from friends...\n\n"
+        "You stumble across a certificate you were awarded at a university boxing club - \"Toughest Opponent\". True. Though you never acquired much skill, "
+        "you sure as hell could take a lot of punishment - and you never once backed down from a fight."],
+        keywords="mementos,photos,sketches,awards,letters"
+    ))
+    livingArea103.addFeature(AreasFeatures.Feature(
+        description=["These are heaps upon heaps of trading cards, pogs, ancient coins, figurines, comic books and other items from your past. There's even an "
+        "old hunting knife."],
+        keywords="collectables,cards,coins,comics,comic books,knife,hunting knife"
+    ))
+    livingArea103.addFeature(AreasFeatures.Feature(
+        description=["This marble bust of Saint Aeas - the Patron Saint of Spiritual Fortitude - rests on the top part of your shelf. She was a very petite "
+        "and soft-spoken woman who nonetheless found the courage to spearhead a successful movement against the despotic military cabal that ruled her country."],
+        keywords="bust,bust of saint aeas,marble bust"
+    ))
+    livingArea103.addFeature(AreasFeatures.Feature(
+        description=["The sink is filled with a veritable mountain of filthy dishes, some of which are covered in mould. It stinks of spoiled food "
+        "and grease."],
+        keywords="sink,my sink,kitchen sink,dishes,dirty dishes,filthy dishes"
+    ))
+    livingArea103.addFeature(AreasFeatures.Feature(
+        description=["Eight or nine of these litter your apartment. All of them are overflowing with all manner of trash, from pizza boxes to spoiled food "
+        "to beer bottles."],
+        keywords="garbage,garbage bag,garbage bags"
+    ))
+
+    #Containers
+    livingRoomCloset103 = AreasFeatures.Container(
+        description=["This small closet is situated next to the exit to your apartment."],
+        keywords="closet,my closet"
+    )
+    livingArea103.addFeature(livingRoomCloset103)
+
+    kitchenDrawers103 = AreasFeatures.Container(
+        description=["These store various utensils, pots, pans and other kitchen implements."],
+        keywords="kitchen drawers,drawers,your drawers,your kitchen drawers,drawer,kitchen drawer"
+    )
+    livingArea103.addFeature(kitchenDrawers103)
+
+    kitchenFridge103 = AreasFeatures.Container(
+        description=["It stores perishable food. In other words, a fridge."],
+        keywords="fridge,refridgerator,my fridge"
+    )
+    livingArea103.addFeature(kitchenFridge103)
+
+    #Items
+    livingRoomCloset103.addItem(StandardItems.LeatherJacket(**{
+        "notTakenDesc":"A lone leather jacket is hanging in the closet."
+    }))
 
 
     #Items
