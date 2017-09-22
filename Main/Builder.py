@@ -611,7 +611,8 @@ def buildPrologue100(gameState):
         description=["It's the newest Macintosh model - a uMac. You're lucky you haven't had to pawn it for cash given how poor you are "
         "these days.\nIf you claimed you used it for mostly productive purposes you'd be lying. These days you mainly use "
         "it to download and play hundreds of Steam games, and for other forms of entertainment not mentioned in polite society."],
-        keywords="computer,compy,comp,your comp,computer,your computer,beep-boop,your beep-boop"
+        keywords="computer,compy,comp,your comp,computer,your computer,beep-boop,your beep-boop",
+        **{"useDescription":"You're far to drunk to do anything worthwhile on the computer, let alone to remember your password."}
     ))
     bedroom101.addFeature(AreasFeatures.Feature(
         description=["They're painted white. You've never liked your bedroom walls very much. The paint job is cracked and faded in various "
@@ -727,12 +728,16 @@ def buildPrologue100(gameState):
     bathroom102.addFeature(AreasFeatures.Feature(
         description=["It's very dirty and covered with grease and grime. You'd give it a good wipe but you're not sure you'd be "
         "able to muster the energy or willpower."],
-        keywords="sink,bathroom sink,my sink"
+        keywords="sink,bathroom sink,my sink",
+        **{"useDescription":"You turn the tap and a dark, brackish liquid begins trickling out. You immediately turn it off again."}
     ))
     bathroom102.addFeature(AreasFeatures.Feature(
         description=["This circular mirror is set into the wall just above your sink. It's dirty and needs a good dusting and "
         "wiping. You notice there are some small red marks in top left corner of the mirror."],
-        keywords="mirror,bathroom mirror,my mirror"
+        keywords="mirror,bathroom mirror,my mirror",
+        **{
+            "useDescription":"Your face stares back at you. It's seen better days."
+        }
     ))
     bathroom102.addFeature(AreasFeatures.Container(
         description=["A small, white cabinet set beneath your sink. Utterly fascinating."],
@@ -743,16 +748,26 @@ def buildPrologue100(gameState):
     ))
     bathroom102.addFeature(AreasFeatures.Feature(
         description=["It's very ordinary toilet paper. Value brand."],
-        keywords="toilet paper,tp"
+        keywords="toilet paper,tp",
+        **{
+            "useDescription":"You don't need to at the moment.",
+            "size":1
+        }
     ))
     bathroom102.addFeature(AreasFeatures.Feature(
         description=["There's a toilet plunger and some cleaning solution. You should probably use these to clean the place "
         "at some point, but not now. Sleep calls..."],
-        keywords="cleaning supplies,plunger,cleaner,supplies"
+        keywords="cleaning supplies,plunger,cleaner,supplies",
+        **{
+            "size":1
+        }
     ))
     bathroom102.addFeature(AreasFeatures.Feature(
         description=["A few bars of soap.\n\n*YAWN*"],
-        keywords="soap,bar of soap,soap bar"
+        keywords="soap,bar of soap,soap bar",
+        **{
+            "size":1
+        }
     ))
     bathroom102.addFeature(AreasFeatures.Feature(
         description=["They look like bloodstains. You can't help but think they almost look a bit like a face grinning at you. "
@@ -761,7 +776,10 @@ def buildPrologue100(gameState):
     ))
     bathroom102.addFeature(AreasFeatures.Feature(
         description=["It's your shower. Nothing particularly interesting about it."],
-        keywords="shower,bathroom shower,my shower"
+        keywords="shower,bathroom shower,my shower",
+        **{
+            "useDescription":"Not a chance. Right now you need sleep, not a shower."
+        }
     ))
     bathroom102.addFeature(AreasFeatures.Feature(
         description=["An orange wastebasket that's overflowing with garbage."],

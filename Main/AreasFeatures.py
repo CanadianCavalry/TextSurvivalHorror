@@ -132,8 +132,12 @@ class Feature(object):
     def __init__(self, description, keywords, **kwargs):
         self.description = description
         self.keywords = keywords
+
         self.state = 0
         self.currentLocation = None
+        self.useDescription = None
+        self.getDescription = None
+        self.size = 2
 
         #populate optional stats
         if kwargs is not None:
@@ -144,8 +148,19 @@ class Feature(object):
         return self.description[self.state]
     
     def get(self, holder, player):
-        return "Assuming you could get it into your pack, what would be the point?"
-    
+        if self.getDescription:
+            return self.getDescription
+        elif self.size == 2:
+            return "Assuming you could get it into your pack, what would be the point?"
+        else:
+            return "That really isn't worth carrying around."
+
+    def use(self, player):
+        if self.useDescription:
+            return self.useDescription
+        else:
+            return "You can't use that."
+
     def setIdNum(self, number):
         self.idNum = number
         

@@ -416,7 +416,7 @@ class Alchohol(Drinkable):
         spiritDecrease = self.alcoholAmount / 2
         if spiritDecrease > 10:
             spiritDecrease = 10
-        decreaseCap = player.spirit - 50
+        decreaseCap = player.spirit - 49
         if decreaseCap <= 0:
             decreaseCap = 0
         if decreaseCap < spiritDecrease:

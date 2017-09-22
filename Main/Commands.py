@@ -105,7 +105,7 @@ def use(player, keyword):
         try:
             return matching[0].use(player)
         except AttributeError:
-            return "I can't use that."
+            return "You can't use that."
     return
 
 def useOn(player, targetKeyword, recipientKeyword):
@@ -563,7 +563,7 @@ def displayHelp():
     "look (at) something: Take a closer look at something.\n"
     "get/drop something: Pick something up or drop something in your inventory.\n"
     "go direction: Travel in a direction, or through a door/path.\n"
-    "use something: Use an item or object.\n"
+    "use something: Trigger the \"default\" use of an object. ie. sleep in a bed, turn on a sink etc..\n"
     "use item on something: Use an item or object on something in the room.\n"
     "unlock/lock something: Locks or unlocks a door or container. You may need a key.\n"
     "drink/eat something: Consume an item.\n"

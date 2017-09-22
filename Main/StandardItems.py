@@ -85,7 +85,7 @@ class Revolver(Items.RangedWeapon):
         kwargs.update({
             "ammoRemaining":4,
             "fireSound":"Sounds/Combat/RevolverShot.mp3",
-            "reloadSound":"Sounds/Combat/RevolverReload.mp3", 
+            "reloadSound":"Sounds/Combat/RevolverReload.mp3",
             "initPickupDesc":"It's heavier than it looks. You look it over to ensure the safety is off. Let's hope it still fires.",
             "attackDesc":"You open fire with your revolver."
         })
