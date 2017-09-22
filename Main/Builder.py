@@ -578,8 +578,14 @@ def buildPrologue100(gameState):
     "you long to bury yourself under your bedsheets and blissfully fall asleep. Escape reality even further.")
     gameState.introText = introText
 
+    bufferRoom = AreasFeatures.Area(
+        name="Buffer Room", 
+        description=[" "])
+
+
     #Set starting stats for the player
     gameState.player.intoxication = 30
+
 
     #101 - BEDROOM
     bedroom101 = AreasFeatures.Area(
@@ -811,6 +817,13 @@ def buildPrologue100(gameState):
     livingArea103.connect(bedroom101, door103A)
     bedroom101.connect(livingArea103, door101B)
 
+    door103B = StandardFeatures.StandardUnopenableDoor(
+        ["The exit to your apartment. It leads into the hallway of my floor."],
+        "door,north,wooden door,north door,hallway door,hall door,apartment door",
+        "You're exhausted and in no state to leave your aparetment right now. You need to get some sleep."
+    )
+    livingArea103.connect(bufferRoom, door103B)
+
 
     #Features
     livingArea103.addFeature(AreasFeatures.Feature(
@@ -855,8 +868,13 @@ def buildPrologue100(gameState):
     ))
     livingArea103.addFeature(AreasFeatures.Feature(
         description=["These are heaps upon heaps of trading cards, pogs, ancient coins, figurines, comic books and other items from your past. There's even an "
-        "old hunting knife."],
-        keywords="collectables,cards,coins,comics,comic books,knife,hunting knife"
+        "old Outdoor Explorer pocket knife from your childhood."],
+        keywords="collectables,cards,coins,comics,comic books"
+    ))
+    livingArea103.addFeature(AreasFeatures.Feature(
+        description=["This small, retractable knife is meant for use while hiking and camping. The blade's only three inches long, but it's still sharp."],
+        keywords="knife,pocket knife,pocketknife,outdoor explorer knife",
+        **{"getDescription":"You figure playing with a knife in your current state isn't the best idea. It can wait until morning."}
     ))
     livingArea103.addFeature(AreasFeatures.Feature(
         description=["This marble bust of Saint Aeas - the Patron Saint of Spiritual Fortitude - rests on the top part of your shelf. She was a very petite "

@@ -95,6 +95,22 @@ class StandardLockingDoor(AreasFeatures.Door):
         self.isAccessible = False
         self.siblingLink.isAccessible = False
 
+class StandardUnopenableDoor(AreasFeatures.Door):
+    
+    def __init__(self, description, keywords, blockedDesc, **kwargs):
+
+        kwargs.update({
+            "blockedDesc":blockedDesc
+        })
+
+        super(StandardUnopenableDoor, self).__init__(description, keywords, False, **kwargs)
+        
+    def tryUnlock(self, usedItem, player):
+        return self.blockedDesc
+
+    def tryLock(self, usedItem, player):
+        return "It's already locked."
+
 class StandardKeylessDoor(AreasFeatures.Door):
     
     def __init__(self, description, keywords, isAccessible, **kwargs):
