@@ -130,6 +130,8 @@ class Parser(object):
             resultString = Commands.search(self.state.player, self.target)
         elif (self.command == "drink"):
             resultString = Commands.drink(self.state.player, self.target)
+        elif (self.command == "eat"):
+            resultString = Commands.eat(self.state.player, self.target)
         elif (self.command == "wait"):
             resultString = Commands.wait(self.state.player)
         elif (self.command == "read"):

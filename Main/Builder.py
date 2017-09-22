@@ -94,7 +94,9 @@ def buildCombatSimulator(gameState):
         "notTakenDesc":"A long-handled fire axe is lying across the table.",
         "initPickupDesc":"You lift the axe from the table. It has a weight and heft that is comfortable in your hands."
     }))
-    armory001.addItem(StandardItems.LeatherJacket())
+    armory001.addItem(StandardItems.LeatherJacket(**{
+            "notTakenDesc":"A faded leather jacket is hanging off one of the cages."
+        }))
     armory001.addItem(StandardItems.Flask())
     armory001.addItem(Items.Note(
         name="Strange Note",
@@ -731,12 +733,7 @@ def buildPrologue100(gameState):
         description=["They are painted a robin's egg blue. You've always liked the colour. Too bad so much of the paint is peeling off."],
         keywords="walls,wall,bathroom walls,bathroom wall"
     ))
-    bathroom102.addFeature(AreasFeatures.Feature(
-        description=["It's very dirty and covered with grease and grime. You'd give it a good wipe but you're not sure you'd be "
-        "able to muster the energy or willpower."],
-        keywords="sink,bathroom sink,my sink",
-        **{"useDescription":"You turn the tap and a dark, brackish liquid begins trickling out. You immediately turn it off again."}
-    ))
+    bathroom102.addFeature(UniqueFeatures.BathroomSink102())
     bathroom102.addFeature(AreasFeatures.Feature(
         description=["This circular mirror is set into the wall just above your sink. It's dirty and needs a good dusting and "
         "wiping. You notice there are some small red marks in top left corner of the mirror."],
@@ -907,13 +904,19 @@ def buildPrologue100(gameState):
 
     kitchenFridge103 = AreasFeatures.Container(
         description=["It stores perishable food. In other words, a fridge."],
-        keywords="fridge,refridgerator,my fridge"
+        keywords="fridge,refridgerator,my fridge",
+        **{
+            "insideDesc":"The shelves are mostly bare except for a few scraps."
+        }
     )
     livingArea103.addFeature(kitchenFridge103)
 
     #Items
     livingRoomCloset103.addItem(StandardItems.LeatherJacket(**{
         "notTakenDesc":"A lone leather jacket is hanging in the closet."
+    }))
+    kitchenFridge103.addItem(StandardItems.PizzaSlice(**{
+        "notTakenDesc":"A large slice of pizza is on the shelf."
     }))
 
 

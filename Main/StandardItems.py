@@ -177,8 +177,8 @@ class LeatherJacket(Items.Armor):
         armorRating=10
 
         kwargs.update({
-            "initPickupDesc":"It's old and weatherbeaten, and looks like it's been patched extensively, but it should provide a bit of protection at least.",
-            "notTakenDesc":"A faded leather jacket is hanging off one of the cages."
+            "initPickupDesc":"One of your favourite articles of clothing, you often wore it to church. It's old and weatherbeaten, "
+            "and looks like it's been patched extensively, but it should provide a bit of protection at least."
         })
 
         super(LeatherJacket, self).__init__(name, description, seenDescription, keywords, armorRating, **kwargs)
@@ -209,6 +209,17 @@ class Whiskey(Items.Alchohol):
         alcoholAmount=15
 
         super(Whiskey, self).__init__(name, description, seenDescription, keywords, useDescription, alcoholAmount, **kwargs)
+
+class PizzaSlice(Items.Food):
+    def __init__(self, **kwargs):
+        name="Jumbo Pizza Slice"
+        description="This huge, delicious slice of pizza is just as filling as two small slices. Sold by your favourite pizzeria, Agostino's."
+        seenDescription="A large slice of pizza in on the floor."
+        keywords="pizza,slice,pizza slice,pizza piece, piece of pizza,jumbo pizza slice,food"
+        useDescription="Mmmm, pepperoni."
+        intoxReduction=12
+
+        super(PizzaSlice, self).__init__(name, description, seenDescription, keywords, useDescription, intoxReduction, **kwargs)
 
 class FirstAidKit(Items.Usable):
     def __init__(self, **kwargs):

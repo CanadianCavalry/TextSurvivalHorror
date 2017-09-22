@@ -411,7 +411,6 @@ class Alchohol(Drinkable):
         sources = list()
 
         sources.append(pyglet.media.load(self.useSound, streaming=False))
-        #source.play()
         player.increaseIntox(self.alcoholAmount)
         spiritDecrease = self.alcoholAmount / 2
         if spiritDecrease > 10:
@@ -426,6 +425,25 @@ class Alchohol(Drinkable):
 
         return self.useDescription,True, sources
     
+class Food(Usable):
+
+    def __init__(self, name, description, seenDescription, keywords, useDescription, intoxReduction, **kwargs):
+        self.intoxReduction = intoxReduction
+
+        kwargs.update({
+            "useSound":None
+        })
+
+        super(Food, self).__init__(name, description, seenDescription, keywords, useDescription, **kwargs)
+
+    def eat(self, player):
+        sources = list()
+        #sources.append(pyglet.media.load(self.useSound, streaming=False))
+
+        player.decreaseIntox(self.intoxReduction)
+        self.currentLocation.removeItem(self)
+
+        return self.useDescription, True, sources
 
 class Readable(Item):
     

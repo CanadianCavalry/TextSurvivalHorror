@@ -407,6 +407,20 @@ def drink(player, keyword):
         except AttributeError:
             return "You can't drink that."
 
+def eat(player, keyword):
+    matching = findMatching(player, keyword, list())
+    matching = findMatchingInventory(player, keyword, matching)
+    
+    if len(matching) == 0:
+        return "You do not see any such item here."
+    elif len(matching) > 1:
+        return "You need to be more specific"
+    elif len(matching) == 1:
+        try:
+            return matching[0].eat(player)
+        except AttributeError:
+            return "That isn't edible."
+
 def wait(player):
     return player.wait()
 

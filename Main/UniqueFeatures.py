@@ -86,93 +86,35 @@ class TutorialExitGate(StandardFeatures.StandardLockingDoor):
             resultString = "You aren't even certain how you would open it if it were unlocked. Touching it makes your skin crawl."
         return resultString
 
-#Jacobs Room
+class BathroomSink102(AreasFeatures.Feature):
+    def __init__(self):
+        self.featureToAdd = AreasFeatures.Feature(
+                description=["Somehow you're certain you've never seen a liquid as repulsive as this. It's jet black, thick as pudding, and and smells downright atrocious. For a moment you swear you see tiny creatures writhing within it, then they are gone. You can't seem to bear looking at this filth for more than a few seconds.",
+                            "It's been washed down the drain and can no longer be seen."],
+                keywords="liquid,black liquid,ooze,black ooze,black stuff,gunk,black gunk,goop,black goop,goo,black goo",
+                **{
+                    "getDescription":"Something deep inside you panics at the mere thought of touching it. You'd rather bathe in sewege then touch that stuff."
+                })
 
-class JacobRoomWindow101(AreasFeatures.Feature):
-    
-    def __init__(self):
-        self.description = "A large sliding window. The people who designed these rooms know what they were doing. It lets in a lot of light when it's sunny out, and helps my mood."
-        self.keywords = "window,sliding window"
-        
-    def open(self, player):
-        return "Although it's easy to open, it has a fixed screen over it. "
-    
-class ResidentsWingDoorsFirstFloor102(AreasFeatures.Feature):
-    
-    def __init__(self):
-        description = "All of the doors look pretty much identical. Thick wooden slabs painted a dull blue, with brass room numbers on their front. This door is closed."
-        keywords = "door 101,door 102,door 103,door 105,door 107,door 108,door 109,door 110" + \
-        "room 101,room 102,room 103,room 105,room 107,room 108,room 109,room 110"
-        AreasFeatures.Feature.__init__(self, description, keywords)
-    
-    def open(self, player):
-        return "The door to this room is closed. The House's is really strict about the privacy of its residents and has a 'closed door, do not disturb policy'."
+        description = ["It's very dirty and covered with grease and grime. You'd give it a good wipe but you're not sure you'd be able to muster the energy or willpower.",
+                        "It's very dirty and covered with grease and grime. At the bottom is a small pool of disgusting black ooze of some kind. Looking at it makes your skin crawl.",
+                        "It's very dirty and covered with grease and grime. Thankfully the black goop has been washed down the drain."]
+        keywords = "sink,bathroom sink,my sink"
 
-class ResidentsWingDoorsSecondFloor104(AreasFeatures.Feature):
-    
-    def __init__(self):
-        description = "All of the doors look pretty much identical. Thick wooden slabs painted a dull blue, with brass room numbers on their front. This door is closed."
-        keywords = "door 202,door 203,door 204,door 206,door 207,door 208,door 209,door 210" + \
-        "room 202,room 203,room 204,room 206,room 207,room 208,room 209,room 210"
-        AreasFeatures.Feature.__init__(self, description, keywords)
-    
-    def open(self, player):
-        return "The door to this room is closed. The House's is really strict about the privacy of its residents and has a 'closed door, do not disturb policy'."
+        kwargs = {
+            "useDescription":["As you turn the sink faucet a black and sickening liquid begins slowly oozing out. Filled with revulsion, you immediately turn it off.",
+                              "You gingerly turn it back on. Mercifully, it begins producing tap water and the black liquid slowly washes down the drain. Maybe something leaked into your building's water supply...",
+                              "Something must be wrong with your plumbing. You don't want to turn it on again until you get it fixed and you can do that after you wake up tomorrow. Time to get to bed."]
+        }
 
-class ResidentsWingDoorsThirdFloor107(AreasFeatures.Feature):
-    
-    def __init__(self):
-        description = "All of the doors look pretty much identical. Thick wooden slabs painted a dull blue, with brass room numbers on their front. This door is closed."
-        keywords = "door 301,door 302,door 303,door 304,door 305,door 306,door 307,door 309,door 310" + \
-        "room 301,room 302,room 303,room 304,room 305,room 306,room 307,room 309,room 310"
-        AreasFeatures.Feature.__init__(self, description, keywords)
-    
-    def open(self, player):
-        return "The door to this room is closed. The House's is really strict about the privacy of its residents and has a 'closed door, do not disturb policy'."
-    
-class MainLobbyExteriorDoor109(AreasFeatures.Feature):
-    
-    def __init__(self):
-        description = "A heavy pair of steel and glass security doors. The panes which cover most of each door are glazed, preventing your from seeing outside."
-        keywords = "door,doors,steel door,steel door,metal door,front door,south,south door"
-        super(MainLobbyExteriorDoor109, self).__init__(self, description, keywords)
-        
-    def open(self, player):
-        return "One of the guards approaches you as you move towards the door.\"Heading out, Jacob? I'm pretty sure you've got a couple hours of visiting time left \
-for this week - just let me check your ID card and I'll make sure.\" You inform her that you might go out later, but you don't have time right now as you need to get to Father Malachi's talk."
+        super(BathroomSink102, self).__init__(description, keywords, **kwargs)
 
-class JacobsRoomCloset201(AreasFeatures.Container):
-    def __init__(self):
-        description = ["It's closed. The door to the closet is so dilapidated it's almost falling off the hinges. \
-Why is everything in your room in such awful shape?"]
-        keywords = "closet"
-        isOpen = False
-        isAccessible = False
-        blockedDesc = "I can't get to it while I'm tied to this damn table."
-        openDesc = "The door is jammed on its track, but after a strong shove it grudgingly slides open."
-        closeDesc = "With a little effort, you force the door closed."
-        super(JacobsRoomCloset201, self).__init__(description, keywords, isOpen, isAccessible, blockedDesc, openDesc, closeDesc)
-        
-class Bindings201(AreasFeatures.Feature):
-    
-    def __init__(self):
-        description = ["They're made of rope and restrain both your wrists and both your ankles to the bedposts. You're tied quite securely, but the rope isn't very thick and you might be able to manoveure your hands and feet about a foot in each direction.",
-                       "You've managed to free one hand, the rest of the bonds should be easy to cut.",
-                       "With both hands free you can easily finish freeing yourself.",
-                       "The tattered remains of the bindings still hang from the bedposts."]
-        keywords = "bindings,rope,restraints,bonds"
-        super(Bindings201, self).__init__(description, keywords)
-        self.cutActions = ["Sweat drips from your forehead as you twist your right hand in an extremely awkward position to cut the bindings on your right wrist. It works - your right arm is free!",
-                           "You scramble to sever the bindings on your left arm. Done, now on to your legs!",
-                           "Filled with adrenaline, you sever the binding on your right ankle. Just one more!",
-                           "You sever the binding on your left ankle. At last you're free!"]
-    
-    def cutBindings(self, player):
-        if self.state < 3:
-            currentState = self.state
-            if currentState == 3:
-                player.unrestrictPlayer()
-            self.nextState()
-            return self.cutActions[currentState], True
-        else:
-            return "You are already free."
+    def use(self, player):
+        resultString = self.useDescription[self.state]
+        if self.state == 0:
+            self.currentLocation.addFeature(self.featureToAdd)
+        elif self.state == 1:
+            self.featureToAdd.state += 1
+        if self.state < 2:
+            self.state += 1
+        return resultString
