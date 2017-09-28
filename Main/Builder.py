@@ -98,13 +98,13 @@ def buildCombatSimulator(gameState):
             "notTakenDesc":"A faded leather jacket is hanging off one of the cages."
         }))
     armory001.addItem(StandardItems.Flask())
-    armory001.addItem(Items.Note(
-        name="Strange Note",
-        description="A hastily written note scrawled on a napkin.",
-        seenDescription="There is a scrunched up note pinned to the table.",
-        keywords="note,paper,napkin,page",
-        contents="FOR TESTER USE ONLY\nDev commands are executed with \"/dev\":\n\ndylanwantsagun: Get some firepower."
-    ))
+    #armory001.addItem(Items.Note(
+    #    name="Strange Note",
+    #    description="A hastily written note scrawled on a napkin.",
+    #    seenDescription="There is a scrunched up note pinned to the table.",
+    #    keywords="note,paper,napkin,page",
+    #    contents="FOR TESTER USE ONLY\nDev commands are executed with \"/dev\":\n\ndylanwantsagun: Get some firepower."
+    #))
     
     #002 - ARENA
     arena002 = AreasFeatures.Area(

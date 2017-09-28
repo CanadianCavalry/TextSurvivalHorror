@@ -9,7 +9,8 @@ combatSoundFiles = ['Sounds/Combat/RevolverShot.mp3',
 					'Sounds/Combat/MeleeMiss.mp3',
 					'Sounds/Combat/RevolverReload.mp3']
 
-miscSoundFiles = ['Sounds/Misc/GenericDoor1.mp3',
+miscSoundFiles = ['Sounds/Misc/FootstepsHall.mp3',
+				  'Sounds/Misc/GenericDoor1.mp3',
 				  'Sounds/Misc/GenericDoor2.mp3',
 				  'Sounds/Misc/HeavyDoor.mp3',
 				  'Sounds/Misc/ItemGet.mp3',
