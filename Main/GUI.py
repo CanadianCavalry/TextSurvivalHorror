@@ -29,7 +29,6 @@ class Rectangle(object):
             ('c4B', self.color * 4)
         )
 
-
 class DisplayWindow(object):
     def __init__(self, text, x, y, width, batch, group=None):
         self.document = pyglet.text.document.UnformattedDocument(text)
@@ -153,7 +152,7 @@ class StatsPanel(object):
         x = 1024 - width - 35
         y = 680 - height
         pad = 2
-        self.border = Rectangle(x - pad, y - pad, 
+        self.border = Rectangle(x - pad, y - pad,
                                    x + width + pad, y + height + pad, [204, 0, 0, 255], batch, spriteGroup)
         self.filler = Rectangle(x - pad + 5, y - pad + 5,
                                    x + width + pad -5, y + height + pad - 5, [0, 0, 0, 255], batch, spriteGroup)
@@ -263,7 +262,9 @@ class Window(pyglet.window.Window):
         self.inMenu = False
         self.writingText = False
         self.textToWrite = ""
-        self.player = pyglet.media.Player()
+        self.backgroundMusic = None
+        self.soundPlayer = pyglet.media.Player()
+        self.musicPlayer = pyglet.media.Player()
         
         self.startMainMenu()
 
@@ -280,8 +281,7 @@ class Window(pyglet.window.Window):
         self.focus = None
         self.buttonClick = pyglet.media.load('Sounds/UI/menuClick.mp3', streaming=False)
         self.buttonHover = pyglet.media.load('Sounds/UI/menuHover.wav', streaming=False)
-        self.soundtrack = pyglet.media.load('Music/Oblivion.mp3')
-        self.menuSoundtrack = self.soundtrack.play()
+        self.setBackgroundMusic('Music/Oblivion.mp3')
 
         self.title = pyglet.text.Label('Before I Wake', x=(self.width / 2), y=(self.height - 100), anchor_x='center', anchor_y='center',
                                         font_name='Times New Roman',font_size=32, batch=self.batch, color=(155,0,0,255), bold=True)
@@ -292,6 +292,19 @@ class Window(pyglet.window.Window):
             MenuButton(StateControl.newSimulationState, 'Training', (self.width / 2), (self.height - 475), self.batch, self.group2, self.group3),
             MenuButton(StateControl.quit, 'Quit', (self.width / 2), (self.height - 600), self.batch, self.group2, self.group3)
         ]
+
+    def setBackgroundMusic(self, musicFile):
+        if self.musicPlayer.playing:
+            self.musicPlayer.pause()
+        del self.musicPlayer
+        self.musicPlayer = pyglet.media.Player()
+        soundtrackSource = pyglet.media.load(musicFile)
+        self.musicPlayer.queue(soundtrackSource)
+        self.musicPlayer.eos_action = pyglet.media.Player.EOS_LOOP
+        self.musicPlayer.play()
+
+    def stopBackgroundMusic(self):
+        self.musicPlayer.pause()
 
     def startGameState(self, state):
         pyglet.clock.schedule_interval(self.updateText, 0.01)
@@ -304,13 +317,16 @@ class Window(pyglet.window.Window):
         self.state = state
         self.parser.loadState(state)
         
-        self.menuSoundtrack.pause()
-        
         self.title = pyglet.text.Label('Before I Wake', x=(self.width / 2), y=(self.height - 40), anchor_x='center', anchor_y='center',
                                         font_name='Times New Roman',font_size=32, batch=self.batch, group=self.group2, color=(155,0,0,255), bold=True)
 
         self.disp = DisplayWindow(self.state.introText, 40, 91, self.width - 300, self.batch, self.group2)
         
+        if state.backgroundMusic:
+            self.setBackgroundMusic(state.backgroundMusic)
+        else:
+            self.stopBackgroundMusic()
+
         self.widgets = [
             TextWidget('', 40, 55, self.width - 300, self.batch, self.group2)
         ]
@@ -521,8 +537,8 @@ class Window(pyglet.window.Window):
                 return
 
         for source in sources:
-            self.player.queue(source)
-        self.player.play()
+            self.soundPlayer.queue(source)
+        self.soundPlayer.play()
 
         self.updateTextBox(resultString)
 

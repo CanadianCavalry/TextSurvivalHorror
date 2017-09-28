@@ -18,6 +18,7 @@ class GameState(object):
         self.areaList = list()
         self.turnCount = 0
         self.introText = ""
+        self.backgroundMusic = None
         self.returnOnEnter = False
         
     def addArea(self, area):

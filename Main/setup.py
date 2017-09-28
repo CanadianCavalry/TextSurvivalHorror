@@ -1,7 +1,8 @@
 from distutils.core import setup
 import py2exe
 
-musicFiles = ['Music/Oblivion.mp3']
+musicFiles = ['Music/Oblivion.mp3',
+			  'Music/Sadness6.mp3']
 
 combatSoundFiles = ['Sounds/Combat/RevolverShot.mp3',
 					'Sounds/Combat/CrossbowShot.mp3',

@@ -137,6 +137,7 @@ class Feature(object):
         self.currentLocation = None
         self.useDescription = None
         self.getDescription = None
+        self.searchDesc = None
         self.size = 2
 
         #populate optional stats
@@ -147,6 +148,15 @@ class Feature(object):
     def lookAt(self):
         return self.description[self.state]
     
+    def search(self, player):
+        resultString = ""
+        if self.searchDesc:
+            resultString += self.searchDesc
+        else:
+            resultString += self.description + "\n\nThere isn't anything else of particular note about it."
+            
+        return resultString, True
+
     def get(self, holder, player):
         if self.getDescription:
             return self.getDescription
@@ -281,6 +291,7 @@ class Link(object):
         self.travelDesc = "You move on."
         self.destination = None
         self.siblingLink = None
+        self.searchDesc = None
         self.state = 0
 
         #populate optional stats
@@ -290,6 +301,15 @@ class Link(object):
         
     def lookAt(self):
         return self.description[self.state]
+
+    def search(self, player):
+        resultString = ""
+        if self.searchDesc:
+            resultString += self.searchDesc
+        else:
+            resultString += self.description + "\n\nThere isn't anything else of particular note about it."
+            
+        return resultString, True        
         
     def travel(self, player):
         for key, enemy in player.currentLocation.enemies.iteritems():

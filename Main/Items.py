@@ -30,6 +30,7 @@ class Item(object):
         self.pickupSound = ["Sounds/Misc/ItemGet.mp3"]
         self.inAccessibleDesc = "You can't reach it."
         self.pickupDesc = "You pick up the " + self.name + "."
+        self.searchDesc = None
         
         #populate optional stats
         if kwargs is not None:
@@ -112,6 +113,15 @@ class Item(object):
     
     def lookAt(self):
         return self.description
+
+    def search(self, player):
+        resultString = ""
+        if self.searchDesc:
+            resultString += self.searchDesc
+        else:
+            resultString += self.description + "\n\nThere isn't anything else of particular note about it."
+            
+        return resultString, True
 
     def exorciseAttempt(self, player):
         return "After several minutes of yelling biblical phrases and waving your hands around wildly, you determine that the object is not, in fact, possessed."

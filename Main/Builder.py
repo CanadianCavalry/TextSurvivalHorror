@@ -26,6 +26,9 @@ def buildCombatSimulator(gameState):
     "type \"look\" followed by the object.")
     gameState.introText = introText
 
+    introMusic = None
+    gameState.backgroundMusic = introMusic
+
     #Combat Test Environment
     #AREA KEYS
     key004A = Items.Key(
@@ -67,8 +70,8 @@ def buildCombatSimulator(gameState):
         ["A heavy steel door. It appears to have some sort of mechanism built into it that locks it once you pass through."],
         "north,north door,door,metal door,steel door")
 
-    armory001.addFeature(StandardFeatures.AlwaysOpenContainer(
-        "The table is littered with all manner of useless junk, as well as a number of weapons, bottles and items of clothing.",
+    armory001.addFeature(AreasFeatures.Feature(
+        ["The table is littered with all manner of useless junk, as well as a number of empty bottles and items of clothing."],
          "table,small table, metal table"))
     armory001.addFeature(StandardFeatures.Sign(
         ["The large metal sign looks very worn and rusted, and has been riveted straight into the metal wall. It appears that "
@@ -447,7 +450,7 @@ def buildCombatSimulator(gameState):
         "firstSeenDesc":"A man suddenly rises from the bed, previously hidden by blankets. He locks eyes with you, and a wide, terrifying grin spreads "
             "across his face. He raises his arm and you see a pair of bloody scissors clutched in his hand. He lets out a small giggle and charges towards you."
     })
-    bentHost007A.description = ["Though human, the twisted facial features and sadistic grin mark him as the puppet of an demonic creature. "
+    bentHost007A.description = ["Though human, the twisted facial features and sadistic grin mark him as the puppet of a demonic creature. "
             "Long, deep slashes cover his exposed forearms and wrists, and his clothes are smeared in blood both dried and fresh. "
             "He carries a pair of scissors in one hand."]
     bentHost007A.seenDescription = "A wounded, blood soaked man carrying a pair of scissors is here with you."
@@ -579,6 +582,9 @@ def buildPrologue100(gameState):
     "you find yourself sitting down in your bedroom armchair with a bottle of whiskey in hand. Drowsy from too much alcohol, "
     "you long to bury yourself under your bedsheets and blissfully fall asleep. Escape reality even further.")
     gameState.introText = introText
+
+    introMusic = "Music/Sadness6.mp3"
+    gameState.backgroundMusic = introMusic
 
     bufferRoom = AreasFeatures.Area(
         name="Buffer Room", 

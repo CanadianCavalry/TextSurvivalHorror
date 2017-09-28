@@ -258,4 +258,4 @@ class Sign(AreasFeatures.Feature):
         return self.readDescription
 
     def lookAt(self):
-        return self.description[self.state] + "\n\nIt reads: \n" + self.read()
+        return self.description[self.state] + "\n\nIt reads: \n" + self.read(None)
