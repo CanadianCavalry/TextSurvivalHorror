@@ -358,6 +358,9 @@ class Link(object):
     def makeSibling(self, sibling):
         self.siblingLink = sibling
         sibling.siblingLink = self
+        sibling.breakable = self.breakable
+        sibling.maxHealth = self.maxHealth
+        sibling.health = self.health
         
     def setDestination(self, area):
         self.destination = area
@@ -416,11 +419,11 @@ class Door(Link):
         resultString = weapon.attackDesc
 
         damageRoll = randint(weapon.minDamage, weapon.maxDamage)
-        resultString += self.takeDamage(damageRoll, attackType)
+        resultString +=  "You hit the door." + self.takeDamage(damageRoll, attackType)
         return resultString
 
     def takeDamage(self, damageAmount, attackType):
-        resultString = " You hit the door."
+        resultString = ""
         self.health -= damageAmount
         if self.health < 0:
             self.health = 0

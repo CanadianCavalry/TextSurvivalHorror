@@ -58,13 +58,13 @@ def enemyMovement(movingEnemies, enemyDestination, player):
             enemyActions[dictKey] = (resultString, 1)
 
     resultString = ""
-    for key,item in groupEnemyActions.iteritems():
-        resultString += item + "\n"
     for key, item in enemyActions.iteritems():
         resultString += item[0]
         if item[1] > 1:
             resultString += "(" + str(item[1]) + ")"
         resultString += "\n"
+    for key,item in groupEnemyActions.iteritems():
+        resultString += item + "\n"
 
     return resultString
 
@@ -159,7 +159,7 @@ class Enemy(object):
 
         resultString = self.travel(destination, player)
 
-        #If the enemy fails to get any closer to the player, OR cannot find the player nearby, then
+        #If the enemy fails to get any closer to the player, AND cannot find the player nearby, then
         #they have lost the players scent and will stop chasing
         if not self.trackPlayer(player):
             self.isChasing = False
@@ -189,7 +189,11 @@ class Enemy(object):
                     return self.chaseDesc, "chase", True
             else:
                 if self.trackPlayer(player):
-                    return self.travelBlockedDesc, "blocked", True
+                    resultString = self.travelBlockedDesc
+                    if link.breakable:
+                        damageRoll = randint(self.minDamage, self.maxDamage)
+                        resultString += link.takeDamage(damageRoll, "enemy")
+                    return resultString, "blocked", True
 
         return "", "none", False
         

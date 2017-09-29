@@ -101,6 +101,7 @@ def buildCombatSimulator(gameState):
             "notTakenDesc":"A faded leather jacket is hanging off one of the cages."
         }))
     armory001.addItem(StandardItems.Flask())
+    armory001.addItem(key009A)
     #armory001.addItem(Items.Note(
     #    name="Strange Note",
     #    description="A hastily written note scrawled on a napkin.",
@@ -172,9 +173,12 @@ def buildCombatSimulator(gameState):
         **{"size":2})
     
     #Links
-    door003A = StandardFeatures.StandardOpenMetalDoor(
+    door003A = StandardFeatures.StandardLockingDoor(
         ["A steel door. It leads back out into the arena."],
-        "east,east door,door,metal door,steel door")
+        "east,east door,door,metal door,steel door",
+        False,
+        True,
+        key009A)
     door003A.makeSibling(door002B)
     libraryFoyer003.connect(arena002, door003A)
     arena002.connect(libraryFoyer003, door002B)
@@ -396,8 +400,7 @@ def buildCombatSimulator(gameState):
         False,
         None,
         **{"unlockDesc":"With some effort, you pull the bolt back. For a moment, you think you can hear something rustling on the other side of the door.",
-        "lockDesc":"You quickly slide the bolt into place, locking it again.",
-        "breakable":True}
+        "lockDesc":"You quickly slide the bolt into place, locking it again."}
     )
 
     door006C = StandardFeatures.StandardOpenDoor(
