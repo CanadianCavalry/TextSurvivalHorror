@@ -27,6 +27,8 @@ class Item(object):
         self.initPickupDesc = None
         self.initSeenDesc = None
         self.notTakenDesc = None
+        self.drunkDesc = None
+        self.drunkDescThreshold = 50
         self.pickupSound = ["Sounds/Misc/ItemGet.mp3"]
         self.inAccessibleDesc = "You can't reach it."
         self.pickupDesc = "You pick up the " + self.name + "."
@@ -111,8 +113,11 @@ class Item(object):
     def setIdNum(self, number):
         self.idNum = number
     
-    def lookAt(self):
-        return self.description
+    def lookAt(self, player):
+        if self.drunkDesc and (player.intoxication >= self.drunkDescThreshold):
+            return self.drunkDesc
+        else:
+            return self.description
 
     def search(self, player):
         resultString = ""

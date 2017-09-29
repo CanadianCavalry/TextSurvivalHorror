@@ -557,7 +557,7 @@ def look(player, keyword):
     #Check if this is a general look command
     if keyword == "":
         # if it is, describe the room and items in it     
-        return player.currentLocation.lookAt()
+        return player.currentLocation.lookAt(player)
     
     matching = findMatching(player, keyword, list())
     matching = findMatchingInventory(player, keyword, matching)
@@ -569,7 +569,7 @@ def look(player, keyword):
         if not autoTarget:
             return "You need to be more specific"
         matching[0] = autoTarget
-    return matching[0].lookAt()
+    return matching[0].lookAt(player)
 
 def displayHelp():
     helpText = ("List of common commands. Words in parenthesis () are optional\n\n"

@@ -14,6 +14,8 @@ class Area(object):
         self.size = 3
         self.visited = False
         self.state = 0
+        self.drunkDesc = None
+        self.drunkDescThreshold = 50
         self.connectedAreas = {}
         self.features = {}
         self.itemsContained = {}
@@ -25,9 +27,12 @@ class Area(object):
             for key, value in kwargs.iteritems():
                 setattr(self, key, value)
         
-    def lookAt(self):
+    def lookAt(self, player):
         desc = self.name
-        desc += "\n" + self.description[self.state] + "\n"
+        if self.drunkDesc and (player.intoxication >= self.drunkDescThreshold):
+            desc +=  "\n" + self.drunkDesc[self.state] + "\n"
+        else:
+            desc += "\n" + self.description[self.state] + "\n"
         if self.itemsContained:
             for item in self.itemsContained.itervalues():    #Display all the visible items
                 if item.accessible:
@@ -139,6 +144,8 @@ class Feature(object):
         self.useDescription = None
         self.getDescription = None
         self.searchDesc = None
+        self.drunkDesc = None
+        self.drunkDescThreshold = 50
         self.size = 2
 
         #populate optional stats
@@ -146,8 +153,11 @@ class Feature(object):
             for key, value in kwargs.iteritems():
                 setattr(self, key, value)
         
-    def lookAt(self):
-        return self.description[self.state]
+    def lookAt(self, player):
+        if self.drunkDesc and (player.intoxication >= self.drunkDescThreshold):
+            return self.drunkDesc[self.state]
+        else:
+            return self.description[self.state]
     
     def search(self, player):
         resultString = ""
@@ -234,8 +244,11 @@ class Container(Feature):
             item.firstSeen = False
         return desc
         
-    def lookAt(self):
-        desc = self.description[self.state]
+    def lookAt(self, player):
+        if self.drunkDesc and (player.intoxication >= self.drunkDescThreshold):
+            desc = self.drunkDesc[self.state]
+        else:
+            desc = self.description[self.state]
         if self.isOpen:
             desc += " " + self.isOpenDesc + " " + self.insideDesc
             if self.itemsContained:
@@ -293,6 +306,8 @@ class Link(object):
         self.destination = None
         self.siblingLink = None
         self.searchDesc = None
+        self.drunkDesc = None
+        self.drunkDescThreshold = 50
         self.breakable = False
         self.maxHealth = 50
         self.state = 0
@@ -304,8 +319,11 @@ class Link(object):
 
         self.health = self.maxHealth
         
-    def lookAt(self):
-        return self.description[self.state]
+    def lookAt(self, player):
+        if self.drunkDesc and (player.intoxication >= self.drunkDescThreshold):
+            return self.drunkDesc[self.state]
+        else:
+            return self.description[self.state]
 
     def search(self, player):
         resultString = ""
@@ -342,7 +360,7 @@ class Link(object):
             time.sleep(1.8)
         if player.currentLocation.visited == False:
             player.currentLocation.visited = True
-        desc += player.currentLocation.lookAt()
+        desc += player.currentLocation.lookAt(player)
         for description in chaseDescriptions:
             desc += "\n" + description
 
@@ -382,8 +400,11 @@ class Door(Link):
 
         super(Door, self).__init__(description, keywords, isAccessible, **kwargs)
         
-    def lookAt(self):
-        desc = self.description[self.state]
+    def lookAt(self, player):
+        if self.drunkDesc and (player.intoxication >= self.drunkDescThreshold):
+            desc = self.drunkDesc[self.state]
+        else:
+            desc = self.description[self.state]
         desc += "\n" + self.getCondition()
         if self.health > 0:
             desc += "\nIt seems to be "

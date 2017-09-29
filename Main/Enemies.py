@@ -460,7 +460,7 @@ class Enemy(object):
             distanceDescription = "It is quite a ways away."
         return distanceDescription
     
-    def lookAt(self):
+    def lookAt(self, player):
         lookResult = self.description[self.enemyState]
         lookResult += "\n" + self.getCondition()
         lookResult += "\n" + self.getDistance()

@@ -95,7 +95,9 @@ def buildCombatSimulator(gameState):
 
     armory001.addItem(StandardItems.Axe(**{
         "notTakenDesc":"A long-handled fire axe is lying across the table.",
-        "initPickupDesc":"You lift the axe from the table. It has a weight and heft that is comfortable in your hands."
+        "initPickupDesc":"You lift the axe from the table. It has a weight and heft that is comfortable in your hands.",
+        "drunkDesc":"Heeeeeeere's Johhny!",
+        "drunkDescThreshold":5
     }))
     armory001.addItem(StandardItems.LeatherJacket(**{
             "notTakenDesc":"A faded leather jacket is hanging off one of the cages."

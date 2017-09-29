@@ -32,7 +32,7 @@ class TutorialExitGate(StandardFeatures.StandardLockingDoor):
 
         super(TutorialExitGate, self).__init__(description, keywords, isAccessible, keyRequired, itemToOpen, **kwargs)
 
-    def lookAt(self):
+    def lookAt(self, player):
         desc = self.description[self.state]
         return desc
 
