@@ -588,8 +588,8 @@ class Window(pyglet.window.Window):
         pyglet.clock.schedule_interval(self.fadeToBlack, 0.2)
 
     def fadeToBlack(self, dt):
-        if self.fadeRect.alpha > 75:
-            self.fadeRect.alpha = 255
+        if self.fadeRect.alpha > 60:
+            self.fadeRect.alpha = 100
             pyglet.clock.unschedule(self.fadeToBlack)
         self.fadeRect.alpha = self.fadeRect.alpha + 1
         bgColor = [0, 0, 0, self.fadeRect.alpha]
