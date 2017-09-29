@@ -101,7 +101,6 @@ def buildCombatSimulator(gameState):
             "notTakenDesc":"A faded leather jacket is hanging off one of the cages."
         }))
     armory001.addItem(StandardItems.Flask())
-    armory001.addItem(key009A)
     #armory001.addItem(Items.Note(
     #    name="Strange Note",
     #    description="A hastily written note scrawled on a napkin.",
