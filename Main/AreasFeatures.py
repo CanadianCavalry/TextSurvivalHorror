@@ -5,6 +5,7 @@ Created on Jun 29, 2014
 '''
 import pyglet
 import time
+from random import randint
 
 class Area(object):
     def __init__(self, name, description, **kwargs):
@@ -292,12 +293,16 @@ class Link(object):
         self.destination = None
         self.siblingLink = None
         self.searchDesc = None
+        self.breakable = False
+        self.maxHealth = 50
         self.state = 0
 
         #populate optional stats
         if kwargs is not None:
             for key, value in kwargs.iteritems():
                 setattr(self, key, value)
+
+        self.health = self.maxHealth
         
     def lookAt(self):
         return self.description[self.state]
@@ -350,7 +355,6 @@ class Link(object):
         self.destination.addEnemy(enemy)
         return True
 
-
     def makeSibling(self, sibling):
         self.siblingLink = sibling
         sibling.siblingLink = self
@@ -377,13 +381,67 @@ class Door(Link):
         
     def lookAt(self):
         desc = self.description[self.state]
-        desc += " It seems to be "
-        if self.isAccessible:
-            desc += "unlocked."
-        else:
-            desc += "locked."
+        desc += "\n" + self.getCondition()
+        if self.health > 0:
+            desc += "\nIt seems to be "
+            if self.isAccessible:
+                desc += "unlocked."
+            else:
+                desc += "locked."
         return desc
+
+    def getCondition(self):
+        conditionString = ""
+        healthPercentRemaining = float(self.health) / float(self.maxHealth)
+
+        if healthPercentRemaining >= 1:
+            conditionString += "It's undamaged."
+        elif healthPercentRemaining >= 0.65:
+            conditionString += "It's been damaged but is still in good condition."
+        elif healthPercentRemaining >= 0.30:
+            conditionString += "It's cracked and one of the hinges is coming off."
+        elif healthPercentRemaining > 0:
+            conditionString += "It's severly damaged. It's amazing it hasn't fallen out of the frame yet."
+        elif healthPercentRemaining == 0:
+            conditionString += "It's destroyed and doesn't close properly anymore."
+
+        return conditionString
+
+    def takeHit(self, player, weapon, attackType):
+        if not self.breakable:
+            return "There's no way your getting through that door with force."
+        if self.health < 1:
+            return "There's no point, it's already destroyed."
+
+        resultString = weapon.attackDesc
+
+        damageRoll = randint(weapon.minDamage, weapon.maxDamage)
+        resultString += self.takeDamage(damageRoll, attackType)
+        return resultString
+
+    def takeDamage(self, damageAmount, attackType):
+        resultString = " You hit the door."
+        self.health -= damageAmount
+        if self.health < 0:
+            self.health = 0
+
+        self.siblingLink.health -= damageAmount
+        if self.siblingLink.health < 0:
+            self.siblingLink.health = 0
+
+        if self.health == 0:
+            self.breakDoor()
+            resultString += "\nThe door shatters and swings open, barely hanging off it's hinges."
+        else:
+            resultString += "\n" + self.getCondition()
+
+        return resultString
         
+    def breakDoor(self):
+        self.isAccessible = True
+        self.siblingLink.isAccessible = True
+        self.siblingLink.health = 0
+
     def tryUnlock(self, usedItem, player):
         return "That door does not have a lock."
     

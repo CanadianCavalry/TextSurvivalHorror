@@ -80,14 +80,14 @@ class Player(object):
         else:
             del self.inventory[itemToRemove.keywords]
         
-    def attack(self, enemy):
+    def attack(self, target):
         if self.isRestricted:
             return self.restrictedDesc
         
-        try:
-            return self.mainHand.attack(enemy, self, "light")
-        except AttributeError:
-            return "You are not holding a weapon."
+        #try:
+        return self.mainHand.attack(target, self, "light")
+        #except AttributeError:
+            #return "You are not holding a weapon."
         
     def heavyAttack(self, enemy):
         if self.isRestricted:
@@ -168,7 +168,7 @@ class Player(object):
         elif self.health < 1:
             healthString += "Dead"
         
-        return healthString    
+        return healthString
 
     def getSpirit(self):
         spiritString = ""

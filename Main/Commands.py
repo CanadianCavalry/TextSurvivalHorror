@@ -198,10 +198,10 @@ def attack(player, keyword):
         if not autoTarget:
             return "You need to be more specific"
         matching[0] = autoTarget
-    try:
-        return player.attack(matching[0])
-    except AttributeError:
-       return "I see no reason to attack that right now."
+    #try:
+    return player.attack(matching[0])
+    #except AttributeError:
+    #   return "I see no reason to attack that right now."
         
 def heavyAttack(player, keyword):
     if keyword == "":
@@ -237,7 +237,7 @@ def shoot(player, keyword):
     try:
         return player.attack(matching[0])
     except AttributeError:
-        return "I see no reason to attack that right now."
+        return "That isn't worth wasting ammo on."
 
 def reload(player):
         return player.reload()

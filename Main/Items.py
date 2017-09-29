@@ -120,7 +120,7 @@ class Item(object):
             resultString += self.searchDesc
         else:
             resultString += self.description + "\n\nThere isn't anything else of particular note about it."
-            
+
         return resultString, True
 
     def exorciseAttempt(self, player):
@@ -276,10 +276,10 @@ class RangedWeapon(Weapon):
                 resultString += "\nYou miss!"
             return resultString, True, sources
         else:
-            return "That isn't worth wasting ammo on..."
+            return enemy.takeHit(player, self, attackType)
 
     def shoot(self, enemy, player):
-        return self.attack(enemy, player)
+        return self.attack(enemy, player, "ranged")
     
     def reload(self, player):
         sources = list()
@@ -378,7 +378,7 @@ class MeleeWeapon(Weapon):
                     #source.play()
             return resultString, True, sources
         else:
-            return "That isn't an enemy..."
+            return enemy.takeHit(player, self, attackType)
 
     def shoot(self, enemy, player):
         return "Try as you might, you can't find a good way to use your " + player.mainHand.name + " as a gun."

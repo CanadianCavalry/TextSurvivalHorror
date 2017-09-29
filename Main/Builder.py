@@ -396,7 +396,8 @@ def buildCombatSimulator(gameState):
         False,
         None,
         **{"unlockDesc":"With some effort, you pull the bolt back. For a moment, you think you can hear something rustling on the other side of the door.",
-        "lockDesc":"You quickly slide the bolt into place, locking it again."}
+        "lockDesc":"You quickly slide the bolt into place, locking it again.",
+        "breakable":True}
     )
 
     door006C = StandardFeatures.StandardOpenDoor(

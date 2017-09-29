@@ -22,7 +22,8 @@ class Axe(Items.MeleeWeapon):
         kwargs.update({
             "stunChance":25,
             "stunlength": 2,
-            "defenseBonus":10
+            "defenseBonus":10,
+            "attackDesc":"You swing your axe."
         })
 
         super(Axe, self).__init__(name, description, seenDescription, keywords, minDamage, maxDamage, accuracy, size, **kwargs)

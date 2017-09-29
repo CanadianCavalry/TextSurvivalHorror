@@ -9,7 +9,8 @@ class StandardOpenDoor(AreasFeatures.Door):
     
     def __init__(self, description, keywords):
         kwargs = {
-            "travelDesc":"You open the door and step through."
+            "travelDesc":"You open the door and step through.",
+            "breakable":True
         }
 
         super(StandardOpenDoor, self).__init__(description, keywords, True, **kwargs)
@@ -49,6 +50,9 @@ class StandardLockingDoor(AreasFeatures.Door):
         if self.isAccessible:
             return "It isn't locked."
 
+        if self.health <= 0:
+            return "It's smashed open, the lock doesn't work anymore."
+
         if self.keyRequired:
             if not usedItem:
                 for key, item in player.inventory.iteritems():
@@ -75,6 +79,9 @@ class StandardLockingDoor(AreasFeatures.Door):
 
         if not self.isAccessible:
             return "It's already locked."
+
+        if self.health <= 0:
+            return "It's smashed open, the lock doesn't work anymore."
 
         if self.keyRequired:
             if not usedItem:

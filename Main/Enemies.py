@@ -316,8 +316,6 @@ class Enemy(object):
         return resultString
         
     def takeHit(self, player, weapon, attackType):
-        print attackType
-        print str(self.helpless)
         sources = list()
         resultString = weapon.attackDesc + "\n"
         resultString += "You hit the " + self.name + "! "
