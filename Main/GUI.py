@@ -29,6 +29,13 @@ class Rectangle(object):
             ('c4B', self.color * 4)
         )
 
+    def changeRect(self, color):
+        self.color = color
+        self.vertex_list = self.batch.add(4, pyglet.gl.GL_QUADS, self.group,
+            ('v2i', [self.x1, self.y1, self.x2, self.y1, self.x2, self.y2, self.x1, self.y2]),
+            ('c4B', color * 4)
+        )
+
 class DisplayWindow(object):
     def __init__(self, text, x, y, width, batch, group=None):
         self.document = pyglet.text.document.UnformattedDocument(text)
@@ -78,7 +85,16 @@ class TextWidget(object):
 
 class DamageFlash(object):
      def __init__(self, x, y, width, height, batch, group):
-        self.rectangle = Rectangle(x, y, x + width, y + height, [255, 32, 32, 0], batch, group)
+        self.rectangle = Rectangle(x, y, x + width, y + height, [255, 32, 32, 255], batch, group)
+
+class FadeToBlack(object):
+     def __init__(self, x, y, width, height, batch, group, labelGroup):
+        self.rectangle = Rectangle(x, y, x + width, y + height, [0, 0, 0, 0], batch, group)
+        self.alpha = 0
+        self.label1 = pyglet.text.Label("Game Over", x=width/2, y=height/2 + height / 12, font_name='Times New Roman',font_size=32,
+                                        batch=batch, group=labelGroup, color=(155,0,0,0), bold=True, anchor_x='center', anchor_y='center')
+        self.label2 = pyglet.text.Label("Press Enter to Continue", x=width/2, y=height/2, font_name='Times New Roman',font_size=32,
+                                        batch=batch, group=labelGroup, color=(155,0,0,0), bold=True, anchor_x='center', anchor_y='center')
 
 class MenuButton(object):
     def __init__(self, buttonFunction, text, x, y, batch, spriteGroup, labelGroup):
@@ -269,12 +285,15 @@ class Window(pyglet.window.Window):
         self.startMainMenu()
 
     def startMainMenu(self):
+        pyglet.gl.glBlendFunc( pyglet.gl.GL_SRC_ALPHA, pyglet.gl.GL_ONE_MINUS_SRC_ALPHA)
+        pyglet.gl.glEnable(pyglet.gl.GL_BLEND)
         self.inMenu = True
         self.batch = pyglet.graphics.Batch()
         self.group1 = pyglet.graphics.OrderedGroup(0)
         self.group2 = pyglet.graphics.OrderedGroup(1)
         self.group3 = pyglet.graphics.OrderedGroup(2)
         self.group4 = pyglet.graphics.OrderedGroup(3)
+        self.group5 = pyglet.graphics.OrderedGroup(4)
         self.parser = Parser.Parser()
         self.state = None
         self.widgets = None
@@ -345,6 +364,9 @@ class Window(pyglet.window.Window):
 
         self.damageFlash = DamageFlash(0, 0, self.width, self.height, self.batch, self.group4)
         self.damageFlash.rectangle.deleteRect()
+
+        self.fadeRect = FadeToBlack(0, 0, self.width, self.height, self.batch, self.group4, self.group5)
+        self.fadeRect.rectangle.deleteRect()
 
     def on_draw(self):
         self.clear()
@@ -461,16 +483,8 @@ class Window(pyglet.window.Window):
         StateControl.quit()
 
     def enterPressed(self):
-        if self.state.returnOnEnter:
-            self.startMainMenu()
-            return
-
-        if self.state.player.returnToMenu:
-            self.startMainMenu()
-            return
-
-        if self.state.player.health < 1:
-            self.startMainMenu()
+        if self.state.returnOnEnter or self.state.player.returnToMenu:
+            self.returnToMenu()
             return
             
         userInput = self.widgets[0].document.text
@@ -479,6 +493,11 @@ class Window(pyglet.window.Window):
         
         self.statsDisplay.updateStats(self.state.player, self.batch, self.group3)
         self.equipDisplay.updateEquip(self.state.player)
+
+    def returnToMenu(self):
+        pyglet.clock.unschedule(self.fadeToBlack)
+        self.fadeRect.rectangle.deleteRect()
+        self.startMainMenu()
             
     def parsePlayerInput(self, userInput):
         print "Tracking Enemies"
@@ -505,7 +524,7 @@ class Window(pyglet.window.Window):
         gameOver = self.checkGameOver()
         if gameOver:
             resultString += gameOver
-            self.updateTextBox(resultString)
+            self.displayDeathScreen(resultString)
             return
         
         if turnPassed:
@@ -524,7 +543,7 @@ class Window(pyglet.window.Window):
             gameOver = self.checkGameOver()
             if gameOver:
                 resultString += gameOver
-                self.updateTextBox(resultString)
+                self.displayDeathScreen(resultString)
                 return
                 
             if pursuingEnemies:
@@ -561,6 +580,23 @@ class Window(pyglet.window.Window):
         if self.state.player.health < 1:
             return "\nYou have died...\nPress enter to return to the main menu."
         return False
+
+    def displayDeathScreen(self, gameOverText):
+        self.state.returnOnEnter = True
+        self.updateTextBox(gameOverText)
+        self.fadeRect.rectangle.redrawRect()
+        pyglet.clock.schedule_interval(self.fadeToBlack, 0.2)
+
+    def fadeToBlack(self, dt):
+        if self.fadeRect.alpha > 75:
+            self.fadeRect.alpha = 255
+            pyglet.clock.unschedule(self.fadeToBlack)
+        self.fadeRect.alpha = self.fadeRect.alpha + 1
+        bgColor = [0, 0, 0, self.fadeRect.alpha]
+        self.fadeRect.rectangle.changeRect(bgColor)
+        labelColor = [155, 0, 0, self.fadeRect.alpha * 2]
+        self.fadeRect.label1.color = labelColor
+        self.fadeRect.label2.color = labelColor
 
     def updateText(self, dt):
         if self.writingText:
