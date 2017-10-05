@@ -72,6 +72,9 @@ class Area(object):
     def connect(self, area, link):
         link.setDestination(area)
         self.connectedAreas[link.keywords] = link
+
+    def addTransition(self,transition):
+        self.connectedAreas[transition.keywords] = transition
             
     def disconnect(self, link):
         del self.connectedAreas[link.keywords]
@@ -319,6 +322,7 @@ class Link(object):
         self.breakable = False
         self.maxHealth = 50
         self.state = 0
+        self.travelSound = None
 
         #populate optional stats
         if kwargs is not None:
@@ -400,7 +404,37 @@ class Link(object):
     def setIdNum(self, number):
         self.idNum = number
     
+class Transition(Link):
+    def __init__(self, description, keywords, isAccessible, gameState, builderFunction, **kwargs):
+        self.gameState = gameState
+        self.builderFunction = builderFunction
 
+        super(Transition, self).__init__(description, keywords, isAccessible, **kwargs)
+
+    def travel(self, player):
+        for key, enemy in player.currentLocation.enemies.iteritems():
+            if self in enemy.protectedThings:
+                return enemy.protectedThings[self]
+
+        if self.isAccessible == False:
+            return self.blockedDesc
+
+        if player.isRestricted:
+            return player.restrictedDesc
+
+        startingArea = self.builderFunction()
+        self.gameState.loadZone(startingArea)
+
+        desc = self.travelDesc
+        
+        if self.travelSound:
+            source = pyglet.media.load(self.travelSound, streaming=False)
+            source.play()
+            time.sleep(1.8)
+        if player.currentLocation.visited == False:
+            player.currentLocation.visited = True
+
+        return desc,True
 
 class Door(Link):
     def __init__(self, description, keywords, isAccessible, **kwargs):

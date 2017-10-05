@@ -625,12 +625,18 @@ class Builder(object):
             description=["A wooden door. It leads to your apartment's kitchen/living room."],
             keywords="door,north,wooden door,north door,living room door,livingroom door,kitchen door,kitchen/living room door"
         )
+        bedroom101.addTransition(AreasFeatures.Transition(
+            ["It's your bed. It's time to jump in and surrender to sweet, sweet sleep..."],
+            "bed,bunk,sack,mattress,cot,your bed,your bunk,your cot,your sack,your mattress,your cot,my bed,my bunk,my sack,my mattress,my cot",
+            True,
+            self.gameState,
+            self.buildZone200,
+            **{
+                "travelDesc":"You crawl under the sheets and slip into darkness.\n\nYou awake to the sound of screams coming from your living room. you blearily stumble out of bed and rub your eyes."
+            }
+        ))
 
         #Features
-        bedroom101.addFeature(AreasFeatures.Feature(
-            description=["It's your bed. It's time to jump in and surrender to sweet, sweet sleep..."],
-            keywords="bed,bunk,sack,mattress,cot,your bed,your bunk,your cot,your sack,your mattress,your cot,my bed,my bunk,my sack,my mattress,my cot"
-        ))
         bedroom101.addFeature(AreasFeatures.Feature(
             description=["It's the newest Macintosh model - a uMac. You're lucky you haven't had to pawn it for cash given how poor you are "
             "these days.\nIf you claimed you used it for mostly productive purposes you'd be lying. These days you mainly use "
@@ -946,5 +952,31 @@ class Builder(object):
 
 
         spawnLocation = bedroom101
+
+        return spawnLocation
+
+    def buildZone200(self):
+        #introMusic = "Music/Sadness6.mp3"
+        #self.gameState.backgroundMusic = introMusic
+
+        bufferRoom = AreasFeatures.Area(
+            name="Buffer Room", 
+            description=[" "])
+
+        #Set starting stats for the player
+        self.gameState.player.intoxication -= 15
+
+
+        #101 - BEDROOM
+        bedroom201 = AreasFeatures.Area(
+            name="Bedroom", 
+            description=["You are in your bedroom. It's furnished with a bed, chest of drawers, a large shelf, an armchair and a desk. "
+            "Atop the desk there is a computer. Dirty laundry, miscellaneous papers and empty alcohol "
+            "bottles are strewn about the floor. On the walls there are a few decorations and a window looking out to the south. "
+            "To your west is a door leading to your bathroom. To the north is another door your kitchen/living room area."
+            "\n\nScreams are coming from your living area..."],
+            **{"size":2})
+
+        spawnLocation = bedroom201
 
         return spawnLocation

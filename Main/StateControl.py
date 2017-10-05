@@ -36,7 +36,7 @@ class GameState(object):
     def spawnPlayer(self, player):
         self.player.currentLocation = self.areaList[0]
 
-    def loadZone(startingArea):
+    def loadZone(self, startingArea):
         self.areaList = list()
         self.addArea(startingArea)
         self.spawnPlayer(self.player)

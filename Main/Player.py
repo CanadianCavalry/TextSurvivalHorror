@@ -237,11 +237,12 @@ class Player(object):
     def getPursuingEnemies(self):
         enemyList = list()
         for link in self.currentLocation.connectedAreas.itervalues():
-            for enemy in link.destination.enemies.itervalues():
-                if not enemy.isChasing:
-                    continue
-                else:
-                    enemyList.append(enemy)
+            if link.destination:
+                for enemy in link.destination.enemies.itervalues():
+                    if not enemy.isChasing:
+                        continue
+                    else:
+                        enemyList.append(enemy)
         return enemyList
         
     def setLastAction(self, actionName):
