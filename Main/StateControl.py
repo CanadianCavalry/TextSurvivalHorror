@@ -14,12 +14,15 @@ SAVEGAME_FILENAME = 'save.json'
 class GameState(object):
     
     def __init__(self):
+        self.builder = Builder.Builder()
         self.player = None
         self.areaList = list()
         self.turnCount = 0
         self.introText = ""
         self.backgroundMusic = None
         self.returnOnEnter = False
+
+        self.builder.loadState(self)
         
     def addArea(self, area):
         self.areaList.append(area)
@@ -33,11 +36,16 @@ class GameState(object):
     def spawnPlayer(self, player):
         self.player.currentLocation = self.areaList[0]
 
+    def loadZone(startingArea):
+        self.areaList = list()
+        self.addArea(startingArea)
+        self.spawnPlayer(self.player)
+
 def newGameState():
     state = GameState()
     player = Player.Player()
     state.addPlayer(player)
-    Builder.buildWorld(state)
+    state.addArea(state.builder.buildPrologue100())
     state.spawnPlayer(player)
     state.returnOnEnter = False
     return state
@@ -46,7 +54,7 @@ def newSimulationState():
     state = GameState()
     player = Player.Player()
     state.addPlayer(player)
-    Builder.buildCombatSimulator(state)
+    state.addArea(state.builder.buildCombatSimulator())
     state.spawnPlayer(player)
     state.returnOnEnter = False
     return state

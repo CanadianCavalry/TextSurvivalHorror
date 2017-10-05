@@ -400,6 +400,8 @@ class Link(object):
     def setIdNum(self, number):
         self.idNum = number
     
+
+
 class Door(Link):
     def __init__(self, description, keywords, isAccessible, **kwargs):
  
