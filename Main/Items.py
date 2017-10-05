@@ -28,6 +28,7 @@ class Item(object):
         self.initSeenDesc = None
         self.notTakenDesc = None
         self.drunkDesc = None
+        self.drunkSearchDesc = None
         self.drunkDescThreshold = 50
         self.pickupSound = ["Sounds/Misc/ItemGet.mp3"]
         self.inAccessibleDesc = "You can't reach it."
@@ -121,11 +122,17 @@ class Item(object):
 
     def search(self, player):
         resultString = ""
-        if self.searchDesc:
+        if self.drunkSearchDesc and (player.intoxication >= self.drunkDescThreshold):
+            resultString += self.drunkSearchDesc
+        elif self.searchDesc:
             resultString += self.searchDesc
+        elif self.drunkDesc and (player.intoxication >= self.drunkDescThreshold):
+            resultString += self.drunkDesc
+            resultString += "\n\nThere isn't anything else of particular note about it."
         else:
-            resultString += self.description + "\n\nThere isn't anything else of particular note about it."
-
+            resultString += self.description
+            resultString += "\n\nThere isn't anything else of particular note about it."
+            
         return resultString, True
 
     def exorciseAttempt(self, player):

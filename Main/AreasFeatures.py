@@ -145,6 +145,7 @@ class Feature(object):
         self.getDescription = None
         self.searchDesc = None
         self.drunkDesc = None
+        self.drunkSearchDesc = None
         self.drunkDescThreshold = 50
         self.size = 2
 
@@ -161,10 +162,16 @@ class Feature(object):
     
     def search(self, player):
         resultString = ""
-        if self.searchDesc:
-            resultString += self.searchDesc
+        if self.drunkSearchDesc and (player.intoxication >= self.drunkDescThreshold):
+            resultString += self.drunkSearchDesc[self.state]
+        elif self.searchDesc:
+            resultString += self.searchDesc[self.state]
+        elif self.drunkDesc and (player.intoxication >= self.drunkDescThreshold):
+            resultString += self.drunkDesc[self.state]
+            resultString += "\n\nThere isn't anything else of particular note about it."
         else:
-            resultString += self.description + "\n\nThere isn't anything else of particular note about it."
+            resultString += self.description[self.state]
+            resultString += "\n\nThere isn't anything else of particular note about it."
             
         return resultString, True
 
@@ -307,6 +314,7 @@ class Link(object):
         self.siblingLink = None
         self.searchDesc = None
         self.drunkDesc = None
+        self.drunkSearchDesc = None
         self.drunkDescThreshold = 50
         self.breakable = False
         self.maxHealth = 50
@@ -327,12 +335,18 @@ class Link(object):
 
     def search(self, player):
         resultString = ""
-        if self.searchDesc:
-            resultString += self.searchDesc
+        if self.drunkSearchDesc and (player.intoxication >= self.drunkDescThreshold):
+            resultString += self.drunkSearchDesc[self.state]
+        elif self.searchDesc:
+            resultString += self.searchDesc[self.state]
+        elif self.drunkDesc and (player.intoxication >= self.drunkDescThreshold):
+            resultString += self.drunkDesc[self.state]
+            resultString += "\n\nThere isn't anything else of particular note about it."
         else:
-            resultString += self.description + "\n\nThere isn't anything else of particular note about it."
+            resultString += self.description[self.state]
+            resultString += "\n\nThere isn't anything else of particular note about it."
             
-        return resultString, True        
+        return resultString, True
         
     def travel(self, player):
         for key, enemy in player.currentLocation.enemies.iteritems():
