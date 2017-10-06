@@ -130,3 +130,6 @@ class TransitionBed101(AreasFeatures.Transition):
         }
 
         super(TransitionBed101, self).__init__(description, keywords, isAccessible, gameState, builderFunction, **kwargs)
+
+    def sleep(self, player):
+        return self.travel(player)

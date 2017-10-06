@@ -146,6 +146,8 @@ class Parser(object):
             resultString = Commands.pull(self.state.player, self.target)
         elif (self.command == "cut"):
             resultString = Commands.cut(self.state.player, self.target)
+        elif (self.command == "sleep"):
+            resultString = Commands.sleep(self.state.player, self.target)
         elif (self.command == "look") or (self.command == "examine"):
             self.command == "look"
             resultString = Commands.look(self.state.player, self.target)

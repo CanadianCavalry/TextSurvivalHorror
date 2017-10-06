@@ -508,6 +508,20 @@ def cut(player, keyword):
         except AttributeError:
             return "That doesn't particularly need to be cut..."
 
+def sleep(player, keyword):
+    matching = findMatching(player, keyword, list())
+    matching = findMatchingInventory(player, keyword, matching)
+
+    if len(matching) == 0:
+        return "You do not see anything like that here."
+    elif len(matching) > 1:
+        return "You need to be more specific"
+    elif len(matching) == 1:
+        try:
+            return matching[0].sleep(player)
+        except AttributeError:
+            return "That's not somewhere you'd particularly like to fall asleep."
+
 def inventory(player):
     if len(player.inventory) == 0:
         return "You are not carrying anything."
