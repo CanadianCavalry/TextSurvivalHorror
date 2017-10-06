@@ -157,6 +157,9 @@ def useOn(player, targetKeyword, recipientKeyword):
         return "You cannot use that in that way."
 
 def get(player, keyword):
+    if not keyword:
+        return "You pick up the non-specified thing. But not really."
+
     matching, holder = findMatchingWithHolder(player, keyword, list())
     
     if len(matching) > 0 and holder == player:
@@ -173,6 +176,9 @@ def get(player, keyword):
             return "You can't pick that up."
 
 def drop(player, keyword):
+    if not keyword:
+        return "What are you trying to drop? Something you're carrying? Fat rhymes?"
+
     matching = findMatchingInventory(player, keyword, list())
             
     if len(matching) == 0:
@@ -296,6 +302,9 @@ def retreat(player, keyword):
         return "That isn't an enemy."
             
 def equip(player, keyword):
+    if not keyword:
+        return "There are lots of things you can equip, 'Nothing' is not one of them"
+
     matching = findMatchingInventory(player, keyword, list())
     matching = findMatching(player, keyword, matching)
             
@@ -509,6 +518,9 @@ def cut(player, keyword):
             return "That doesn't particularly need to be cut..."
 
 def sleep(player, keyword):
+    if not keyword:
+        return "You've always found sleeping on the floor to be overrated."
+
     matching = findMatching(player, keyword, list())
     matching = findMatchingInventory(player, keyword, matching)
 
