@@ -118,3 +118,4 @@ class BathroomSink102(AreasFeatures.Feature):
         if self.state < 2:
             self.state += 1
         return resultString
+

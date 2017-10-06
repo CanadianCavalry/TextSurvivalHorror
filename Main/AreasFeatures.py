@@ -434,7 +434,7 @@ class Transition(Link):
         if player.currentLocation.visited == False:
             player.currentLocation.visited = True
 
-        return desc,True
+        return desc,"transition"
 
 class Door(Link):
     def __init__(self, description, keywords, isAccessible, **kwargs):

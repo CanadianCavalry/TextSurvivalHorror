@@ -956,8 +956,8 @@ class Builder(object):
         return spawnLocation
 
     def buildZone200(self):
-        #introMusic = "Music/Sadness6.mp3"
-        #self.gameState.backgroundMusic = introMusic
+        introMusic = "Music/Oblivion.mp3"
+        self.gameState.backgroundMusic = introMusic
 
         bufferRoom = AreasFeatures.Area(
             name="Buffer Room", 

@@ -325,6 +325,12 @@ class Window(pyglet.window.Window):
     def stopBackgroundMusic(self):
         self.musicPlayer.pause()
 
+    def refreshBackgroundMusic(self):
+        if self.state.backgroundMusic:
+            self.setBackgroundMusic(self.state.backgroundMusic)
+        else:
+            self.stopBackgroundMusic()
+
     def startGameState(self, state):
         pyglet.clock.schedule_interval(self.updateText, 0.01)
         self.inMenu = False
@@ -341,10 +347,7 @@ class Window(pyglet.window.Window):
 
         self.disp = DisplayWindow(self.state.introText, 40, 91, self.width - 300, self.batch, self.group2)
         
-        if state.backgroundMusic:
-            self.setBackgroundMusic(state.backgroundMusic)
-        else:
-            self.stopBackgroundMusic()
+        self.refreshBackgroundMusic()
 
         self.widgets = [
             TextWidget('', 40, 55, self.width - 300, self.batch, self.group2)
@@ -360,7 +363,10 @@ class Window(pyglet.window.Window):
         self.set_focus(self.widgets[0])
         
         self.statsDisplay = StatsPanel(self.batch, self.group2, self.group3)
+        self.statsDisplay.updateStats(self.state.player, self.batch, self.group3)
+        
         self.equipDisplay = EquipPanel(self.batch, self.group2, self.group3)
+        self.equipDisplay.updateEquip(self.state.player)
 
         self.damageFlash = DamageFlash(0, 0, self.width, self.height, self.batch, self.group4)
         self.damageFlash.rectangle.deleteRect()
@@ -368,10 +374,12 @@ class Window(pyglet.window.Window):
         self.fadeRect = FadeToBlack(0, 0, self.width, self.height, self.batch, self.group4, self.group5)
         self.fadeRect.rectangle.deleteRect()
 
+    def loadZone(self):
+        self.refreshBackgroundMusic()
+
     def on_draw(self):
         self.clear()
         self.batch.draw()
-
 
     def on_mouse_motion(self, x, y, dx, dy):
         if self.inMenu:
@@ -500,7 +508,6 @@ class Window(pyglet.window.Window):
         self.startMainMenu()
             
     def parsePlayerInput(self, userInput):
-        print "Tracking Enemies"
         self.state.player.beginTurn()
 
         actingEnemies = self.state.player.getActingEnemies()
@@ -545,6 +552,9 @@ class Window(pyglet.window.Window):
                 resultString += gameOver
                 self.displayDeathScreen(resultString)
                 return
+
+            if turnPassed == 'transition':
+                self.loadZone()
                 
             if pursuingEnemies:
                 resultString += Enemies.enemyMovement(pursuingEnemies, enemyDestination, self.state.player)
