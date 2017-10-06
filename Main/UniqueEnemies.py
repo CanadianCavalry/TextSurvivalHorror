@@ -75,7 +75,7 @@ class BentHost(Enemies.Enemy):
             "these \'bent hosts\' are fully aware and forced to spectate while their captor does what it wishes. They tend to be "
             "clumsy and have little regard for their own safety, but should not be underestimated."])
         seenDesc = "A demonically posessed host is in here. "
-        keywords = "enemy,host,man,bent host,possessed,possessed man,lunatic,maniac,demon"
+        keywords = "enemy,host,man,bent host,possessed,possessed man,lunatic,maniac,demon,demonic host"
         maxHealth = 55
         minDamage = 10
         maxDamage = 14
