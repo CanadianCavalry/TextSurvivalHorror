@@ -88,10 +88,10 @@ def go(player, keyword):
     elif len(matching) > 1:
         return "You need to be more specific"
     elif len(matching) == 1:
-        #try:
-        return matching[0].travel(player)
-        #except AttributeError:
-        #    return "I can't do that."
+        try:
+            return matching[0].travel(player)
+        except AttributeError:
+            return "I can't do that."
 
 def use(player, keyword):
     matching = findMatching(player, keyword, list())
@@ -204,10 +204,10 @@ def attack(player, keyword):
         if not autoTarget:
             return "You need to be more specific"
         matching[0] = autoTarget
-    #try:
-    return player.attack(matching[0])
-    #except AttributeError:
-    #   return "I see no reason to attack that right now."
+    try:
+        return player.attack(matching[0])
+    except AttributeError:
+       return "I see no reason to attack that right now."
         
 def heavyAttack(player, keyword):
     if keyword == "":

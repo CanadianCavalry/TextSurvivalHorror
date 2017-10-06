@@ -131,7 +131,7 @@ class Player(object):
         try:
             resultString, enemySources = exorciseResult
         except ValueError:
-            resultString = attackResult
+            resultString = exorciseResult
             enemySources = list()
 
         return resultString, True, enemySources

@@ -126,7 +126,7 @@ class Parser(object):
             resultString = Commands.unlock(self.state.player, self.target)
         elif (self.command == "lock"):
             resultString = Commands.lock(self.state.player, self.target)
-        elif (self.command == "search") or (self.command == "check") or (self.command == "scrutinize") or (self.command == "analyze") or (self.command == "inspect"):
+        elif (self.command == "search") or (self.command == "check") or (self.command == "scrutinize") or (self.command == "analyze") or (self.command == "inspect") or (self.command == "examine"):
             resultString = Commands.search(self.state.player, self.target)
         elif (self.command == "drink"):
             resultString = Commands.drink(self.state.player, self.target)
@@ -148,7 +148,7 @@ class Parser(object):
             resultString = Commands.cut(self.state.player, self.target)
         elif (self.command == "sleep"):
             resultString = Commands.sleep(self.state.player, self.target)
-        elif (self.command == "look") or (self.command == "examine"):
+        elif (self.command == "look") or (self.command == "describe"):
             self.command == "look"
             resultString = Commands.look(self.state.player, self.target)
         elif (self.command == "inventory") or (self.command == "inv") or (self.command == "i") or (self.command == "items") or (self.command == "stuff"):

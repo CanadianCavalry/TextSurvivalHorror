@@ -119,6 +119,27 @@ class BathroomSink102(AreasFeatures.Feature):
             self.state += 1
         return resultString
 
+class BustOfAeas103(AreasFeatures.Feature):
+    def __init__(self):
+        description = ["This marble bust of Saint Aeas - the Patron Saint of Spiritual Fortitude - rests on the top part of your shelf. She was a very petite "
+            "and soft-spoken woman who nonetheless found the courage to spearhead a successful movement against the despotic military cabal that ruled her country.",
+            "This marble bust of Saint Aeas - the Patron Saint of Spiritual Fortitude - rests on the top part of your shelf. Sadly, it's broken now."]
+        keywords="bust,bust of saint aeas,marble bust"
+        kwargs = {
+            "searchDesc":["As you reach out to examine the bust, it's head suddenly comes off and falls to the floor with a heavy thud.",
+                          "You wonder how something so sturdy could break in such a way, especially given that you never noticed any cracks or damage."]
+        }
+
+        super(BustOfAeas103, self).__init__(description, keywords, **kwargs)
+
+    def search(self, player):
+        resultString = ""
+        resultString += self.searchDesc[self.state]
+        if self.state < 1:
+            self.state += 1
+            
+        return resultString, True
+            
 class TransitionBed101(AreasFeatures.Transition):
     def __init__(self, gameState, builderFunction):
         description = ["It's your bed. It's time to jump in and surrender to sweet, sweet sleep..."]

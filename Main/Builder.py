@@ -29,7 +29,7 @@ class Builder(object):
         #INTRO
         introText = ("Welcome to the tutorial! This area is intended to allow you to learn the basic game commands and practice "
         "fighting with various weapons. That said, it is still quite easy to die, so don't get complacent. To get started head "
-        "through the north door, but before you head out, take a look at the table and make sure you are suitibly equipped. "
+        "through the north door, but before you head out, take a look around and make sure you are suitibly equipped. "
         "There's no coming back here once you leave.\n\nTo get your bearings, type \"look\". To get a closer look at anything, "
         "type \"look\" followed by the object.")
         self.gameState.introText = introText
@@ -111,6 +111,7 @@ class Builder(object):
         armory001.addItem(StandardItems.LeatherJacket(**{
                 "notTakenDesc":"A faded leather jacket is hanging off one of the cages."
             }))
+        armory001.addItem(key009A)
         armory001.addItem(StandardItems.Flask())
         #armory001.addItem(Items.Note(
         #    name="Strange Note",
@@ -889,11 +890,7 @@ class Builder(object):
             keywords="knife,pocket knife,pocketknife,outdoor explorer knife",
             **{"getDescription":"You figure playing with a knife in your current state isn't the best idea. It can wait until morning."}
         ))
-        livingArea103.addFeature(AreasFeatures.Feature(
-            description=["This marble bust of Saint Aeas - the Patron Saint of Spiritual Fortitude - rests on the top part of your shelf. She was a very petite "
-            "and soft-spoken woman who nonetheless found the courage to spearhead a successful movement against the despotic military cabal that ruled her country."],
-            keywords="bust,bust of saint aeas,marble bust"
-        ))
+        livingArea103.addFeature(UniqueFeatures.BustOfAeas103())
         livingArea103.addFeature(AreasFeatures.Feature(
             description=["The sink is filled with a veritable mountain of filthy dishes, some of which are covered in mould. It stinks of spoiled food "
             "and grease."],
