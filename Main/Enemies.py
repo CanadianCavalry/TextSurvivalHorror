@@ -329,7 +329,7 @@ class Enemy(object):
             resultString = self.takeCrit(weapon)
         elif attackType == "heavy":
             hitEffectDesc = self.hitEffect(player, weapon, attackType)
-            damageAmount = int(damageAmount * 1.25)
+            damageAmount = int(damageAmount * 1.15)
             stunRoll = randint(0,100)
             stunChance = weapon.stunChance - self.stunResist
             if stunRoll <= stunChance:
