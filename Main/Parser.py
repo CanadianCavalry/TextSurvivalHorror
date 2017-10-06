@@ -34,7 +34,7 @@ class Parser(object):
         self.recipient = ""
         
         for word in inputArray:                         #remove unnecessary prepositions from the input
-            if word in ("the","of","to","from","at","through","towards","away","out"):
+            if word in ("the","of","to","from","at","through","towards","away","out","in","into"):
                 inputArray.remove(word)
         
         if len(inputArray) < 1:                          #Check for an empty input string

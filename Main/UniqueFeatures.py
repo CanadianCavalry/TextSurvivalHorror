@@ -119,3 +119,14 @@ class BathroomSink102(AreasFeatures.Feature):
             self.state += 1
         return resultString
 
+class TransitionBed101(AreasFeatures.Transition):
+    def __init__(self, gameState, builderFunction):
+        description = ["It's your bed. It's time to jump in and surrender to sweet, sweet sleep..."]
+        keywords = "bed,bunk,sack,mattress,cot,your bed,your bunk,your cot,your sack,your mattress,your cot,my bed,my bunk,my sack,my mattress,my cot,sleep"
+        isAccessible = True
+
+        kwargs = {
+            "travelDesc":"You crawl under the sheets and slip into darkness...\n\nYou awake to the sound of screams coming from your living room. you blearily stumble out of bed and rub your eyes."
+        }
+
+        super(TransitionBed101, self).__init__(description, keywords, isAccessible, gameState, builderFunction, **kwargs)

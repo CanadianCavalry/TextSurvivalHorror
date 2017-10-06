@@ -625,15 +625,9 @@ class Builder(object):
             description=["A wooden door. It leads to your apartment's kitchen/living room."],
             keywords="door,north,wooden door,north door,living room door,livingroom door,kitchen door,kitchen/living room door"
         )
-        bedroom101.addTransition(AreasFeatures.Transition(
-            ["It's your bed. It's time to jump in and surrender to sweet, sweet sleep..."],
-            "bed,bunk,sack,mattress,cot,your bed,your bunk,your cot,your sack,your mattress,your cot,my bed,my bunk,my sack,my mattress,my cot",
-            True,
+        bedroom101.addTransition(UniqueFeatures.TransitionBed101(
             self.gameState,
-            self.buildZone200,
-            **{
-                "travelDesc":"You crawl under the sheets and slip into darkness.\n\nYou awake to the sound of screams coming from your living room. you blearily stumble out of bed and rub your eyes."
-            }
+            self.buildZone200
         ))
 
         #Features
@@ -956,7 +950,7 @@ class Builder(object):
         return spawnLocation
 
     def buildZone200(self):
-        introMusic = "Music/Oblivion.mp3"
+        introMusic = None
         self.gameState.backgroundMusic = introMusic
 
         bufferRoom = AreasFeatures.Area(
